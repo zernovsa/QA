@@ -1,10 +1,7 @@
 import { t, Selector, ClientFunction } from 'testcafe';
 import * as Helper from './ca_r6.7.0_helper';
 import * as Selectors from  './ca_r6.7.0_selectors.js';
-
-// const args = process.argv;
-// console.log(args[4]);
-
+import {test_link} from  './config.js';
 
 fixture `Getting Started`
     .page `https://ca1.webdev.uiscom.ru`;
@@ -13,16 +10,11 @@ var firstNesting = [1,2,6,10]
 var tree=[]
 
 test('test', async () => {
-   
+	t.setTestSpeed(1);
 	await Helper.login();
- 	await t.wait(1000);
-
-	// await addSite();
-
+	await Helper.addSite();
 	await t.click(Selectors.getView('Общие отчёты'))
-	await t.wait(1000);
     await t.click(Selectors.getViewItem('Анализ трафика'))
-    await t.wait(1000);
 
  	var storeElCount = await Selectors.getStoreElCount.with({
  		  dependencies: {
@@ -118,33 +110,25 @@ test('test', async () => {
 			if (tree[i].children[j].childsCount==0)	
 				{
 					await Helper.addReport()
-					await t.wait(1000);
 					var s1 = Selector(tree[i].selector).nth(i)
 					await t.click(s1)
-					await t.wait(1000);
 					var s2 = Selector(tree[i].children[j].selector).nth(j)
 					await t.click(s2)
-					await t.wait(1000);
 					await Helper.delReport()
-					await t.wait(1000);
 				}
 			else
 				{
 					for(var z=0; z<tree[i].children[j].childsCount;z++)
  					{
 						await Helper.addReport()
-						await t.wait(1000);
 						
 						if (i == 2) {var s2 = Selector(tree[i].selector).nth(i + j + 4)}
 						else var s2 = Selector(tree[i].selector).nth(i + j + 1)
 						
 						await t.click(s2)
-						await t.wait(1000);
 						var s3 = Selector(tree[i].children[j].children[z].selector).nth(z)
 						await t.click(s3)
-						await t.wait(1000);
 						await Helper.delReport()
-						await t.wait(1000);
 					}
 				}
 
