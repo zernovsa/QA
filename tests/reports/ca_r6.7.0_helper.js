@@ -1,6 +1,6 @@
 import { t, Selector} from 'testcafe';
 import * as Selectors from  './ca_r6.7.0_selectors.js';
-import {username, password} from  '../config.js';
+import {username, password} from  '../../config.js';
 
 
 export async function getClick (t) {
@@ -30,6 +30,7 @@ export const addReport = async () => {
 			// .click(getPencil)
 			// .wait(1000)
 	}
+	else {}
 }
 
 export const clickToReport = async () => {

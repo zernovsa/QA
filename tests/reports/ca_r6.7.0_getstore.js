@@ -1,8 +1,8 @@
 import { t, Selector, ClientFunction } from 'testcafe';
 import * as Helper from './ca_r6.7.0_helper';
 import * as Selectors from  './ca_r6.7.0_selectors.js';
-import {test_link} from  '../config.js';
-import {addSite} from  '../helper.js';
+import {test_link} from  '../../config.js';
+import {addSite} from  '../../helper.js';
 
 fixture `Getting Started`
     .page `https://ca1.webdev.uiscom.ru`;
@@ -11,7 +11,7 @@ var firstNesting = [1,2,6,10]
 var tree=[]
 
 test('test', async () => {
-	t.setTestSpeed(1);
+	await t.setTestSpeed(1);
 	await Helper.login();
 	await addSite();
 	await t.click(Selectors.getView('Общие отчёты'))
