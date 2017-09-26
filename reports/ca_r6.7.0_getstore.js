@@ -1,8 +1,9 @@
 import { t, Selector, ClientFunction } from 'testcafe';
 import { getRandomInt } from './ca_r6.7.0_helper';
+import * as Selectors from  './ca_r6.7.0_selectors.js';
 
-const args = process.argv;
-console.log(args[4]);
+// const args = process.argv;
+// console.log(args[4]);
 
 
 fixture `Getting Started`
@@ -52,73 +53,6 @@ const delReport = async () => {
 	await t.wait(1000);	
 }
 
-const getView 	  = name => Selector('td[class*="ul-tree-node-depth-2"]').withText(name)
-const getViewItem = name => Selector('td[class*="ul-tree-node-depth-3"]').withText(name)
-
-const getAddSite = Selector ('*[class*="x-form-trigger x-form-trigger-cm-siteselector cm-siteselector-add cm-siteselector-add-cm-siteselector"]').nth(0)
-const siteName = Selector('*[id*="textfield"][id*="inputEl"]').nth(0)
-const phoneNumber = Selector('*[id*="textfield"][id*="inputEl"]').nth(1)
-const siteTypePicker = Selector('*[id*="cm-sitetype-combo"][id*="trigger-picker"]').nth(0)
-const boundListItem1 = Selector ('*[class*="x-boundlist-item"]').nth(0)
-const siteBranch = Selector('*[id*="cm-sitebranch-combo"][id*=trigger-picker]').nth(0)
-const boundListItem2 = name => Selector ('*[class*="x-boundlist-item"]').withText(name)
-const saveSiteButton = Selector ('*[id*="ul-mainbutton"][id*="btnInnerEl"]').nth(0)
-
-const getAddReport = Selector('*[id*="cm-drop-down-button"][id*="btnEl"]').nth(0)
-const getMore = Selector('img.x-tree-expander:not([role="presentation"])', { visibilityCheck: true })
-
-	const getMoreTree = 'img.x-tree-expander:not([role="presentation"])'
-
-const groupCount = ClientFunction(() => document.querySelectorAll ('img.x-tree-expander:not([role="presentation"])').length)
-
-const getChildItem = Selector ('img.x-tree-elbow-line:not([role="presentation"])')
-	
-	const getChildItemTree = 'img.x-tree-elbow-line:not([role="presentation"])'
-	const getChildItemTree2 = 'img.x-tree-elbow:not([role="presentation"])'
-
-const subGroupCount = ClientFunction(() => document.querySelectorAll ('img.x-tree-elbow-line:not([role="presentation"])').length)
-
-	const getSubChildItem = Selector ('img.x-tree-elbow:not([class*="x-tree-elbow-plus"]):not([role*="presentation"]), img.x-tree-elbow-end:not([class*="x-tree-elbow-plus"]):not([role*="presentation"])')
-const subChildItemCount = ClientFunction(() => document.querySelectorAll ('img.x-tree-elbow:not([class*="x-tree-elbow-plus"]):not([role*="presentation"]), img.x-tree-elbow-end:not([class*="x-tree-elbow-plus"]):not([role*="presentation"])').length)
-
-const getReportTab= Selector('a[data-boundview*="cm-editabletabbar"]')
-const getReportCount = ClientFunction(() => document.querySelectorAll ('a[data-boundview*="cm-editabletabbar"]').length)
-
-const getPencil =Selector('*[id*="ul-editabledisplayfield"][id*=trigger1]')
-const getReportInput = Selector('*[id*="ul-editabledisplayfield"][id*=inputEl]')
-
-const add2Report = Selector ('*[id*="cm-drop-down-button"][id*="btnIconEl"]')
-
-test('login', async () => {
-
-})
-
-const storeName= 'cm-drop-down-button'
-
-const getStoreElCount  = ClientFunction(() => { 
-	return Ext.ComponentQuery.query(name)[0].store.data.length
-});
-
-const getFirstNestElText = ClientFunction( () => { 
-	return Ext.ComponentQuery.query(name)[0].store.data.items[index].data.text
-});
-
-const getFirstNestElCount = ClientFunction( () => { 
-	return Ext.ComponentQuery.query(name)[0].store.data.items[index].childNodes.length
-});
-
-const getSecondNestElText = ClientFunction( () => { 
-	return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].data.text
-});
-
-const getSecondNestElChildCount = ClientFunction( () => { 
-	return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].childNodes.length
-});
-
-const getThirdNestElText = ClientFunction( () => { 
-	return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].childNodes[index3].data.text
-});
-
 var firstNesting = [1,2,6,10]
 var tree=[]
 
@@ -129,9 +63,9 @@ test('test', async () => {
 
 	// await addSite();
 
-	await t.click(getView('Общие отчёты'))
+	await t.click(Selectors.getView('Общие отчёты'))
 	await t.wait(1000);
-    await t.click(getViewItem('Анализ трафика'))
+    await t.click(Selectors.getViewItem('Анализ трафика'))
     await t.wait(1000);
 
  	var storeElCount = await getStoreElCount.with({
