@@ -1,5 +1,4 @@
 import { t, Selector, ClientFunction } from 'testcafe';
-//////////////////////
 import { getRandomInt } from './ca_r6.7.0_helper';
 
 const args = process.argv;
@@ -212,7 +211,7 @@ test('test', async () => {
 		}
 	}
 
-	//Вывод деревы
+	//Вывод дерева
 	console.log('Дерево: ')
  	for(var i=0; i<firstNesting.length;i++)
  	{
@@ -245,7 +244,10 @@ test('test', async () => {
  					{
 						await addReport()
 						await t.wait(1000);
-						var s2 = Selector(tree[i].selector).nth(i + j + 1)
+						
+						if (i == 2) {var s2 = Selector(tree[i].selector).nth(i + j + 4)}
+						else var s2 = Selector(tree[i].selector).nth(i + j + 1)
+						
 						await t.click(s2)
 						await t.wait(1000);
 						var s3 = Selector(tree[i].children[j].children[z].selector).nth(z)
