@@ -26,8 +26,6 @@ export const getThirdNestElText = ClientFunction( () => {
 	return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].childNodes[index3].data.text
 });
 
-export const getView 	  = name => Selector('td[class*="ul-tree-node-depth-2"]').withText(name);
-export const getViewItem = name => Selector('td[class*="ul-tree-node-depth-3"]').withText(name);
 export const getAddSite = Selector ('*[class*="x-form-trigger x-form-trigger-cm-siteselector cm-siteselector-add cm-siteselector-add-cm-siteselector"]').nth(0);
 export const siteName = Selector('*[id*="textfield"][id*="inputEl"]').nth(0);
 export const phoneNumber = Selector('*[id*="textfield"][id*="inputEl"]').nth(1);
