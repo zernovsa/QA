@@ -211,30 +211,69 @@ test('test', async () => {
 
  							if (tree2[i2].children[j2].childsCount==0)	
 								{
-									await Helper.addReport()
-									await t.wait(1000);
-									var s1 = Selector(tree[i].selector).nth(i)
-									await t.click(s1)
-									await t.wait(1000);
-									var s2 = Selector(tree[i].children[j].selector).nth(j)
-									await t.click(s2)
-									await t.wait(1000);
-									await t.click(Selectors.add2Report.nth(1))
-									await t.wait(1000);	
-										if (i2==4) {var sel = Selector(tree2[i2].selector).nth( 10 + i2 + 6)}
-										else var sel = Selector(tree2[i2].selector).nth( 10 + i2 )
-									await t.click(sel)
-									await t.wait(1000);	
-									var sel2 = Selector(tree2[i2].children[j2].selector).nth( tree[i].childsCount + j2)								
-									await t.click(sel2)
-									await t.wait(1000);
-									await Helper.delReport()
-									await t.wait(1000);
+									// await Helper.addReport()
+									// await t.wait(1000);
+									// var s1 = Selector(tree[i].selector).nth(i)
+									// await t.click(s1)
+									// await t.wait(1000);
+									// var s2 = Selector(tree[i].children[j].selector).nth(j)
+									// await t.click(s2)
+									// await t.wait(1000);
+									// await t.click(Selectors.add2Report.nth(1))
+									// await t.wait(1000);	
+									// 	if (i2==4) {var sel = Selector(tree2[i2].selector).nth( 10 + i2 + 6)}
+									// 	else var sel = Selector(tree2[i2].selector).nth( 10 + i2 )
+									// await t.click(sel)
+									// await t.wait(1000);	
+									// var sel2 = Selector(tree2[i2].children[j2].selector).nth( tree[i].childsCount + j2)								
+									// await t.click(sel2)
+									// await t.wait(1000);
+									// await Helper.delReport()
+									// await t.wait(1000);
 								}
 							else
 							{
+									for(var z=0; z<tree2[i2].children[j2].childsCount;z++)
+ 									{
+										await Helper.addReport()
+										await t.wait(1000);
+										var s1 = Selector(tree[i].selector).nth(i)
+										await t.click(s1)
+										await t.wait(1000);
+										var s2 = Selector(tree[i].children[j].selector).nth(j)
+										await t.click(s2)
+										await t.wait(1000);
+										await t.click(Selectors.add2Report.nth(1))
+										await t.wait(1000);	
+											
+										if (i2==3)	
+											{
+												var sel2 = Selector(tree2[i2].selector).nth( 10 + i2 + 3 + j2 + 1)
+												await t.click(sel2)
+												await t.wait(1000);
+												var s3 = Selector(tree2[i2].children[j2].children[z].selector).nth(tree[i].childsCount + z)
+												await t.click(s3)
+												await t.wait(1000);
+												await Helper.delReport()
+												await t.wait(1000);
+											}
+										else 
+											{
+												var sel2 = Selector(tree2[i2].selector).nth( 10 + i2 + j2 + 1)
+												await t.click(sel2)
+												await t.wait(1000);
+												var s3 = Selector(tree2[i2].children[j2].children[z].selector).nth(tree[i].childsCount + z)
+												await t.click(s3)
+												await t.wait(1000);
+												await Helper.delReport()
+												await t.wait(1000);
+											}
 
 
+
+
+										
+									}
 
 
 
