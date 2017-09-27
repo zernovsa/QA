@@ -6,3 +6,5 @@
 	testcafe chrome ca_r6.7.0_getstore.js 
 Запуск всех тестов одновременно
 	testcafe chrome ./tests/
+Запуск тестов со скриншотами 
+	testcafe chrome click_all_reports.js --screenshots ../../screenshots
