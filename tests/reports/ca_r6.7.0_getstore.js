@@ -105,7 +105,6 @@ test('test', async () => {
 
 	for(var i=0; i<tree.length;i++)
  	{
- 		await t.wait(1000);
 		for(var j=0; j<tree[i].childsCount;j++)
  		{					
 			if (tree[i].children[j].childsCount==0)	
@@ -122,10 +121,8 @@ test('test', async () => {
 					for(var z=0; z<tree[i].children[j].childsCount;z++)
  					{
 						await Helper.addReport()
-						
 						if (i == 2) {var s2 = Selector(tree[i].selector).nth(i + j + 4)}
 						else var s2 = Selector(tree[i].selector).nth(i + j + 1)
-						
 						await t.click(s2)
 						var s3 = Selector(tree[i].children[j].children[z].selector).nth(z)
 						await t.click(s3)
