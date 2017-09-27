@@ -1,13 +1,12 @@
 import {t, Selector, ClientFunction} from 'testcafe';
-import * as Helper from '../../helper.js';
-import * as Selectors from '../../selectors.js';
+import * as Helper from '../helper.js';
+import {test_link} from '../config.js';
 
 fixture `Getting Started`
     .page(test_link);
 
-test('review', async () => {
+test('login', async () => {
         await t.setTestSpeed(1);
         await Helper.login();
-        await t.click(Selectors.getView('Обзор'))
     }
 );
