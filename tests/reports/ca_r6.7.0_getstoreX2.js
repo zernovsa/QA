@@ -199,18 +199,14 @@ test('test', async () => {
 
 	for(var i=0; i<tree.length;i++)
  	{
- 		await t.wait(1000);
 		for(var j=0; j<tree[i].childsCount;j++)
- 		{
- 			//await t.wait(1000);						
+ 		{					
 			if (tree[i].children[j].childsCount==0)	
 				{
-					
-
-					for (var i2=0;i2<tree2.length;i2++) 
+					for (var i2=0; i2 < tree2.length;i2++) 
 					{
 						await t.wait(1000);
-						for(var j2=0; j2<tree2[i2].childsCount;j2++)
+						for(var j2=0; j2 < tree2[i2].childsCount;j2++)
  						{
 
  							if (tree2[i2].children[j2].childsCount==0)	
@@ -225,15 +221,24 @@ test('test', async () => {
 									await t.wait(1000);
 									await t.click(Selectors.add2Report.nth(1))
 									await t.wait(1000);	
-									var sel = Selector(tree2[i2].selector).nth( 10 + i2 )
+										if (i2==4) {var sel = Selector(tree2[i2].selector).nth( 10 + i2 + 6)}
+										else var sel = Selector(tree2[i2].selector).nth( 10 + i2 )
 									await t.click(sel)
 									await t.wait(1000);	
-									var sel2 = Selector(tree2[i2].children[j2].selector).nth( 6 + j2)								
+									var sel2 = Selector(tree2[i2].children[j2].selector).nth( tree[i].childsCount + j2)								
 									await t.click(sel2)
 									await t.wait(1000);
 									await Helper.delReport()
 									await t.wait(1000);
 								}
+							else
+							{
+
+
+
+
+
+							}
 						}
 					}
 
