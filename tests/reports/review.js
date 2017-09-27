@@ -1,3 +1,4 @@
+import {test_link} from '../../config.js';
 import {t, Selector, ClientFunction} from 'testcafe';
 import * as Helper from '../../helper.js';
 import * as Selectors from '../../selectors.js';
