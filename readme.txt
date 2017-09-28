@@ -9,3 +9,7 @@
 	testcafe chrome ./tests/
 Запуск тестов со скриншотами 
 	testcafe chrome click_all_reports.js --screenshots ../../screenshots
+Запуск тестов со скриншотами и со скриншотом при падении
+	testcafe chrome ca_r6.8.0_visitorsource.js --screenshots ../../screenshots --screenshots-on-fails 
+Запуск тестов с удаленным браузером
+	testcafe remote ca_r6.8.0_visitorsource.js
