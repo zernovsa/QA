@@ -59,7 +59,10 @@ export const enableAllColumns = async () => {
         count = await getUncheckedColumnsCount()
         console.log(count+' ')
     }
-    
+
+    let nowTime = dateFormat(Date(), "isoDateTime");
+    let step = 'enableAllColumns'
+    await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step)
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
     await t.click(getSaveButton);
@@ -169,10 +172,9 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                         await t.click(getApplyButtonSelector)
                         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
-                        await t.click(getCancelButtonSelector)
-
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
+                        await t.click(getCancelButtonSelector)
                     }
                     break;
                 }
@@ -204,10 +206,9 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                         await t.click(getApplyButtonSelector)
                         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
-                        await t.click(getCancelButtonSelector)
-
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
+                        await t.click(getCancelButtonSelector)
                     }
                     break;
                 }
@@ -239,10 +240,9 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                         await t.click(getApplyButtonSelector)
                         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
-                        await t.click(getCancelButtonSelector)
-
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
+                        await t.click(getCancelButtonSelector)
                     }
                     break;
                 }
@@ -258,7 +258,7 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                             const arrowCount = await getArrowCount()
 
                             let value = Helper.getRandomInt(1, 999);
-                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
                             console.log(text)
 
                             await t.click(getParamArrow)
@@ -275,17 +275,20 @@ let nowTime = dateFormat(Date(), "isoDateTime");
 
                             await t.click(getApplyButtonSelector)
                             await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            
+                            await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +'.'+text)
 
                             await t.click(getCancelButtonSelector)
 
-                            await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +'.'+text)
+                            
                         }
                     }
                     break;
                 }
                 case 'time': {
                     let conditionCount = 4
-                    let valueCount = 96
+                    // let valueCount = 96
+                    let valueCount = 4
                     for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++)
                     {
                         for (let valueIndex = 0; valueIndex < valueCount; valueIndex++)
@@ -295,7 +298,7 @@ let nowTime = dateFormat(Date(), "isoDateTime");
 
                             const arrowCount = await getArrowCount()
 
-                            let value = Helper.getRandomInt(1, 999);
+                            let value = 'None'
                             let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                             console.log(text)
 
@@ -314,9 +317,9 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                             await t.click(getApplyButtonSelector)
                             await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
-                            await t.click(getCancelButtonSelector)
-
                             await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
+
+                            await t.click(getCancelButtonSelector)
                     }
                     }
                     break;
