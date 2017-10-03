@@ -43,6 +43,30 @@ export const readFilters = ClientFunction(() => {
     return list
 });
 
+export const enableAllColumns = async () => {
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить столбцы');
+    await t.click(getColumnsButton);
+
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+    var count = await getUncheckedColumnsCount()
+    console.log('Columns count: ' + count)
+
+    while (count > 0) 
+    { 
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        await t.click(selector.nth(0))
+        await t.wait(1000)
+        count = await getUncheckedColumnsCount()
+        console.log(count+' ')
+    }
+    
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
+
+
+}
+
 export const getArrowCount = ClientFunction(() => document.querySelectorAll('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').length)
 
 export const getParamArrow     = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').nth(6);
@@ -54,11 +78,17 @@ export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');
 
 export const getValueNumberSelector       = Selector('*[id*="inputEl"][id*=numberfield]');
 export const getValueTextSelector       = Selector('*[id*="inputEl"][id*=textfield]')
+
+export const getArrowSelectorForTime = Selector('*[id*="timefield"][id*=trigger-picker]')
+export const getValueSelectorForTime = Selector('*[data-boundview*="timepicker"]')
+
 export const getValueSelector = Selector('*[class*="x-boundlist-item"]');
 
 export const getValueButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Выбрать');
 
 export const getApplyButtonSelector = Selector('*[class*="x-btn-button-ul-usual-medium"]').withText('Применить');
+
+export const getCancelButtonSelector = Selector('*[class*="cm-filter2panel-controlpanel-btn-cancel"]')
 
 const getHighchartsExists = Selector('*[id*="highcharts"]');
 
@@ -69,10 +99,14 @@ test('ca_r6.8.0_visitorsource', async () => {
         await t.click(Selectors.getView('Общие отчёты'))
         await t.click(Selectors.getViewItem('Анализ трафика'))
         //await t.click(Selectors.getViewItem('Аудитория'))
+        // await t.click(Selectors.getView('Общие отчёты'))
+        // await t.click(Selectors.getViewItem('Содержание'))
         
         //timeout
         //await t.expect(getHighchartsExists).ok();
         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+        await enableAllColumns()
 
         await t.click(getAddFilter)
         await t.wait(1000)
@@ -99,7 +133,7 @@ test('ca_r6.8.0_visitorsource', async () => {
             }
         })();
 
-                        console.log(filters)
+        console.log(filters)
 
 let step =1;
 let nowTime = dateFormat(Date(), "isoDateTime");
@@ -111,14 +145,13 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                     
                     for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++)
                     {
-
                         await t.click(getAddFilter)
                         await t.wait(1000)
 
                         const arrowCount = await getArrowCount()
 
                         let value = Helper.getRandomInt(1, 999);
-                        let text = '.filter type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                         console.log(text)
 
                         await t.click(getParamArrow)
@@ -135,6 +168,8 @@ let nowTime = dateFormat(Date(), "isoDateTime");
 
                         await t.click(getApplyButtonSelector)
                         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.click(getCancelButtonSelector)
 
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
@@ -151,7 +186,7 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                         const arrowCount = await getArrowCount()
 
                         let value = Helper.getRandomInt(1, 999);
-                        let text = '.filter type: numeric' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                         console.log(text)
 
                         await t.click(getParamArrow)
@@ -169,6 +204,8 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                         await t.click(getApplyButtonSelector)
                         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
+                        await t.click(getCancelButtonSelector)
+
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
                     }
@@ -184,7 +221,7 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                         const arrowCount = await getArrowCount()
 
                         let value = Helper.getRandomInt(1, 999);
-                        let text = '.filter type: string' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                         console.log(text)
 
                         await t.click(getParamArrow)
@@ -201,6 +238,8 @@ let nowTime = dateFormat(Date(), "isoDateTime");
 
                         await t.click(getApplyButtonSelector)
                         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.click(getCancelButtonSelector)
 
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
@@ -219,7 +258,7 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                             const arrowCount = await getArrowCount()
 
                             let value = Helper.getRandomInt(1, 999);
-                            let text = 'filter type: array' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                             console.log(text)
 
                             await t.click(getParamArrow)
@@ -237,8 +276,48 @@ let nowTime = dateFormat(Date(), "isoDateTime");
                             await t.click(getApplyButtonSelector)
                             await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
+                            await t.click(getCancelButtonSelector)
+
                             await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +'.'+text)
                         }
+                    }
+                    break;
+                }
+                case 'time': {
+                    let conditionCount = 4
+                    let valueCount = 96
+                    for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++)
+                    {
+                        for (let valueIndex = 0; valueIndex < valueCount; valueIndex++)
+                        {
+                            await t.click(getAddFilter)
+                            await t.wait(1000)
+
+                            const arrowCount = await getArrowCount()
+
+                            let value = Helper.getRandomInt(1, 999);
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                            console.log(text)
+
+                            await t.click(getParamArrow)
+                            await t.click(getParamSelector.nth(filterIndex))
+
+                            await t.click(getСonditionArrow)
+                            await t.click(getСonditionSelector.nth(filters.length + conditionIndex));
+                            
+                            await t.click(getArrowSelectorForTime)
+                            await t.click(getValueSelectorForTime.nth(valueIndex))
+
+                            await t.click(getValueButtonSelector)
+                            await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                            await t.click(getApplyButtonSelector)
+                            await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                            await t.click(getCancelButtonSelector)
+
+                            await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
+                    }
                     }
                     break;
                 }
