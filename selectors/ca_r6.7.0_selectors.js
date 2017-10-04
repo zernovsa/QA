@@ -10,6 +10,18 @@ export const getFirstNestElText = ClientFunction(() => {
     return Ext.ComponentQuery.query(name)[0].store.data.items[index].data.text
 });
 
+export const getFirstNestExpandable = ClientFunction(() => {
+    return Ext.ComponentQuery.query(name)[0].store.data.items[index].data.expandable
+});
+
+export const getFirstNestExpanded = ClientFunction(() => {
+    return Ext.ComponentQuery.query(name)[0].store.data.items[index].data.expanded
+});
+
+export const getFirstNestDisabled = ClientFunction(() => {
+    return Ext.ComponentQuery.query(name)[0].store.data.items[index].data.disabled
+});
+
 export const getFirstNestElCount = ClientFunction(() => {
     return Ext.ComponentQuery.query(name)[0].store.data.items[index].childNodes.length
 });
