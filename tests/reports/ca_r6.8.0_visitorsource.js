@@ -91,7 +91,7 @@ export const getValueButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnI
 
 export const getApplyButtonSelector = Selector('*[class*="x-btn-button-ul-usual-medium"]').withText('Применить');
 
-export const getCancelNestingButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnIconEl]').withText(' ');
+export const getCancelNestingButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnIconEl][class*=cm-btn-icon-clear-second-dimension]')
 
 export const getCancelButtonSelector = Selector('*[class*="cm-filter2panel-controlpanel-btn-cancel"]')
 
@@ -325,18 +325,19 @@ let nowTime = dateFormat(Date(), "isoDateTime");
     }
 );
 
-var firstNesting = [1, 2, 6, 10];
-var secondNesting = [0, 1, 2, 6, 10]
-var tree = [];
-var tree2 = [];
+
 
 test('ca_r6.8.0_visitorsource_firstNesting', async () => {
 
+var secondNesting = [0, 1, 2, 6, 10]
+var tree2 = [];
         await t.setTestSpeed(1);
         await Helper.login();
         await t.click(Selectors.getView('Общие отчёты'))
         await t.click(Selectors.getViewItem('Анализ трафика'))
         await t.expect(getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+        await t.click(Selectors_local.add2Report.nth(1))
 
         var storeElCount = await Selectors_local.getStoreElCount.with({
             dependencies: {
@@ -346,61 +347,61 @@ test('ca_r6.8.0_visitorsource_firstNesting', async () => {
 
         console.log('Всего элементов первой вложенности в store: ' + storeElCount)
 
-        for (var i = 0; i < firstNesting.length; i++) {
-            tree.push({ index: firstNesting[i], selector: Selectors_local.getMoreTree })
+        for (var i = 0; i < secondNesting.length; i++) {
+            tree2.push({ index: secondNesting[i], selector: Selectors_local.getMoreTree })
 
             var elCount = await Selectors_local.getFirstNestElCount.with({
                 dependencies: {
                     name:  Selectors_local.storeName,
-                    index: firstNesting[i]
+                    index: secondNesting[i]
                 }
             })();
 
             var elText   = await Selectors_local.getFirstNestElText.with({
                 dependencies: {
                     name:  Selectors_local.storeName,
-                    index: firstNesting[i]
+                    index: secondNesting[i]
                 }
             })();
             
             var expandable   = await Selectors_local.getFirstNestExpandable.with({
                 dependencies: {
                     name:  Selectors_local.storeName,
-                    index: firstNesting[i]
+                    index: secondNesting[i]
                 }
             })();
            
             var expanded   = await Selectors_local.getFirstNestExpanded.with({
                 dependencies: {
                     name:  Selectors_local.storeName,
-                    index: firstNesting[i]
+                    index: secondNesting[i]
                 }
             })();
             
             var disabled   = await Selectors_local.getFirstNestDisabled.with({
                 dependencies: {
                     name:  Selectors_local.storeName,
-                    index: firstNesting[i]
+                    index: secondNesting[i]
                 }
             })(); 
 
-            tree[i].childsCount = elCount
-            tree[i].text = elText
-            tree[i].expandable = expandable
-            tree[i].expanded = expanded
-            tree[i].disabled = disabled
+            tree2[i].childsCount = elCount
+            tree2[i].text = elText
+            tree2[i].expandable = expandable
+            tree2[i].expanded = expanded
+            tree2[i].disabled = disabled
             
         }
 
-        for (var i = 0; i < tree.length; i++) {
+        for (var i = 0; i < tree2.length; i++) {
 
-            tree[i].children = []
+            tree2[i].children = []
 
-            for (var j = 0; j < tree[i].childsCount; j++) {
+            for (var j = 0; j < tree2[i].childsCount; j++) {
                 var elText = await Selectors_local.getSecondNestElText.with({
                     dependencies: {
                         name:   Selectors_local.storeName,
-                        index1: tree[i].index,
+                        index1: tree2[i].index,
                         index2: j
                     }
                 })();
@@ -408,45 +409,50 @@ test('ca_r6.8.0_visitorsource_firstNesting', async () => {
                 var childsCount = await Selectors_local.getSecondNestElChildCount.with({
                     dependencies: {
                         name:   Selectors_local.storeName,
-                        index1: tree[i].index,
+                        index1: tree2[i].index,
                         index2: j
                     }
                 })();
 
-                var expandable   = await Selectors_local.getFirstNestExpandable.with({
-                dependencies: {
-                    name:  Selectors_local.storeName,
-                    index: firstNesting[i]
+                var expandable   = await Selectors_local.getSecondNestExpandable.with({
+                    dependencies: {
+                         name:  Selectors_local.storeName,
+                         index1: tree2[i].index,
+                         index2: j
                 }
                 })();
 
-                var expanded   = await Selectors_local.getFirstNestExpanded.with({
+                var expanded   = await Selectors_local.getSecondNestExpanded.with({
                     dependencies: {
                         name:  Selectors_local.storeName,
-                        index: firstNesting[i]
+                        index1: tree2[i].index,
+                        index2: j
                     }
                 })();
 
-                var disabled   = await Selectors_local.getFirstNestDisabled.with({
+                var disabled   = await Selectors_local.getSecondNestDisabled.with({
                     dependencies: {
                         name:  Selectors_local.storeName,
-                        index: firstNesting[i]
+                        index1: tree2[i].index,
+                        index2: j
                     }
                 })();
-                tree[i].disabled = disabled
 
                 //выбираем селектор второй вложенности в зависимости от наличия потомков
-                if (childsCount == 0) tree[i].children.push({
-                    index:          j,
-                    text:        elText,
-                    selector:    Selectors_local.getSubChildItem,
-                    childsCount: childsCount,
-                    expandable : expandable,
-                    expanded: expanded,
-                    disabled: disabled
-                })
+                if (childsCount == 0) 
+                    tree2[i].children.push(
+                    {
+                        index:          j,
+                        text:        elText,
+                        selector:    Selectors_local.getSubChildItem,
+                        childsCount: childsCount,
+                        expandable : expandable,
+                        expanded: expanded,
+                        disabled: disabled
+                    })
                 else {
-                    tree[i].children.push({
+                    tree2[i].children.push(
+                    {
                         index:          j,
                         text:        elText,
                         selector:    Selectors_local.getMoreTree,
@@ -455,19 +461,21 @@ test('ca_r6.8.0_visitorsource_firstNesting', async () => {
                         expanded: expanded,
                         disabled: disabled
                     })
-                    tree[i].children[j].children = []
-                    for (var z = 0; z < tree[i].children[j].childsCount; z++) {
+                
+                tree2[i].children[j].children = []
+
+                    for (var z = 0; z < tree2[i].children[j].childsCount; z++) {
 
                         var elText = await Selectors_local.getThirdNestElText.with({
                             dependencies: {
                                 name:   Selectors_local.storeName,
-                                index1: tree[i].index,
+                                index1: tree2[i].index,
                                 index2: j,
                                 index3: z
                             }
                         })();
 
-                        tree[i].children[j].children.push({
+                        tree2[i].children[j].children.push({
                             index:       z,
                             text:     elText,
                             selector: Selectors_local.getSubChildItem
@@ -479,49 +487,83 @@ test('ca_r6.8.0_visitorsource_firstNesting', async () => {
 
         //Вывод дерева
         console.log('Дерево: ')
-        for (var i = 0; i < firstNesting.length; i++) {
-            console.log(tree[i])
+        for (var i = 0; i < secondNesting.length; i++) {
+            console.log(tree2[i])
         }
 
         //Начинаем кликать по дереву
 
-        for (var i = 0; i < tree.length; i++) {
-            for (var j = 0; j < tree[i].childsCount; j++) {
-                if (tree[i].children[j].childsCount == 0) {
-                    
-                    await t.click(Selectors_local.add2Report.nth(1))
-                    
+        for (var i = 4; i < tree2.length; i++) {
+            for (var j = 0; j < tree2[i].childsCount; j++) {
+                if (tree2[i].children[j].childsCount == 0) {
+                    if (tree2[i].children[j].disabled == false) 
+                    {
+                        await t.click(Selectors_local.add2Report.nth(1))
+                        
+                        ////////////////////////////////////////////////////////////////////
+                        // Костыли, т.к. у нас дерево появляется развернутым в двух узлах //
+                        ////////////////////////////////////////////////////////////////////
+                        if (i == 4) {
+                            var s1 = Selector(tree2[i].selector).nth(i + 6)
+                        }
+                        else {
+                                var s1 = Selector(tree2[i].selector).nth(i)
+                        }   
+                        ////////////////////////////////////////////////////////////////////
+                        await t.click(s1)
+                        
+                        var s2 = Selector(tree2[i].children[j].selector).nth(j)
+                        await t.click(s2)
 
-                    var s1 = Selector(tree[i].selector).nth(i)
-                    await t.click(s1)
-                    var s2 = Selector(tree[i].children[j].selector).nth(j)
-                    await t.click(s2)
+                        await t.click(getAddFilter)
+                        await t.wait(1000)
 
 
-                    await t.click(getCancelNestingButtonSelector)
+
+
+
+
+                        await t.click(getCancelNestingButtonSelector)
+                    }
 
 
 
                 }
                 else {
-                    for (var z = 0; z < tree[i].children[j].childsCount; z++) {
+                    for (var z = 0; z < tree2[i].children[j].childsCount; z++) {
+                         if (tree2[i].children[j].disabled == false) 
+                        {
+                            await t.click(Selectors_local.add2Report.nth(1))
                         
-                        await t.click(Selectors_local.add2Report.nth(1))
-                        
+                            ////////////////////////////////////////////////////////////////////
+                            // Костыли, т.к. у нас дерево появляется развернутым в двух узлах //
+                            ////////////////////////////////////////////////////////////////////
+                            if (i == 2) {
+                                var s2 = Selector(tree2[i].selector).nth(i + j + 1)
+                            }
+                            if (i == 3) {
+                               var s2 = Selector(tree2[i].selector).nth(i + j + 4)
+                            }
+                            ////////////////////////////////////////////////////////////////////
+
+                            await t.click(s2)
+                            var s3 = Selector(tree2[i].children[j].children[z].selector).nth(z)
+                            await t.click(s3)
+
+                            await t.click(getAddFilter)
+                            await t.wait(1000)
 
 
-                        if (i == 2) {
-                            var s2 = Selector(tree[i].selector).nth(i + j + 4)
+
+
+
+
+
+
+
+
+                            await t.click(getCancelNestingButtonSelector)
                         }
-                        else var s2 = Selector(tree[i].selector).nth(i + j + 1)
-                        await t.click(s2)
-                        var s3 = Selector(tree[i].children[j].children[z].selector).nth(z)
-                        await t.click(s3)
-
-
-                        await t.click(getCancelNestingButtonSelector)
-
-
 
 
                     }

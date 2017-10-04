@@ -34,6 +34,18 @@ export const getSecondNestElChildCount = ClientFunction(() => {
     return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].childNodes.length
 });
 
+export const getSecondNestExpandable = ClientFunction(() => {
+    return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].data.expandable
+});
+
+export const getSecondNestExpanded = ClientFunction(() => {
+    return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].data.expanded
+});
+
+export const getSecondNestDisabled = ClientFunction(() => {
+    return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].data.disabled
+});
+
 export const getThirdNestElText = ClientFunction(() => {
     return Ext.ComponentQuery.query(name)[0].store.data.items[index1].childNodes[index2].childNodes[index3].data.text
 });
