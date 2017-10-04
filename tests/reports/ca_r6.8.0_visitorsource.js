@@ -11,18 +11,17 @@ var dateFormat = require('dateformat');
 fixture `Getting Started`
     .page(test_link);
 
+export const clickAllFilters = async (menu1, menu2, tabName) => {
 
-test('ca_r6.8.0_visitorsource', async () => {
+        var tree = [];
 
-    var tree = [];
-
-        await t.setTestSpeed(1);
-        await Helper.login();
-        await t.click(Selectors.getView('Общие отчёты'))
-        await t.click(Selectors.getViewItem('Анализ трафика'))
+        await t.click(Selectors.getView(menu1))
+        await t.click(Selectors.getViewItem(menu2))
         await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
-        await Helper.enableAllColumns
+        if (tabName != '') await Helper_local.clickToTabName(tabName)
+
+        await Helper.enableAllColumns()
 
         await t.click(Selectors_local2.getAddFilter)
         await t.wait(1000)
@@ -53,6 +52,21 @@ test('ca_r6.8.0_visitorsource', async () => {
 
         for (let filterIndex = 0; filterIndex < filters.length; filterIndex++)
              await Helper.filtersWhatToDo(filters, filterIndex)
+
+}
+
+test('ca_r6.8.0_visitorsource', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    //await clickAllFilters('Общие отчёты', 'Сквозная аналитика', -1); // нужно сделать -1 для стрелок
+    //await clickAllFilters('Общие отчёты', 'Анализ трафика', 0); // работает
+    //await clickAllFilters('Общие отчёты', 'Анализ трафика', 1); // работает
+    //await clickAllFilters('Общие отчёты', 'Анализ трафика', 2); // работает
+
+    await clickAllFilters('Общие отчёты', 'Аудитория', 'Информация по сегментам'); // Информация по сегментам
+    await clickAllFilters('Общие отчёты', 'Аудитория', 5); // Список всех посетителей
+
     }
 );
 

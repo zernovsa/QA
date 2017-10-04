@@ -1,4 +1,4 @@
-import {t, Selector} from 'testcafe';
+import {t, Selector, ClientFunction} from 'testcafe';
 import {username, password} from './config.js';
 import * as Selectors_local2 from './selectors/ca_r6.8.0_selectors.js';
 
@@ -197,7 +197,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                 case 'time': {
                     let conditionCount = 4
                     // let valueCount = 96
-                    let valueCount = 4
+                    let valueCount = 1
                     for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++)
                     {
                         for (let valueIndex = 0; valueIndex < valueCount; valueIndex++)

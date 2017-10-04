@@ -30,6 +30,13 @@ export const clickToReport = async () => {
     await t.click(Selector('*[class*="x-tab-inner"]:not([data-ref="btnInnerEl"])').nth(elNumber))
 }
 
+export const clickToTabName= async (tabName) => {
+    await t.click(Selector('*[class*="x-tab-inner"][id*="btnInnerEl"]').withText(tabName));
+}
+
+
+
+
 export const delReport = async () => {
     const elNumber = await Selectors.getReportCount() - 1
     await t.click(Selector('*[class*="x-tab-inner"]:not([data-ref="btnInnerEl"])').nth(elNumber))
