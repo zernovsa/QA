@@ -1,5 +1,8 @@
 import {t, Selector} from 'testcafe';
 import {username, password} from './config.js';
+import * as Selectors_local2 from './selectors/ca_r6.8.0_selectors.js';
+
+var dateFormat = require('dateformat');
 
 export async function getClick (t) {
     await t.click('.new-btn');
@@ -19,4 +22,217 @@ export function getRandomInt (min, max) {
 
 export const addSite = async () => {
 
+}
+
+export const enableAllColumns = async () => {
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить столбцы');
+    await t.click(getColumnsButton);
+
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+    var count = await getUncheckedColumnsCount()
+    console.log('Columns count: ' + count)
+
+    while (count > 0) 
+    { 
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        await t.click(selector.nth(0))
+        await t.wait(1000)
+        count = await getUncheckedColumnsCount()
+        console.log(count+' ')
+    }
+
+    let nowTime = dateFormat(Date(), "isoDateTime");
+    let step = 'enableAllColumns'
+    await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step)
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
+}
+
+export const filtersWhatToDo = async (filters, filterIndex) => {
+    let step =1;
+    let nowTime = dateFormat(Date(), "isoDateTime");
+    switch (filters[filterIndex].data.type) {
+                case 'integer': {
+                    
+                    for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++)
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let value = getRandomInt(1, 999);
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        console.log(text)
+
+                        await t.click(Selectors_local2.getParamArrow)
+                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        await t.click(Selectors_local2.getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                        await t.click(Selectors_local2.getValueNumberSelector)
+                        await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
+
+                        await t.click(Selectors_local2.getCancelButtonSelector)
+                    }
+                    break;
+                }
+                case 'numeric': {
+                    for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++)
+                    {
+
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let value = getRandomInt(1, 999);
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        console.log(text)
+
+                        await t.click(Selectors_local2.getParamArrow)
+                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        await t.click(Selectors_local2.getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                        await t.click(Selectors_local2.getValueNumberSelector)
+                        await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
+
+                        await t.click(Selectors_local2.getCancelButtonSelector)
+                    }
+                    break;
+                }
+                case 'string': {
+                    for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++)
+                    {
+
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let value = getRandomInt(1, 999);
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        console.log(text)
+
+                        await t.click(Selectors_local2.getParamArrow)
+                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        await t.click(Selectors_local2.getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                        await t.click(Selectors_local2.getValueTextSelector)
+                        await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
+
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                        await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
+
+                        await t.click(Selectors_local2.getCancelButtonSelector)
+                    }
+                    break;
+                }
+                case 'array': {
+                    let conditionCount = 2
+                    for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++)
+                    {
+                        for (let valueIndex = 0; valueIndex < filters[filterIndex].data.valueElData.length; valueIndex++)
+                        {
+                            await t.click(Selectors_local2.getAddFilter)
+                            await t.wait(1000)
+
+                            const arrowCount = await Selectors_local2.getArrowCount
+
+                            let value = getRandomInt(1, 999);
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
+                            console.log(text)
+
+                            await t.click(Selectors_local2.getParamArrow)
+                            await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                            await t.click(Selectors_local2.getСonditionArrow)
+                            await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                            await t.click(Selectors_local2.getValueArrow)
+                            await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
+
+                            await t.click(Selectors_local2.getValueButtonSelector)
+                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                            await t.click(Selectors_local2.getApplyButtonSelector)
+                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            
+                            await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +'.'+text)
+
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+
+                            
+                        }
+                    }
+                    break;
+                }
+                case 'time': {
+                    let conditionCount = 4
+                    // let valueCount = 96
+                    let valueCount = 4
+                    for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++)
+                    {
+                        for (let valueIndex = 0; valueIndex < valueCount; valueIndex++)
+                        {
+                            await t.click(Selectors_local2.getAddFilter)
+                            await t.wait(1000)
+
+                            const arrowCount = await Selectors_local2.getArrowCount
+
+                            let value = 'None'
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                            console.log(text)
+
+                            await t.click(Selectors_local2.getParamArrow)
+                            await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                            await t.click(Selectors_local2.getСonditionArrow)
+                            await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                            
+                            await t.click(Selectors_local2.getArrowSelectorForTime)
+                            await t.click(Selectors_local2.getValueSelectorForTime.nth(valueIndex))
+
+                            await t.click(Selectors_local2.getValueButtonSelector)
+                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                            await t.click(Selectors_local2.getApplyButtonSelector)
+                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                            await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
+
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                    }
+                    }
+                    break;
+                }
+
+            }
 }
