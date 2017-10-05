@@ -347,6 +347,17 @@ test('ca_r6.8.0_allFilters_report_14', async () => {
     }
 );
 
+export const readSecondNesting = async () => {
+
+var storeElCount = await Selectors_local.getStoreElCount.with({
+            dependencies: {
+                name: Selectors_local.storeName
+            }
+        })();
+
+console.log('Всего элементов первой вложенности в store: ' + storeElCount)
+
+}
 
 test('ca_r6.8.0_visitorsource_secondNesting', async () => {
 
@@ -360,13 +371,8 @@ var tree2 = [];
 
         await t.click(Selectors_local.add2Report.nth(1))
 
-        var storeElCount = await Selectors_local.getStoreElCount.with({
-            dependencies: {
-                name: Selectors_local.storeName
-            }
-        })();
-
-        console.log('Всего элементов первой вложенности в store: ' + storeElCount)
+        await readSecondNesting()
+        
 
         for (var i = 0; i < secondNesting.length; i++) {
             tree2.push({ index: secondNesting[i], selector: Selectors_local.getMoreTree })
