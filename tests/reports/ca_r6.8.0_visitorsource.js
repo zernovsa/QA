@@ -228,6 +228,46 @@ test('ca_r6.8.0_allFilters_report_7_1', async () => {
     }
 );
 
+test('ca_r6.8.0_allFilters_report_7_2', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Звонки', 'Все звонки', true, true, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_7_3', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Звонки', 'Входящие', true, true, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_7_4', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Звонки', 'Исходящие', true, true, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_8', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Чаты', 'Чаты', true, true, 0); 
+    
+    }
+);
+
 
 test('ca_r6.8.0_visitorsource_secondNesting', async () => {
 
