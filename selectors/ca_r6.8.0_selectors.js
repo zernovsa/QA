@@ -156,10 +156,10 @@ export const readFilters = ClientFunction(() => {
     return list
 });
 
-export const getArrowCount = ClientFunction(() => document.querySelectorAll('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').length)
+export const getArrowCount = ClientFunction(() => document.querySelectorAll('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').length);
 
-export const getParamArrow     = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]')
-export const getСonditionArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]')
+export const getParamArrow     = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
+export const getСonditionArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
 
 export const getValueArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
 
@@ -167,10 +167,10 @@ export const getParamSelector     = Selector('*[class*="x-boundlist-item"]');
 export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');
 
 export const getValueNumberSelector       = Selector('*[id*="inputEl"][id*=numberfield]');
-export const getValueTextSelector       = Selector('*[id*="inputEl"][id*=textfield]')
+export const getValueTextSelector       = Selector('*[id*="inputEl"][id*=textfield]');
 
-export const getArrowSelectorForTime = Selector('*[id*="timefield"][id*=trigger-picker]')
-export const getValueSelectorForTime = Selector('*[data-boundview*="timepicker"]')
+export const getArrowSelectorForTime = Selector('*[id*="timefield"][id*=trigger-picker]');
+export const getValueSelectorForTime = Selector('*[data-boundview*="timepicker"]');
 
 export const getValueSelector = Selector('*[class*="x-boundlist-item"]');
 
@@ -178,8 +178,11 @@ export const getValueButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnI
 
 export const getApplyButtonSelector = Selector('*[class*="x-btn-button-ul-usual-medium"]').withText('Применить');
 
-export const getCancelNestingButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnIconEl][class*=cm-btn-icon-clear-second-dimension]')
+export const getCancelNestingButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnIconEl][class*=cm-btn-icon-clear-second-dimension]');
 
 export const getCancelButtonSelector = Selector('*[class*="cm-filter2panel-controlpanel-btn-cancel"]')
 
 export const getHighchartsExists = Selector('*[id*="highcharts"]');
+
+export const getAccountArrow = Selector('[id*="main-actionbutton"][id*="btnWrap"]');
+export const getAccountItem = Selector('[id*="menuitem"][id*="itemEl"]');

@@ -332,6 +332,21 @@ test('ca_r6.8.0_allFilters_report_13', async () => {
     }
 );
 
+test('ca_r6.8.0_allFilters_report_14', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await t.click(Selectors_local2.getAccountArrow)
+    await t.click(Selectors_local2.getAccountItem)
+
+
+    ////////////////////////////////////////////////////////
+    ////////////////// ОШИБКА НА СТЕНДЕ ////////////////////
+    ////////////////////////////////////////////////////////
+    }
+);
+
 
 test('ca_r6.8.0_visitorsource_secondNesting', async () => {
 
