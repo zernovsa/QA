@@ -67,25 +67,27 @@ export const clickAllFilters = async (menu1, menu2, tabName, enableAllColumns, h
         console.log('Количество фильтров в отчете: ' + filtersCount)
 
         switch (menu2) {
-            // case 'Распределение входящих звонков':
-            // {
-            //     var filters = await Selectors_local2.readFilters.with({
-            //         dependencies: {
-            //             storeName: Selectors_local2.storeName,
-            //             index: 0
-            //         }
-            //      })();
-            //     break;
-            // }
+            case 'Звонки':
+            {
+                var filters = await Selectors_local2.readFilters.with({
+                    dependencies: {
+                        storeName: Selectors_local2.storeName,
+                        index: 0,
+                        report: menu2
+                    }
+                 })();
+            break;
+            }
             default: 
             {
                 var filters = await Selectors_local2.readFilters.with({
                     dependencies: {
                         storeName: Selectors_local2.storeName,
-                        index: storeElCount-1
+                        index: storeElCount-1,
+                        report: menu2
                     }
                  })();
-                break;
+            break;
             }
         }
        
@@ -215,6 +217,17 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
     
     }
 );
+
+test('ca_r6.8.0_allFilters_report_7_1', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Звонки', 'По сайтам', true, true, 0); 
+    
+    }
+);
+
 
 test('ca_r6.8.0_visitorsource_secondNesting', async () => {
 

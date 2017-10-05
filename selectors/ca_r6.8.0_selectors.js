@@ -49,30 +49,50 @@ export const readFilters = ClientFunction(() => {
             }
             case 'list': 
             {
-                let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data.length
-                for (let j = 0; j < valueElDataCount; j++) 
+                if (report = 'Звонки') 
                 {
-                
-                    let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].id
-                    let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].data
-                      
-                    valueElData.push(
-                        {
-                            id: valueElDataId,
-                            data: valueElDataData
-                        }
-                    )
+                    let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
+                    for (let j = 0; j < valueElDataCount; j++) 
+                    {
                     
+                        let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
+                        let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
+                          
+                        valueElData.push(
+                            {
+                                id: valueElDataId,
+                                data: valueElDataData
+                            }
+                        )
+                        
+                    }
+                }
+                else
+                {
+                    let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data.length
+                    for (let j = 0; j < valueElDataCount; j++) 
+                    {
+                    
+                        let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].id
+                        let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].data
+                          
+                        valueElData.push(
+                            {
+                                id: valueElDataId,
+                                data: valueElDataData
+                            }
+                        )
+                        
+                    }
                 }
             break;
             }
             default: 
             {
+             
 
 
-
-                
-                break;
+            break;
             }
         }        
 
