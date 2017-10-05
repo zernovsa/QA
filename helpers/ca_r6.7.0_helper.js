@@ -29,11 +29,9 @@ export const clickToTabIndex = async (tabIndex) => {
     await t.click(Selector('*[class*="x-tab-inner"]:not([data-ref="btnInnerEl"])').nth(tabIndex))
 }
 
-export const clickToTabName= async (tabName) => {
+export const clickToTabName = async (tabName) => {
     await t.click(Selector('*[class*="x-tab-inner"][id*="btnInnerEl"]').withText(tabName));
 }
-
-
 
 
 export const delReport = async () => {

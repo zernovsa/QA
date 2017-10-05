@@ -4,7 +4,7 @@ export const storeName = 'cm-menu';
 
 export const getAddFilter = Selector('*[class*="cm-filter2panel"]').nth(0);
 
-export const getStoreEl= ClientFunction(() => {
+export const getStoreEl = ClientFunction(() => {
     return Ext.ComponentQuery.query(name).length
 });
 
@@ -22,133 +22,122 @@ export const readFilters = ClientFunction(() => {
         let id = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].id
 
         let data_id = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.id
-        let name = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.name
-        let type = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.type
-      
+        let name    = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.name
+        let type    = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.type
+
         let valueElData = []
 
         switch (type) {
-            case 'array': 
-            {
+            case 'array': {
                 let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
-                for (let j = 0; j < valueElDataCount; j++) 
-                {
-                
-                    let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
+                for (let j = 0; j < valueElDataCount; j++) {
+
+                    let valueElDataId   = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
                     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-                      
+
                     valueElData.push(
                         {
-                            id: valueElDataId,
+                            id:   valueElDataId,
                             data: valueElDataData
                         }
                     )
                 }
 
-            break;
+                break;
             }
-            case 'list': 
-            {
-                switch (report) {                    
-                    case 'Звонки': 
-                    {
+            case 'list': {
+                switch (report) {
+                    case 'Звонки': {
                         let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
-                        for (let j = 0; j < valueElDataCount; j++) 
-                        {
-                        
-                            let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
+                        for (let j = 0; j < valueElDataCount; j++) {
+
+                            let valueElDataId   = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
                             let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-                              
+
                             valueElData.push(
                                 {
-                                    id: valueElDataId,
+                                    id:   valueElDataId,
                                     data: valueElDataData
                                 }
                             )
-                            
+
                         }
-                    break;
+                        break;
                     }
-                    case 'Запросы к API': 
-                    {
+                    case 'Запросы к API': {
                         // let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
                         // for (let j = 0; j < valueElDataCount; j++) 
                         // {
-                        
+
                         //     let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
                         //     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-                              
+
                         //     valueElData.push(
                         //         {
                         //             id: valueElDataId,
                         //             data: valueElDataData
                         //         }
                         //     )
-                            
+
                         // }
-                    break;
+                        break;
                     }
-                     case 'Уведомления': 
-                    {
+                    case 'Уведомления': {
                         // let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
                         // for (let j = 0; j < valueElDataCount; j++) 
                         // {
-                        
+
                         //     let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
                         //     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-                              
+
                         //     valueElData.push(
                         //         {
                         //             id: valueElDataId,
                         //             data: valueElDataData
                         //         }
                         //     )
-                            
+
                         // }
-                    break;
+                        break;
                     }
-                    default : 
-                    {
+                    default : {
                         let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data.length
-                        for (let j = 0; j < valueElDataCount; j++) 
-                        {
-                        
-                            let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].id
+                        for (let j = 0; j < valueElDataCount; j++) {
+
+                            let valueElDataId   = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].id
                             let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].data
-                              
+
                             valueElData.push(
                                 {
-                                    id: valueElDataId,
+                                    id:   valueElDataId,
                                     data: valueElDataData
                                 }
                             )
-                            
+
                         }
-                    break;
+                        break;
                     }
                 }
-            break;
+                break;
             }
-            default: 
-            {
-             
+            default: {
 
 
-            break;
+                break;
             }
-        }        
+        }
 
         list.push(
             {
                 el: i,
                 id: id,
-                data:  
-                {
-                    id: data_id,
-                    name: name,
-                    type: type,
-                    valueElData : valueElData
-                }
+                data:
+                    {
+                        id:          data_id,
+                        name:        name,
+                        type:        type,
+                        valueElData: valueElData
+                    }
             }
         )
     }
@@ -166,8 +155,8 @@ export const getValueArrow = Selector('*[class*="x-form-arrow-trigger x-form-arr
 export const getParamSelector     = Selector('*[class*="x-boundlist-item"]');
 export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');
 
-export const getValueNumberSelector       = Selector('*[id*="inputEl"][id*=numberfield]');
-export const getValueTextSelector       = Selector('*[id*="inputEl"][id*=textfield]');
+export const getValueNumberSelector = Selector('*[id*="inputEl"][id*=numberfield]');
+export const getValueTextSelector   = Selector('*[id*="inputEl"][id*=textfield]');
 
 export const getArrowSelectorForTime = Selector('*[id*="timefield"][id*=trigger-picker]');
 export const getValueSelectorForTime = Selector('*[data-boundview*="timepicker"]');
@@ -185,4 +174,4 @@ export const getCancelButtonSelector = Selector('*[class*="cm-filter2panel-contr
 export const getHighchartsExists = Selector('*[id*="highcharts"]');
 
 export const getAccountArrow = Selector('[id*="main-actionbutton"][id*="btnWrap"]');
-export const getAccountItem = Selector('[id*="menuitem"][id*="itemEl"]');
+export const getAccountItem  = Selector('[id*="menuitem"][id*="itemEl"]');
