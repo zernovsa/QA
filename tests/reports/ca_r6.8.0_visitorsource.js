@@ -66,41 +66,32 @@ export const clickAllFilters = async (menu1, menu2, tabName, enableAllColumns, h
 
         console.log('Количество фильтров в отчете: ' + filtersCount)
 
+        var index
         switch (menu2) {
-            case 'Звонки':
+            case 'Звонки': 
             {
-                var filters = await Selectors_local2.readFilters.with({
-                    dependencies: {
-                        storeName: Selectors_local2.storeName,
-                        index: 0,
-                        report: menu2
-                    }
-                 })();
-            break;
+                index = 0;
+                break;
             }
             case 'Запросы к API':
             {
-                var filters = await Selectors_local2.readFilters.with({
-                    dependencies: {
-                        storeName: Selectors_local2.storeName,
-                        index: 0,
-                        report: menu2
-                    }
-                 })();
-            break;
+                index = 0;
+                break;
             }
             default: 
             {
-                var filters = await Selectors_local2.readFilters.with({
+                index = storeElCount-1;
+                break;
+            }
+        }
+
+        var filters = await Selectors_local2.readFilters.with({
                     dependencies: {
                         storeName: Selectors_local2.storeName,
-                        index: storeElCount-1,
+                        index: index,
                         report: menu2
                     }
                  })();
-            break;
-            }
-        }
        
         console.log(filters)
         
