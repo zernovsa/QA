@@ -49,7 +49,7 @@ export const readFilters = ClientFunction(() => {
             }
             case 'list': 
             {
-                switch (report) {
+                switch (report) {                    
                     case 'Звонки': 
                     {
                         let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
@@ -67,6 +67,44 @@ export const readFilters = ClientFunction(() => {
                             )
                             
                         }
+                    break;
+                    }
+                    case 'Запросы к API': 
+                    {
+                        // let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
+                        // for (let j = 0; j < valueElDataCount; j++) 
+                        // {
+                        
+                        //     let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
+                        //     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
+                              
+                        //     valueElData.push(
+                        //         {
+                        //             id: valueElDataId,
+                        //             data: valueElDataData
+                        //         }
+                        //     )
+                            
+                        // }
+                    break;
+                    }
+                     case 'Уведомления': 
+                    {
+                        // let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
+                        // for (let j = 0; j < valueElDataCount; j++) 
+                        // {
+                        
+                        //     let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
+                        //     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
+                              
+                        //     valueElData.push(
+                        //         {
+                        //             id: valueElDataId,
+                        //             data: valueElDataData
+                        //         }
+                        //     )
+                            
+                        // }
                     break;
                     }
                     default : 

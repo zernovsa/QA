@@ -16,7 +16,7 @@ export const clickAllFilters = async (menu1, menu2, tabName, enableAllColumns, h
         var tree = [];
 
         await t.click(Selectors.getView(menu1))
-        await t.click(Selectors.getViewItem(menu2))
+        if (menu2 !='') await t.click(Selectors.getViewItem(menu2))
         if (highcharts == true) await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
         switch (tabName) {
@@ -68,6 +68,17 @@ export const clickAllFilters = async (menu1, menu2, tabName, enableAllColumns, h
 
         switch (menu2) {
             case 'Звонки':
+            {
+                var filters = await Selectors_local2.readFilters.with({
+                    dependencies: {
+                        storeName: Selectors_local2.storeName,
+                        index: 0,
+                        report: menu2
+                    }
+                 })();
+            break;
+            }
+            case 'Запросы к API':
             {
                 var filters = await Selectors_local2.readFilters.with({
                     dependencies: {
@@ -269,6 +280,68 @@ test('ca_r6.8.0_allFilters_report_8', async () => {
 );
 
 
+test('ca_r6.8.0_allFilters_report_9', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Заявки', '', true, true, 0); 
+    
+    }
+);
+
+
+test('ca_r6.8.0_allFilters_report_10', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список обращений', 'Цели', '', true, true, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_11_1', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список сделок', '', 'Дата обращения', true, true, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_11_2', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Список сделок', '', 'Дата сделки', true, true, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_12', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Служебные', 'Запросы к API', '', true, true, -1); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_13', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Служебные', 'Уведомления', '', true, true, -1); 
+    
+    }
+);
+
+
 test('ca_r6.8.0_visitorsource_secondNesting', async () => {
 
 var secondNesting = [0, 1, 2, 6, 10]
@@ -437,6 +510,8 @@ var tree2 = [];
         let step =1;
         let nowTime = dateFormat(Date(), "isoDateTime");
 
+        let amendment = 1;
+
         for (var i = 0; i < tree2.length; i++) {
             for (var j = 0; j < tree2[i].childsCount; j++) {
                 if (tree2[i].children[j].childsCount == 0) {
@@ -479,7 +554,7 @@ var tree2 = [];
 
                         var filters = await Selectors_local2.readFilters.with({
                             dependencies: {
-                                name: Selectors_local2.storeName,
+                                storeName: Selectors_local2.storeName,
                                 index: storeElCount-1
                             }
                         })();
@@ -488,7 +563,7 @@ var tree2 = [];
 
                             for (var filterIndex = 0; filterIndex < filters.length; filterIndex++)
                                 if (tree2[i].children[j].text == filters[filterIndex].data.name)              
-                                    await Helper.filtersWhatToDo(filters, filterIndex)
+                                    await Helper.filtersWhatToDo(filters, filterIndex, amendment)
 
                          await t.click(Selectors_local2.getCancelNestingButtonSelector)
                     }
@@ -546,7 +621,7 @@ var tree2 = [];
 
                             for (let filterIndex = 0; filterIndex < filters.length; filterIndex++)
                                 if (tree2[i].children[j].text == filters[filterIndex].data.name)
-                                    await Helper.filtersWhatToDo(filters, filterIndex)
+                                    await Helper.filtersWhatToDo(filters, filterIndex, amendment)
 
                              await t.click(Selectors_local2.getCancelNestingButtonSelector)
                         }
