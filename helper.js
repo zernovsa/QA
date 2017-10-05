@@ -49,7 +49,8 @@ export const enableAllColumns = async () => {
     await t.click(getSaveButton);
 }
 
-export const filtersWhatToDo = async (filters, filterIndex) => {
+export const filtersWhatToDo = async (filters, filterIndex, amendment) => {
+    let arrow =5;
     let step =1;
     let nowTime = dateFormat(Date(), "isoDateTime");
     switch (filters[filterIndex].data.type) {
@@ -66,20 +67,20 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                         console.log(text)
 
-                        await t.click(Selectors_local2.getParamArrow)
+                        await t.click(Selectors_local2.getParamArrow.nth(arrow + amendment))
                         await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                        await t.click(Selectors_local2.getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionArrow.nth(arrow + 1 + amendment))
                         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
                         await t.click(Selectors_local2.getValueNumberSelector)
                         await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
 
                         await t.click(Selectors_local2.getValueButtonSelector)
-                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                        // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                         await t.click(Selectors_local2.getApplyButtonSelector)
-                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                        // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
@@ -97,23 +98,23 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         const arrowCount = await Selectors_local2.getArrowCount
 
                         let value = getRandomInt(1, 999);
-                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: numeric' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                         console.log(text)
 
-                        await t.click(Selectors_local2.getParamArrow)
+                        await t.click(Selectors_local2.getParamArrow.nth(arrow + amendment))
                         await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                        await t.click(Selectors_local2.getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionArrow.nth(arrow + 1 + amendment))
                         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
                         await t.click(Selectors_local2.getValueNumberSelector)
                         await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
 
                         await t.click(Selectors_local2.getValueButtonSelector)
-                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                        // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                         await t.click(Selectors_local2.getApplyButtonSelector)
-                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                        // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
@@ -131,23 +132,23 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         const arrowCount = await Selectors_local2.getArrowCount
 
                         let value = getRandomInt(1, 999);
-                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                        let text = '.filter text: '+ filters[filterIndex].data.name +' type: string' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                         console.log(text)
 
-                        await t.click(Selectors_local2.getParamArrow)
+                        await t.click(Selectors_local2.getParamArrow.nth(arrow + amendment))
                         await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                        await t.click(Selectors_local2.getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionArrow.nth(arrow + 1 + amendment))
                         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
                         await t.click(Selectors_local2.getValueTextSelector)
                         await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
 
                         await t.click(Selectors_local2.getValueButtonSelector)
-                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                        // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                         await t.click(Selectors_local2.getApplyButtonSelector)
-                        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                        // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                         await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
@@ -167,23 +168,23 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                             const arrowCount = await Selectors_local2.getArrowCount
 
                             let value = getRandomInt(1, 999);
-                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: array' + ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
                             console.log(text)
 
-                            await t.click(Selectors_local2.getParamArrow)
+                            await t.click(Selectors_local2.getParamArrow.nth(arrow + amendment))
                             await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                            await t.click(Selectors_local2.getСonditionArrow)
+                            await t.click(Selectors_local2.getСonditionArrow.nth(arrow + 1 + amendment))
                             await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
-                            await t.click(Selectors_local2.getValueArrow)
+                            await t.click(Selectors_local2.getValueArrow.nth(arrow + 2 + amendment))
                             await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
 
                             await t.click(Selectors_local2.getValueButtonSelector)
-                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                             await t.click(Selectors_local2.getApplyButtonSelector)
-                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
                             
                             await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +'.'+text)
 
@@ -208,23 +209,23 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                             const arrowCount = await Selectors_local2.getArrowCount
 
                             let value = 'None'
-                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: integer' + ' conditionIndex:' + conditionIndex + ' value: ' + value
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: time' + ' conditionIndex:' + conditionIndex + ' value: ' + value
                             console.log(text)
 
-                            await t.click(Selectors_local2.getParamArrow)
+                            await t.click(Selectors_local2.getParamArrow.nth(arrow + amendment))
                             await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                            await t.click(Selectors_local2.getСonditionArrow)
+                            await t.click(Selectors_local2.getСonditionArrow.nth(arrow + 1 + amendment))
                             await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
                             
                             await t.click(Selectors_local2.getArrowSelectorForTime)
                             await t.click(Selectors_local2.getValueSelectorForTime.nth(valueIndex))
 
                             await t.click(Selectors_local2.getValueButtonSelector)
-                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                             await t.click(Selectors_local2.getApplyButtonSelector)
-                            await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
                             await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +text)
 
@@ -233,6 +234,44 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     }
                     break;
                 }
+                case 'list': {
+                  let conditionCount = 2
+                    for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++)
+                    {
+                        for (let valueIndex = 0; valueIndex < filters[filterIndex].data.valueElData.length; valueIndex++)
+                        {
+                            await t.click(Selectors_local2.getAddFilter)
+                            await t.wait(1000)
 
+                            const arrowCount = await Selectors_local2.getArrowCount
+
+                            let value = getRandomInt(1, 999);
+                            let text = '.filter text: '+ filters[filterIndex].data.name +' type: list' + ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
+                            console.log(text)
+
+                            await t.click(Selectors_local2.getParamArrow.nth(arrow + amendment))
+                            await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                            await t.click(Selectors_local2.getСonditionArrow.nth(arrow + 1 + amendment))
+                            await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                            await t.click(Selectors_local2.getValueArrow.nth(arrow + 2 + amendment))
+                            await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
+
+                            await t.click(Selectors_local2.getValueButtonSelector)
+                            // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+
+                            await t.click(Selectors_local2.getApplyButtonSelector)
+                            // await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+                            
+                            await t.takeScreenshot('./ca_r6.8.0-' + nowTime+'/'+ step++ +'.'+text)
+
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+
+                            
+                        }
+                    }
+                    break;
+                }
             }
 }

@@ -11,17 +11,42 @@ var dateFormat = require('dateformat');
 fixture `Getting Started`
     .page(test_link);
 
-export const clickAllFilters = async (menu1, menu2, tabName) => {
+export const clickAllFilters = async (menu1, menu2, tabName, enableAllColumns, highcharts, amendment) => {
 
         var tree = [];
 
         await t.click(Selectors.getView(menu1))
         await t.click(Selectors.getViewItem(menu2))
-        await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
+        if (highcharts == true) await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
 
-        if (tabName != '') await Helper_local.clickToTabName(tabName)
+        switch (tabName) {
+            case '': 
+            {
+                break;
+            }
+            case 'Рекламные кампании': 
+            {
+                await Helper_local.clickToTabIndex(0)
+                break;
+            }
+            case 'Источники': 
+            {
+                await Helper_local.clickToTabIndex(1)
+                break;
+            }
+            case 'Каналы': 
+            {
+                await Helper_local.clickToTabIndex(2)
+                break;
+            }            
+            default: 
+            {
+                await Helper_local.clickToTabName(tabName)
+                break;
+            }
+        }
 
-        await Helper.enableAllColumns()
+        if (enableAllColumns == true) await Helper.enableAllColumns()
 
         await t.click(Selectors_local2.getAddFilter)
         await t.wait(1000)
@@ -41,32 +66,174 @@ export const clickAllFilters = async (menu1, menu2, tabName) => {
 
         console.log('Количество фильтров в отчете: ' + filtersCount)
 
-        var filters = await Selectors_local2.readFilters.with({
-            dependencies: {
-                name: Selectors_local2.storeName,
-                index: storeElCount-1
+        switch (menu2) {
+            // case 'Распределение входящих звонков':
+            // {
+            //     var filters = await Selectors_local2.readFilters.with({
+            //         dependencies: {
+            //             storeName: Selectors_local2.storeName,
+            //             index: 0
+            //         }
+            //      })();
+            //     break;
+            // }
+            default: 
+            {
+                var filters = await Selectors_local2.readFilters.with({
+                    dependencies: {
+                        storeName: Selectors_local2.storeName,
+                        index: storeElCount-1
+                    }
+                 })();
+                break;
             }
-        })();
-
+        }
+       
         console.log(filters)
-
+        
         for (let filterIndex = 0; filterIndex < filters.length; filterIndex++)
-             await Helper.filtersWhatToDo(filters, filterIndex)
+             await Helper.filtersWhatToDo(filters, filterIndex, amendment)
 
 }
 
-test('ca_r6.8.0_visitorsource', async () => {
+test('ca_r6.8.0_allFilters_report_1', async () => {
 
     await t.setTestSpeed(1);
     await Helper.login();
-    //await clickAllFilters('Общие отчёты', 'Сквозная аналитика', -1); // нужно сделать -1 для стрелок
-    //await clickAllFilters('Общие отчёты', 'Анализ трафика', 0); // работает
-    //await clickAllFilters('Общие отчёты', 'Анализ трафика', 1); // работает
-    //await clickAllFilters('Общие отчёты', 'Анализ трафика', 2); // работает
+    
+    await clickAllFilters('Общие отчёты', 'Сквозная аналитика', '', true, true, 0);
+    
+    }
+);
 
-    await clickAllFilters('Общие отчёты', 'Аудитория', 'Информация по сегментам'); // Информация по сегментам
-    await clickAllFilters('Общие отчёты', 'Аудитория', 5); // Список всех посетителей
+test('ca_r6.8.0_allFilters_report_2_1', async () => {
 
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Анализ трафика', 'Рекламные кампании', true, true, 1); 
+
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_2_2', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+
+    await clickAllFilters('Общие отчёты', 'Анализ трафика', 'Источники', true, true, 1); 
+
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_2_3', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Анализ трафика', 'Каналы', true, true, 1); 
+
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_3_1', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Аудитория', 'Информация по сегментам', false, false, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_3_2', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Аудитория', 'Список всех посетителей', false, false, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_4_1', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Содержание', 'Все страницы сайта', false, false, 0); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_4_2', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Содержание', 'Входные страницы', false, false, 0);
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_5', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Обращения по сотрудникам', 'Статистика', false, false, -2); // не находит стор
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_6_1', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По номерам ВАТС', false, false, -1); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_6_2', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По сотрудникам', false, false, -1); 
+    
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_6_3', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По сценариям', false, false, -1); 
+    
+    }
+);
+
+
+test('ca_r6.8.0_allFilters_report_6_4', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По часам', false, false, -1); 
+
+    }
+);
+
+test('ca_r6.8.0_allFilters_report_6_5', async () => {
+
+    await t.setTestSpeed(1);
+    await Helper.login();
+    
+    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По дням недели', false, false, -1); 
+    
     }
 );
 

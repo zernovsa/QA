@@ -16,14 +16,77 @@ export const getFiltersCount = ClientFunction(() => {
 
 export const readFilters = ClientFunction(() => {
     let list  = []
-    let count = Ext.ComponentQuery.query(name)[index].items.items[0].filterListStore.data.items.length
+    let count = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items.length
 
     for (let i = 0; i < count; i++) {
+        let id = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].id
+
+        let data_id = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.id
+        let name = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.name
+        let type = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.type
+      
+        let valueElData = []
+
+        switch (type) {
+            case 'array': 
+            {
+                let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
+                for (let j = 0; j < valueElDataCount; j++) 
+                {
+                
+                    let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
+                    let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
+                      
+                    valueElData.push(
+                        {
+                            id: valueElDataId,
+                            data: valueElDataData
+                        }
+                    )
+                }
+
+            break;
+            }
+            case 'list': 
+            {
+                let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data.length
+                for (let j = 0; j < valueElDataCount; j++) 
+                {
+                
+                    let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].id
+                    let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].data
+                      
+                    valueElData.push(
+                        {
+                            id: valueElDataId,
+                            data: valueElDataData
+                        }
+                    )
+                    
+                }
+            break;
+            }
+            default: 
+            {
+
+
+
+                
+                break;
+            }
+        }        
+
         list.push(
             {
-                el:   i,
-                id:   Ext.ComponentQuery.query(name)[index].items.items[0].filterListStore.data.items[i].id,
-                data: Ext.ComponentQuery.query(name)[index].items.items[0].filterListStore.data.items[i].data
+                el: i,
+                id: id,
+                data:  
+                {
+                    id: data_id,
+                    name: name,
+                    type: type,
+                    valueElData : valueElData
+                }
             }
         )
     }
@@ -33,9 +96,10 @@ export const readFilters = ClientFunction(() => {
 
 export const getArrowCount = ClientFunction(() => document.querySelectorAll('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').length)
 
-export const getParamArrow     = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').nth(6);
-export const getСonditionArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').nth(7);
-export const getValueArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').nth(8);
+export const getParamArrow     = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]')
+export const getСonditionArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]')
+
+export const getValueArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
 
 export const getParamSelector     = Selector('*[class*="x-boundlist-item"]');
 export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');
