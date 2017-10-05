@@ -216,29 +216,6 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
     }
 );
 
-
-test('ca_r6.8.0_allFilters_report_6_4', async () => {
-
-    await t.setTestSpeed(1);
-    await Helper.login();
-    
-    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По часам', false, false, -1); 
-
-    }
-);
-
-test('ca_r6.8.0_allFilters_report_6_5', async () => {
-
-    await t.setTestSpeed(1);
-    await Helper.login();
-    
-    await clickAllFilters('Общие отчёты', 'Распределение входящих звонков', 'По дням недели', false, false, -1); 
-    
-    }
-);
-
-
-
 test('ca_r6.8.0_visitorsource_secondNesting', async () => {
 
 var secondNesting = [0, 1, 2, 6, 10]
