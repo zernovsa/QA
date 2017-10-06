@@ -771,4 +771,13 @@ test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
     }
 );
 
+test('ca_r6.8.0_secondNestingFilters_report_4_1', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await secondNestingFilters('Общие отчёты', 'Содержание', 'Входные страницы')
+
+    }
+);
 
