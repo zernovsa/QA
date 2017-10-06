@@ -340,12 +340,49 @@ test('ca_r6.8.0_allFilters_report_14', async () => {
     }
 );
 
-export const readSecondNesting = async () => {
+export const readSecondNesting = async (menu1, menu2, tabName) => {
 
-    await t.click(Selectors.getView('Общие отчёты'))
-    await t.click(Selectors.getViewItem('Анализ трафика'))
+    await t.click(Selectors.getView(menu1))
+    await t.click(Selectors.getViewItem(menu2))
+
+    let amendment
+
+    switch (menu2) {
+        case 'Сквозная аналитика': {
+            amendment = 0
+            break;
+        }
+ 
+        default: {
+             amendment = 1
+            break;
+        }
+    }
+
+    switch (tabName) {
+        case '': {
+            break;
+        }
+        case 'Рекламные кампании': {
+            await Helper_local.clickToTabIndex(0)
+            break;
+        }
+        case 'Источники': {
+            await Helper_local.clickToTabIndex(1)
+            break;
+        }
+        case 'Каналы': {
+            await Helper_local.clickToTabIndex(2)
+            break;
+        }
+        default: {
+            await Helper_local.clickToTabName(tabName)
+            break;
+        }
+    }
+
     await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
-    await t.click(Selectors_local.add2Report.nth(1))
+    await t.click(Selectors_local.add2Report.nth(amendment))
 
     var storeElCount = await Selectors_local.getStoreElCount.with({
         dependencies: {
@@ -355,11 +392,24 @@ export const readSecondNesting = async () => {
 
     console.log('Всего элементов первой вложенности в store: ' + storeElCount)
 
+    var secondNesting=[]
 
-    var secondNesting = [0, 1, 2, 6, 10]
+    switch (menu2) {
+        case 'Сквозная аналитика': {
+            secondNesting = [0, 1]
+            break;
+        }
+ 
+        default: {
+            secondNesting = [0, 1, 2, 6, 10]
+            break;
+        }
+    }
+
     var tree2         = [];
 
     for (var i = 0; i < secondNesting.length; i++) {
+        
         tree2.push({ index: secondNesting[i], selector: Selectors_local.getMoreTree })
 
         var elCount = await Selectors_local.getFirstNestElCount.with({
@@ -504,46 +554,57 @@ export const readSecondNesting = async () => {
         console.log(tree2[i])
     }
 
-
-    return tree2;
-}
-
-test('ca_r6.8.0_visitorsource_secondNesting', async () => {
-
-        await t.setTestSpeed(1);
-        await Helper.login();
-
-        var tree2 = await readSecondNesting()
-
-        //Начинаем кликать по дереву
         let step    = 1;
         let nowTime = dateFormat(Date(), "isoDateTime");
 
-        let amendment = 1;
+
 
         for (var i = 0; i < tree2.length; i++) {
             for (var j = 0; j < tree2[i].childsCount; j++) {
                 if (tree2[i].children[j].childsCount == 0) {
                     if (tree2[i].children[j].disabled == false) {
-                        await t.click(Selectors_local.add2Report.nth(1))
+                        await t.click(Selectors_local.add2Report.nth(amendment))
 
-                        ////////////////////////////////////////////////////////////////////
-                        // Костыли, т.к. у нас дерево появляется развернутым в двух узлах //
-                        ////////////////////////////////////////////////////////////////////
-                        if (i == 4) {
-                            var s1 = Selector(tree2[i].selector).nth(i + 6)
+
+                        switch (menu2) {
+                            case 'Сквозная аналитика': {
+                            
+                                var s1 = Selector(tree2[i].selector).nth(i)
+                                await t.click(s1)
+
+                                var s2 = Selector(tree2[i].children[j].selector).nth(j)
+                                await t.click(s2)
+
+                                await t.click(Selectors_local2.getAddFilter)
+                                await t.wait(1000)
+
+                                break;
+                            }
+                     
+                            default: {
+                            
+                                ////////////////////////////////////////////////////////////////////
+                                // Костыли, т.к. у нас дерево появляется развернутым в двух узлах //
+                                ////////////////////////////////////////////////////////////////////
+                                if (i == 4) {
+                                    var s1 = Selector(tree2[i].selector).nth(i + 6)
+                                }
+                                else {
+                                    var s1 = Selector(tree2[i].selector).nth(i)
+                                }
+                                ////////////////////////////////////////////////////////////////////
+                                await t.click(s1)
+
+                                var s2 = Selector(tree2[i].children[j].selector).nth(j)
+                                await t.click(s2)
+
+                                await t.click(Selectors_local2.getAddFilter)
+                                await t.wait(1000)
+
+                                break;
+                            }
                         }
-                        else {
-                            var s1 = Selector(tree2[i].selector).nth(i)
-                        }
-                        ////////////////////////////////////////////////////////////////////
-                        await t.click(s1)
-
-                        var s2 = Selector(tree2[i].children[j].selector).nth(j)
-                        await t.click(s2)
-
-                        await t.click(Selectors_local2.getAddFilter)
-                        await t.wait(1000)
+                       
 
                         var storeElCount = await Selectors_local2.getStoreEl.with({
                             dependencies: {
@@ -639,6 +700,26 @@ test('ca_r6.8.0_visitorsource_secondNesting', async () => {
             }
         }
 
+}
+
+
+test('ca_r6.8.0_secondNesting_report_1', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await readSecondNesting('Общие отчёты', 'Сквозная аналитика', '')
+
+    }
+);
+
+
+test('ca_r6.8.0_secondNesting_report_2_1', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await readSecondNesting('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
 
     }
 );
