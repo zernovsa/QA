@@ -380,6 +380,10 @@ export const secondNestingFilters = async (menu1, menu2, tabName) => {
             amendment = 0
             break;
         }
+        case 'Содержание': {
+            amendment = 0
+            break;
+        }
  
         default: {
              amendment = 1
@@ -771,7 +775,7 @@ test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
     }
 );
 
-test('ca_r6.8.0_secondNestingFilters_report_4_1', async () => {
+test('ca_r6.8.0_secondNestingFilters_report_4_2', async () => {
 
         await t.setTestSpeed(1);
         await Helper.login();
