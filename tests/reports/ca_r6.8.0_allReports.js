@@ -340,24 +340,14 @@ test('ca_r6.8.0_allFilters_report_14', async () => {
     }
 );
 
-export const readSecondNesting = async (menu1, menu2, tabName) => {
+export const secondNestingFilters = async (menu1, menu2, tabName) => {
 
     await t.click(Selectors.getView(menu1))
     await t.click(Selectors.getViewItem(menu2))
 
     let amendment
 
-    switch (menu2) {
-        case 'Сквозная аналитика': {
-            amendment = 0
-            break;
-        }
- 
-        default: {
-             amendment = 1
-            break;
-        }
-    }
+
 
     switch (tabName) {
         case '': {
@@ -381,6 +371,21 @@ export const readSecondNesting = async (menu1, menu2, tabName) => {
         }
     }
 
+    switch (menu2) {
+        case 'Сквозная аналитика': {
+            amendment = 0
+            break;
+        }
+        case 'Аудитория': {
+            amendment = 0
+            break;
+        }
+ 
+        default: {
+             amendment = 1
+            break;
+        }
+    }
     await t.expect(Selectors_local2.getHighchartsExists.exists).eql(true, 'Waiting highcharts')
     await t.click(Selectors_local.add2Report.nth(amendment))
 
@@ -399,7 +404,6 @@ export const readSecondNesting = async (menu1, menu2, tabName) => {
             secondNesting = [0, 1]
             break;
         }
- 
         default: {
             secondNesting = [0, 1, 2, 6, 10]
             break;
@@ -703,24 +707,68 @@ export const readSecondNesting = async (menu1, menu2, tabName) => {
 }
 
 
-test('ca_r6.8.0_secondNesting_report_1', async () => {
+test('ca_r6.8.0_secondNestingFilters_report_1', async () => {
 
         await t.setTestSpeed(1);
         await Helper.login();
 
-        await readSecondNesting('Общие отчёты', 'Сквозная аналитика', '')
+        await secondNestingFilters('Общие отчёты', 'Сквозная аналитика', '')
 
     }
 );
 
 
-test('ca_r6.8.0_secondNesting_report_2_1', async () => {
+test('ca_r6.8.0_secondNestingFilters_report_2_1', async () => {
 
         await t.setTestSpeed(1);
         await Helper.login();
 
-        await readSecondNesting('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
+        await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
 
     }
 );
+
+
+test('ca_r6.8.0_secondNestingFilters_report_2_2', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Источники')
+
+    }
+);
+
+
+test('ca_r6.8.0_secondNestingFilters_report_2_3', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Каналы')
+
+    }
+);
+
+test('ca_r6.8.0_secondNestingFilters_report_3_1', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await secondNestingFilters('Общие отчёты', 'Аудитория', 'Информация по сегментам')
+
+    }
+);
+
+
+test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await secondNestingFilters('Общие отчёты', 'Аудитория', 'Список всех посетителей')
+
+    }
+);
+
 
