@@ -342,12 +342,28 @@ test('ca_r6.8.0_allFilters_report_14', async () => {
 
 export const secondNestingFilters = async (menu1, menu2, tabName) => {
 
-    await t.click(Selectors.getView(menu1))
-    await t.click(Selectors.getViewItem(menu2))
+	 switch (menu1) {
+        case '': {
+            break;
+        }
+        default: {
+            await t.click(Selectors.getView(menu1))
+            break;
+        }
+      }
+  
+
+	switch (menu2) {
+        case '': {
+            break;
+        }
+        default: {
+            await t.click(Selectors.getViewItem(menu2))
+            break;
+        }
+      }
 
     let amendment
-
-
 
     switch (tabName) {
         case '': {
@@ -564,8 +580,6 @@ export const secondNestingFilters = async (menu1, menu2, tabName) => {
 
         let step    = 1;
         let nowTime = dateFormat(Date(), "isoDateTime");
-
-
 
         for (var i = 0; i < tree2.length; i++) {
             for (var j = 0; j < tree2[i].childsCount; j++) {
@@ -784,4 +798,59 @@ test('ca_r6.8.0_secondNestingFilters_report_4_2', async () => {
 
     }
 );
+
+
+test('ca_r6.8.0_secondNestingFilters_withAllFirstNestings', async () => {
+
+        await t.setTestSpeed(1);
+        await Helper.login();
+
+        await Helper.addSite();
+        await t.click(Selectors.getView('Общие отчёты'))
+        await t.click(Selectors.getViewItem('Анализ трафика'))
+
+        var tree = await Helper_local.firstNestingTree()
+
+        //Начинаем кликать по дереву
+
+        for (var i = 0; i < tree.length; i++) {
+            for (var j = 0; j < tree[i].childsCount; j++) {
+                if (tree[i].children[j].childsCount == 0) {
+                    await Helper_local.addReport()
+                    var s1 = Selector(tree[i].selector).nth(i)
+                    await t.click(s1)
+                    var s2 = Selector(tree[i].children[j].selector).nth(j)
+                    await t.click(s2)
+
+                    	await secondNestingFilters('', '', '')
+
+                    await Helper_local.delReport()
+                }
+                else {
+                    for (var z = 0; z < tree[i].children[j].childsCount; z++) {
+                        await Helper_local.addReport()
+                        if (i == 2) {
+                            var s2 = Selector(tree[i].selector).nth(i + j + 4)
+                        }
+                        else var s2 = Selector(tree[i].selector).nth(i + j + 1)
+                        await t.click(s2)
+                        var s3 = Selector(tree[i].children[j].children[z].selector).nth(z)
+
+    	                    await secondNestingFilters('', '', '')
+
+                        await t.click(s3)
+                        await Helper_local.delReport()
+                    }
+                }
+
+            }
+        }
+
+
+        
+
+    }
+);
+
+
 

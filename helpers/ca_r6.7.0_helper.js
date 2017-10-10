@@ -40,3 +40,103 @@ export const delReport = async () => {
     await t.click(Selector('span.x-tab-edit-btn-inner').nth(elNumber))
     await t.click(Selector('span.ul-btn-usual-icon-cls-remove').nth(0))
 }
+
+export const firstNestingTree = async () => {
+    var firstNesting = [1, 2, 6, 10];
+    var tree         = [];
+
+    var storeElCount = await Selectors.getStoreElCount.with({
+            dependencies: {
+                name: Selectors.storeName
+            }
+        })();
+
+        console.log('Всего элементов первой вложенности в store: ' + storeElCount)
+
+        for (var i = 0; i < firstNesting.length; i++) {
+            tree.push({ id: firstNesting[i], selector: Selectors.getMoreTree })
+
+            var elCount = await Selectors.getFirstNestElCount.with({
+                dependencies: {
+                    name:  Selectors.storeName,
+                    index: firstNesting[i]
+                }
+            })();
+
+            tree[i].childsCount = elCount
+
+            var elText   = await Selectors.getFirstNestElText.with({
+                dependencies: {
+                    name:  Selectors.storeName,
+                    index: firstNesting[i]
+                }
+            })();
+            tree[i].text = elText
+        }
+
+        for (var i = 0; i < tree.length; i++) {
+
+            tree[i].children = []
+
+            for (var j = 0; j < tree[i].childsCount; j++) {
+                var elText = await Selectors.getSecondNestElText.with({
+                    dependencies: {
+                        name:   Selectors.storeName,
+                        index1: tree[i].id,
+                        index2: j
+                    }
+                })();
+
+                var childsCount = await Selectors.getSecondNestElChildCount.with({
+                    dependencies: {
+                        name:   Selectors.storeName,
+                        index1: tree[i].id,
+                        index2: j
+                    }
+                })();
+
+                //выбираем селектор второй вложенности в зависимости от наличия потомков
+                if (childsCount == 0) tree[i].children.push({
+                    id:          j,
+                    text:        elText,
+                    selector:    Selectors.getSubChildItem,
+                    childsCount: childsCount
+                })
+                else {
+                    tree[i].children.push({
+                        id:          j,
+                        text:        elText,
+                        selector:    Selectors.getMoreTree,
+                        childsCount: childsCount
+                    })
+                    tree[i].children[j].children = []
+                    for (var z = 0; z < tree[i].children[j].childsCount; z++) {
+
+                        var elText = await Selectors.getThirdNestElText.with({
+                            dependencies: {
+                                name:   Selectors.storeName,
+                                index1: tree[i].id,
+                                index2: j,
+                                index3: z
+                            }
+                        })();
+
+                        tree[i].children[j].children.push({
+                            id:       z,
+                            text:     elText,
+                            selector: Selectors.getSubChildItem
+                        })
+                    }
+                }
+            }
+        }
+
+        //Вывод дерева
+        console.log('Дерево: ')
+        for (var i = 0; i < firstNesting.length; i++) {
+            console.log(tree[i])
+        }
+
+
+return tree
+}

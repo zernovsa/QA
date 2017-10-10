@@ -8,107 +8,14 @@ import * as Selectors_local from '../../selectors/ca_r6.7.0_selectors.js';
 fixture `Getting Started`
     .page(test_link);
 
-var firstNesting = [1, 2, 6, 10];
-var tree         = [];
-
-test('test', async () => {
+test('createAllFirstNestingReports', async () => {
         await t.setTestSpeed(1);
         await Helper.login();
         await Helper.addSite();
         await t.click(Selectors.getView('Общие отчёты'))
         await t.click(Selectors.getViewItem('Анализ трафика'))
 
-        var storeElCount = await Selectors_local.getStoreElCount.with({
-            dependencies: {
-                name: Selectors_local.storeName
-            }
-        })();
-
-        console.log('Всего элементов первой вложенности в store: ' + storeElCount)
-
-        for (var i = 0; i < firstNesting.length; i++) {
-            tree.push({ id: firstNesting[i], selector: Selectors_local.getMoreTree })
-
-            var elCount = await Selectors_local.getFirstNestElCount.with({
-                dependencies: {
-                    name:  Selectors_local.storeName,
-                    index: firstNesting[i]
-                }
-            })();
-
-            tree[i].childsCount = elCount
-
-            var elText   = await Selectors_local.getFirstNestElText.with({
-                dependencies: {
-                    name:  Selectors_local.storeName,
-                    index: firstNesting[i]
-                }
-            })();
-            tree[i].text = elText
-        }
-
-        for (var i = 0; i < tree.length; i++) {
-
-            tree[i].children = []
-
-            for (var j = 0; j < tree[i].childsCount; j++) {
-                var elText = await Selectors_local.getSecondNestElText.with({
-                    dependencies: {
-                        name:   Selectors_local.storeName,
-                        index1: tree[i].id,
-                        index2: j
-                    }
-                })();
-
-                var childsCount = await Selectors_local.getSecondNestElChildCount.with({
-                    dependencies: {
-                        name:   Selectors_local.storeName,
-                        index1: tree[i].id,
-                        index2: j
-                    }
-                })();
-
-                //выбираем селектор второй вложенности в зависимости от наличия потомков
-                if (childsCount == 0) tree[i].children.push({
-                    id:          j,
-                    text:        elText,
-                    selector:    Selectors_local.getSubChildItem,
-                    childsCount: childsCount
-                })
-                else {
-                    tree[i].children.push({
-                        id:          j,
-                        text:        elText,
-                        selector:    Selectors_local.getMoreTree,
-                        childsCount: childsCount
-                    })
-                    tree[i].children[j].children = []
-                    for (var z = 0; z < tree[i].children[j].childsCount; z++) {
-
-                        var elText = await Selectors_local.getThirdNestElText.with({
-                            dependencies: {
-                                name:   Selectors_local.storeName,
-                                index1: tree[i].id,
-                                index2: j,
-                                index3: z
-                            }
-                        })();
-
-                        tree[i].children[j].children.push({
-                            id:       z,
-                            text:     elText,
-                            selector: Selectors_local.getSubChildItem
-                        })
-                    }
-                }
-            }
-        }
-
-        //Вывод дерева
-        console.log('Дерево: ')
-        for (var i = 0; i < firstNesting.length; i++) {
-            console.log(tree[i])
-        }
+        var tree = await Helper_local.firstNestingTree()
 
         //Начинаем кликать по дереву
 
