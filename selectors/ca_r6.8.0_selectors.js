@@ -4,17 +4,17 @@ export const storeName = 'cm-menu';
 
 export const getAddFilter = Selector('*[class*="cm-filter2panel"]').nth(0);
 
-export const getStoreEl = ClientFunction(() => {
+export const getStoreEl = ClientFunction((name) => {
     return Ext.ComponentQuery.query(name).length
 });
 
 
-export const getFiltersCount = ClientFunction(() => {
+export const getFiltersCount = ClientFunction((name, index) => {
     return Ext.ComponentQuery.query(name)[index].items.items[0].filterListStore.data.items.length
 });
 
 
-export const readFilters = ClientFunction(() => {
+export const readFilters = ClientFunction((storeName, index, report ) => {
     let list  = []
     let count = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items.length
 
@@ -147,10 +147,11 @@ export const readFilters = ClientFunction(() => {
 
 export const getArrowCount = ClientFunction(() => document.querySelectorAll('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').length);
 
-export const getParamArrow     = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
-export const getСonditionArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
+export const getParamArrow    =  Selector('*[placeholder*="Параметр"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
 
-export const getValueArrow = Selector('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]');
+export const getСonditionArrow = Selector('*[placeholder*="Условие"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
+
+export const getValueArrow = Selector('*[placeholder*="Значение"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
 
 export const getParamSelector     = Selector('*[class*="x-boundlist-item"]');
 export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');

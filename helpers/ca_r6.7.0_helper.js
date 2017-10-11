@@ -41,25 +41,28 @@ export const delReport = async () => {
     await t.click(Selector('span.ul-btn-usual-icon-cls-remove').nth(0))
 }
 
-export const firstNestingTree = async () => {
+export const firstNestingTree = async (storeIndex) => {
+    
     var firstNesting = [1, 2, 6, 10];
     var tree         = [];
 
     var storeElCount = await Selectors.getStoreElCount.with({
             dependencies: {
-                name: Selectors.storeName
+                name: Selectors.storeName,
+                storeIndex : storeIndex
             }
         })();
 
         console.log('Всего элементов первой вложенности в store: ' + storeElCount)
 
         for (var i = 0; i < firstNesting.length; i++) {
-            tree.push({ id: firstNesting[i], selector: Selectors.getMoreTree })
+            tree.push({ id: firstNesting[i], selector: Selectors.getFirstNestingMoreTree })
 
             var elCount = await Selectors.getFirstNestElCount.with({
                 dependencies: {
                     name:  Selectors.storeName,
-                    index: firstNesting[i]
+                    index: firstNesting[i],
+                    storeIndex : storeIndex
                 }
             })();
 
@@ -68,7 +71,8 @@ export const firstNestingTree = async () => {
             var elText   = await Selectors.getFirstNestElText.with({
                 dependencies: {
                     name:  Selectors.storeName,
-                    index: firstNesting[i]
+                    index: firstNesting[i],
+                    storeIndex : storeIndex
                 }
             })();
             tree[i].text = elText
@@ -83,7 +87,8 @@ export const firstNestingTree = async () => {
                     dependencies: {
                         name:   Selectors.storeName,
                         index1: tree[i].id,
-                        index2: j
+                        index2: j,
+                        storeIndex : storeIndex
                     }
                 })();
 
@@ -91,7 +96,8 @@ export const firstNestingTree = async () => {
                     dependencies: {
                         name:   Selectors.storeName,
                         index1: tree[i].id,
-                        index2: j
+                        index2: j,
+                        storeIndex : storeIndex
                     }
                 })();
 
@@ -106,7 +112,7 @@ export const firstNestingTree = async () => {
                     tree[i].children.push({
                         id:          j,
                         text:        elText,
-                        selector:    Selectors.getMoreTree,
+                        selector:    Selectors.getFirstNestingMoreTree,
                         childsCount: childsCount
                     })
                     tree[i].children[j].children = []
@@ -117,7 +123,8 @@ export const firstNestingTree = async () => {
                                 name:   Selectors.storeName,
                                 index1: tree[i].id,
                                 index2: j,
-                                index3: z
+                                index3: z,
+                                storeIndex : storeIndex
                             }
                         })();
 

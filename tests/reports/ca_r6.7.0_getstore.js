@@ -8,14 +8,21 @@ import * as Selectors_local from '../../selectors/ca_r6.7.0_selectors.js';
 fixture `Getting Started`
     .page(test_link);
 
-test('createAllFirstNestingReports', async () => {
-        await t.setTestSpeed(1);
-        await Helper.login();
-        await Helper.addSite();
-        await t.click(Selectors.getView('Общие отчёты'))
-        await t.click(Selectors.getViewItem('Анализ трафика'))
+export const login = async () => {
+    await t.setTestSpeed(1);
+    await Helper.login();
+}
 
-        var tree = await Helper_local.firstNestingTree()
+export const enableAllColumns = async () => {
+    await Helper.enableAllColumns()
+}
+
+test('createAllFirstNestingReports', async () => {
+        await login();
+        await Helper.clickToTab('Общие отчёты', 'Анализ трафика', '');
+        await enableAllColumns();
+
+        var tree = await Helper_local.firstNestingTree(0)
 
         //Начинаем кликать по дереву
 
