@@ -178,7 +178,8 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
 // функция перебирающая все вторые измерения и фильyр по этому измерению
 export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
-               
+    var flag = false
+
                if (tree2[index1].children[index2].childsCount == 0)  // если 2 уровня вложенности
                {
                         if (tree2[index1].children[index2].disabled == false)
@@ -190,6 +191,7 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                                 await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
                             }
                             await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].children[index2].text).parent().find('img'))
+                            flag = true
                         }
                 }
                 else // если 3 уровня вложенности
@@ -200,9 +202,7 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
 
                 }
-
-
-   
+return flag   
 }
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
@@ -234,12 +234,14 @@ export const secondNestingFilters = async (tree2) => {
         for (var index2 = 0; index2 < tree2[index1].childsCount; index2++) 
             if (tree2[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
-                    let clearSecondNesting = await addSecondNesting(tree2, index1, index2, -1)
+                let clearSecondNesting = await addSecondNesting(tree2, index1, index2, -1)
                     
+                if(clearSecondNesting==true)
+                {
                     let filters = await initFilters();
-                    await filtersConditionIndexOrName(tree2[index1].children[index2].text)
-
-                    if(clearSecondNesting==true) await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                    await filtersConditionIndexOrName(filters, tree2[index1].children[index2].text)
+                    await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                }
             }
             else // если три уровня вложенности
             {
@@ -410,30 +412,27 @@ export const secondNestingFilters1 = async (tree2, menu1, menu2, tabName, storeI
 
 }
 
-test('ca_r6.8.0_allSecondNesting_report_1', async () => {
-        await login();
-        await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
-        //await enableAllColumns();
-        let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
-        await consolelogSecondNestingTree(tree2)
-        await allSecondNesting(tree2)
 
-    }
-);
+        test('ca_r6.8.0_allSecondNesting_report_1', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
 
-test('ca_r6.8.0_allSecondNesting_report_2_1', async () => {
-        await login();
-        await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
-        //await enableAllColumns();
-        let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
-        await consolelogSecondNestingTree(tree2)
-        await allSecondNesting(tree2)
-    }
-);
+            }
+        );
 
-
-
-
+        test('ca_r6.8.0_allSecondNesting_report_2_1', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
 
 
 
