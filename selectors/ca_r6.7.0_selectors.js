@@ -1,54 +1,54 @@
 import {Selector, ClientFunction} from 'testcafe';
 
 export const storeName = 'cm-drop-down-button'
-export const storeNameSecond = 'Comagic.base.reader.SecondDimension'
+export const storeNameSecond = 'Comagic.base.store.SecondDimension'
 
-export const getStoreElCount = ClientFunction((name, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.length
+export const getStoreLength = ClientFunction((name) => {
+    return Ext.getStore(name).data.length
 });
 
-export const getFirstNestElText = ClientFunction((name, index, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index].data.text
+export const getFirstNestElText = ClientFunction((name, index) => {
+    return Ext.getStore(name).data.items[index].data.text
 });
 
 export const getFirstNestExpandable = ClientFunction((name, index, storeIndex)=> {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index].data.expandable
+    return Ext.getStore(name).data.items[index].data.expandable
 });
 
 export const getFirstNestExpanded = ClientFunction((name, index, storeIndex)=> {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index].data.expanded
+    return Ext.getStore(name).data.items[index].data.expanded
 });
 
 export const getFirstNestDisabled = ClientFunction((name, index, storeIndex)=> {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index].data.disabled
+    return Ext.getStore(name).data.items[index].data.disabled
 });
 
-export const getFirstNestElCount = ClientFunction((name, index, storeIndex)=> {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index].childNodes.length
+export const getFirstNestElCount = ClientFunction((name, index)=> {
+    return Ext.getStore(name).data.items[index].childNodes.length
 });
 
 export const getSecondNestElText = ClientFunction((name, index1, index2, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index1].childNodes[index2].data.text
+    return Ext.getStore(name).data.items[index1].childNodes[index2].data.text
 });
 
 export const getSecondNestElChildCount = ClientFunction((name, index1, index2, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index1].childNodes[index2].childNodes.length
+    return Ext.getStore(name).data.items[index1].childNodes[index2].childNodes.length
 });
 
 export const getSecondNestExpandable = ClientFunction((name, index1, index2, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index1].childNodes[index2].data.expandable
+    return Ext.getStore(name).data.items[index1].childNodes[index2].data.expandable
 });
 
 export const getSecondNestExpanded = ClientFunction((name, index1, index2, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index1].childNodes[index2].data.expanded
+    return Ext.getStore(name).data.items[index1].childNodes[index2].data.expanded
 });
 
 export const getSecondNestDisabled = ClientFunction((name, index1, index2, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index1].childNodes[index2].data.disabled
+    return Ext.getStore(name).data.items[index1].childNodes[index2].data.disabled
 });
 
 export const getThirdNestElText = ClientFunction((name, index1, index2, index3, storeIndex) => {
-    return Ext.ComponentQuery.query(name)[storeIndex].store.data.items[index1].childNodes[index2].childNodes[index3].data.text
+    return Ext.getStore(name).data.items[index1].childNodes[index2].childNodes[index3].data.text
 });
 
 export const getAddSite        = Selector('*[class*="x-form-trigger x-form-trigger-cm-siteselector cm-siteselector-add cm-siteselector-add-cm-siteselector"]').nth(0);
@@ -73,7 +73,8 @@ export const getReportTab      = Selector('a[data-boundview*="cm-editabletabbar"
 export const getReportCount    = ClientFunction(() => document.querySelectorAll('a[data-boundview*="cm-editabletabbar"]').length)
 export const getPencil         = Selector('*[id*="ul-editabledisplayfield"][id*=trigger1]')
 export const getReportInput    = Selector('*[id*="ul-editabledisplayfield"][id*=inputEl]')
-export const add2Report        = Selector('*[id*="cm-drop-down-button"][id*="btnIconEl"]')
+
+export const add2Report        = Selector('*[id*="cm-drop-down-button"][id*="btnInnerEl"]').withText('Добавить измерение');
 
 export const getMoreTree              = 'img.x-tree-expander:not([role="presentation"])';
 
