@@ -13,13 +13,13 @@ fixture `Getting Started`
 
 // логин на страницу
 export const login = async () => {
-	await t.setTestSpeed(1);
-	await Helper.login();
+    await t.setTestSpeed(1);
+    await Helper.login();
 }
 
 // включаем все колонки отчета
 export const enableAllColumns = async () => {
-	await Helper.enableAllColumns()
+    await Helper.enableAllColumns()
 }
 
 // инициализация фильтров
@@ -53,22 +53,22 @@ export const initFilters = async () => {
         }
     }
 
-	var filters = await Selectors_local2.readFilters(Selectors_local2.storeName, index, menu2)
+    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName, index, menu2)
 
     console.log(filters)
 
-	return filters;
+    return filters;
 }
 
 // выбрать фильтр по индексу или по названию и перебрать все его условия
 export const filtersConditionIndexOrName = async (filters, value) => {
-	await Helper.filtersConditionIndexOrName(filters, value)
+    await Helper.filtersConditionIndexOrName(filters, value)
 }
 
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
 export const clickAllFilters = async (filters) => {
     for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
-    	await Helper.filtersWhatToDo(filters, filterIndex)
+        await Helper.filtersWhatToDo(filters, filterIndex)
 }
 
 // выбираем вкладку, в зависимости от отчета
@@ -92,7 +92,7 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
     await t.click(Selectors_local.add2Report)
 
     // считываем индексы стора для второго измерения
- 	let secondNesting = secondNestingTree(menu2)
+    let secondNesting = secondNestingTree(menu2)
 
     // количество элементов первой вложенности в store
     let storeName = Selectors_local.storeNameSecond
@@ -106,16 +106,16 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
     for (var index1 = 0; index1 < secondNesting.length; index1++) {
         switch (menu2)
         {
-	        case 'Анализ трафика': 
-	        {
-	            tree2.push({ index: secondNesting[index1], selector: Selectors_local.getSecondNestingMoreTree })
-	            break;
-	        }
-	        default: 
-	        {
-	            tree2.push({ index: secondNesting[index1], selector: Selectors_local.getMoreTree})
-	            break;
-	        }
+            case 'Анализ трафика': 
+            {
+                tree2.push({ index: secondNesting[index1], selector: Selectors_local.getSecondNestingMoreTree })
+                break;
+            }
+            default: 
+            {
+                tree2.push({ index: secondNesting[index1], selector: Selectors_local.getMoreTree})
+                break;
+            }
         }
 
         tree2[index1].childsCount = await Selectors_local.getFirstNestElCount(storeName, secondNesting[index1])
@@ -125,7 +125,7 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
         tree2[index1].text        = await Selectors_local.getFirstNestElText(storeName, secondNesting[index1])
     }
 
-	// Записываем селекторы второй вложенности
+    // Записываем селекторы второй вложенности
     for (var index1 = 0; index1 < tree2.length; index1++) {
 
         tree2[index1].children = []
@@ -172,7 +172,7 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
         
     }
 
-	return tree2
+    return tree2
 }
 
 // функция перебирающая все вторые измерения и фильyр по этому измерению
@@ -264,26 +264,26 @@ export const secondNestingFilters1 = async (tree2, menu1, menu2, tabName, storeI
         let amendment
 
         switch (menu2) {
-	        case '': {
-	            break;
-	        }
-	        case 'Сквозная аналитика': {
-	            amendment = 0
-	            break;
-	        }
-	        case 'Аудитория': {
-	            amendment = 0
-	            break;
-	        }
-	        case 'Содержание': {
-	            amendment = 0
-	            break;
-	        }
-	        default: {
-	        	amendment = 1
-	            break;
-	        }
-      	}
+            case '': {
+                break;
+            }
+            case 'Сквозная аналитика': {
+                amendment = 0
+                break;
+            }
+            case 'Аудитория': {
+                amendment = 0
+                break;
+            }
+            case 'Содержание': {
+                amendment = 0
+                break;
+            }
+            default: {
+                amendment = 1
+                break;
+            }
+        }
 
         for (var i = 0; i < tree2.length; i++) {
             for (var j = 0; j < tree2[i].childsCount; j++) {
@@ -412,79 +412,25 @@ export const secondNestingFilters1 = async (tree2, menu1, menu2, tabName, storeI
 
 }
 
-test('ca_r6.8.0_secondNestingFilters_report_1', async () => {
-   		await login();
-		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
-		//await enableAllColumns();
-		let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
-		await consolelogSecondNestingTree(tree2)
-        await secondNestingFilters(tree2)
 
-    }
-);
+        test('ca_r6.8.0_allSecondNesting_report_1', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
 
+            }
+        );
 
-test('ca_r6.8.0_secondNestingFilters_report_2_1', async () => {
-        await login();
-        await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
-        //await enableAllColumns();
-        let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
-        await consolelogSecondNestingTree(tree2)
-        await secondNestingFilters(tree2)
-    }
-);
-
-
-test('ca_r6.8.0_secondNestingFilters_report_2_2', async () => {
-
-        await login();
-
-        await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Источники')
-
-    }
-);
-
-
-test('ca_r6.8.0_secondNestingFilters_report_2_3', async () => {
-
-        await login();
-
-        await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Каналы')
-
-    }
-);
-
-test('ca_r6.8.0_secondNestingFilters_report_3_1', async () => {
-        // await login();
-        // await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
-        // //await enableAllColumns();
-        // let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
-        // await consolelogSecondNestingTree(tree2)
-        // await secondNestingFilters(tree2)
-    }
-);
-
-
-test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
-
-        await login();
-
-        await secondNestingFilters('Общие отчёты', 'Аудитория', 'Список всех посетителей')
-
-    }
-);
-
-test('ca_r6.8.0_secondNestingFilters_report_4_2', async () => {
-
-        await login();
-
-        await secondNestingFilters('Общие отчёты', 'Содержание', 'Входные страницы', 0)
-
-    }
-);
-
-
-
-
-
+        test('ca_r6.8.0_allSecondNesting_report_2_1', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
 
