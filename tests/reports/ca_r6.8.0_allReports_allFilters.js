@@ -11,16 +11,18 @@ var dateFormat = require('dateformat');
 fixture `Getting Started`
     .page(test_link);
 
-
+// логин на страницу
 export const login = async () => {
 	await t.setTestSpeed(1);
 	await Helper.login();
 }
 
+// включаем все колонки отчета
 export const enableAllColumns = async () => {
 	await Helper.enableAllColumns()
 }
 
+// инициализация фильтров
 export const initFilters = async (menu2) => {
 
     var tree = [];   
@@ -57,30 +59,34 @@ export const initFilters = async (menu2) => {
 	return filters;
 }
 
+// выбрать фильтр по индексу или по названию и перебрать все его условия
 export const filtersConditionIndexOrName = async (filters, value) => {
 	await Helper.filtersConditionIndexOrName(filters, value)
 }
 
+// перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
 export const clickAllFilters = async (filters) => {
     for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
     	await Helper.filtersWhatToDo(filters, filterIndex)
 }
 
+// выбираем вкладку, в зависимости от отчета
 export const clickToTab = async (menu1, menu2, tabName) => {
     await Helper.clickToTab(menu1, menu2, tabName);
 }
 
-test('ca_r6.8.0_filterIndexAndName', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
-		await enableAllColumns();
-        let filters = await initFilters('Сквозная аналитика');
-        await filtersConditionIndexOrName(filters, 0);
-        await filtersConditionIndexOrName(filters, 'CTR');
-    }
-);
+        // выбрать фильтр по индексу и выбрать фильтр по названию
+        test('ca_r6.8.0_filterIndexAndName', async () => {
+                await login();
+        		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+        		await enableAllColumns();
+                let filters = await initFilters('Сквозная аналитика');
+                await filtersConditionIndexOrName(filters, 0);
+                await filtersConditionIndexOrName(filters, 'CTR');
+            }
+        );
 
-
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_1', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
@@ -90,6 +96,7 @@ test('ca_r6.8.0_allFilters_report_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_2_1', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
@@ -99,6 +106,7 @@ test('ca_r6.8.0_allFilters_report_2_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_2_2', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Анализ трафика', 'Источники');
@@ -108,6 +116,7 @@ test('ca_r6.8.0_allFilters_report_2_2', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_2_3', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Анализ трафика', 'Каналы');
@@ -117,6 +126,7 @@ test('ca_r6.8.0_allFilters_report_2_3', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_3_1', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
@@ -125,6 +135,7 @@ test('ca_r6.8.0_allFilters_report_3_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_3_2', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Аудитория', 'Список всех посетителей');
@@ -133,6 +144,7 @@ test('ca_r6.8.0_allFilters_report_3_2', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_4_1', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Содержание', 'Все страницы сайта');
@@ -141,6 +153,7 @@ test('ca_r6.8.0_allFilters_report_4_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_4_2', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы');
@@ -149,6 +162,7 @@ test('ca_r6.8.0_allFilters_report_4_2', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_5', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Обращения по сотрудникам',  'Статистика');
@@ -157,6 +171,7 @@ test('ca_r6.8.0_allFilters_report_5', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_1', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Распределение входящих звонков', 'По номерам ВАТС');
@@ -165,6 +180,7 @@ test('ca_r6.8.0_allFilters_report_6_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_2', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Распределение входящих звонков', 'По сотрудникам');
@@ -173,6 +189,7 @@ test('ca_r6.8.0_allFilters_report_6_2', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_3', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Распределение входящих звонков', 'По сценариям');
@@ -181,6 +198,27 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
     }
 );
 
+        // выбрать фильтр по индексу и выбрать фильтр по названию
+        test('ca_r6.8.0_filterIndexAndName_2', async () => {
+                await login();
+                await clickToTab('Список обращений', 'Звонки', 'По сайтам');
+                await enableAllColumns();
+                let filters = await initFilters('Звонки');
+                await filtersConditionIndexOrName(filters, 'Номер абонента');
+            }
+        );
+
+                // выбрать фильтр по индексу и выбрать фильтр по названию
+        test('ca_r6.8.0_filterIndexAndName_3', async () => {
+                await login();
+                await clickToTab('Список обращений', 'Звонки', 'По сайтам');
+                await enableAllColumns();
+                let filters = await initFilters('Звонки');
+                await filtersConditionIndexOrName(filters, 'Трансфер');
+            }
+        );
+
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_1', async () => {
         await login();
 		await clickToTab('Список обращений', 'Звонки', 'По сайтам');
@@ -190,6 +228,7 @@ test('ca_r6.8.0_allFilters_report_7_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_2', async () => {
         await login();
 		await clickToTab('Список обращений', 'Звонки', 'Все звонки');
@@ -199,6 +238,7 @@ test('ca_r6.8.0_allFilters_report_7_2', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_3', async () => {
         await login();
 		await clickToTab('Список обращений', 'Звонки', 'Входящие');
@@ -208,6 +248,7 @@ test('ca_r6.8.0_allFilters_report_7_3', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_4', async () => {
         await login();
 		await clickToTab('Список обращений', 'Звонки', 'Исходящие');
@@ -217,6 +258,7 @@ test('ca_r6.8.0_allFilters_report_7_4', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_8', async () => {
         await login();
 		await clickToTab('Список обращений', 'Чаты', 'Чаты');
@@ -226,7 +268,7 @@ test('ca_r6.8.0_allFilters_report_8', async () => {
     }
 );
 
-
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_9', async () => {
         await login();
 		await clickToTab('Список обращений', 'Заявки', '');
@@ -236,7 +278,7 @@ test('ca_r6.8.0_allFilters_report_9', async () => {
     }
 );
 
-
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_10', async () => {
         await login();
 		await clickToTab('Список обращений', 'Цели', '');
@@ -246,6 +288,7 @@ test('ca_r6.8.0_allFilters_report_10', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_11_1', async () => {
         await login();
 		await clickToTab('Список сделок', '', 'Дата обращения');
@@ -255,6 +298,7 @@ test('ca_r6.8.0_allFilters_report_11_1', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_11_2', async () => {
         await login();
 		await clickToTab('Список сделок', '', 'Дата сделки');
@@ -264,6 +308,7 @@ test('ca_r6.8.0_allFilters_report_11_2', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_12', async () => {
         await login();
 		await clickToTab('Служебные', 'Запросы к API', '');
@@ -273,31 +318,12 @@ test('ca_r6.8.0_allFilters_report_12', async () => {
     }
 );
 
+// перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_13', async () => {
         await login();
 		await clickToTab('Служебные', 'Уведомления', '');
         await enableAllColumns();
         let filters = await initFilters('Уведомления');
         await clickAllFilters(filters);
-    }
-);
-
-
-export const clickToAccount = async () => {
-        await t.click(Selectors_local2.getAccountArrow)
-        await t.click(Selectors_local2.getAccountItem)
-}
-
-
-test('ca_r6.8.0_allFilters_report_14', async () => {
-        await login();
-        await clickToAccount();
-
-
-
-        ////////////////////////////////////////////////////////
-        ////////////////// ОШИБКА НА СТЕНДЕ ////////////////////
-        ////////////////////////////////////////////////////////
-
     }
 );

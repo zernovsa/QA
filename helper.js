@@ -57,6 +57,12 @@ export const clickToTab = async (menu1, menu2, tabName) => {
         }
 }
 
+export const clickToAccountTab = async (menu, tabName) => {
+    await t.click(Selectors.getView(menu))
+    await Helper_local.clickToTabName(tabName)
+
+}
+
 // включаем все колонки отчета
 export const enableAllColumns = async () => {
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить столбцы');
@@ -287,6 +293,8 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         let getValueArrow = await Selectors_local2.getValueArrow()
                         await t.click(getValueArrow)
 
+                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
+
                         await t.click(Selectors_local2.getValueButtonSelector)
                         await t.click(Selectors_local2.getApplyButtonSelector)
 
@@ -313,7 +321,7 @@ export const filtersConditionIndexOrName = async (filters, value) => {
         }
         case 'string': { // если передали название  фильтра
             for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
-                if (filters[filterIndex].data.name = value) 
+                if (filters[filterIndex].data.name == value) 
                 {
                     await filtersWhatToDo(filters, filterIndex)
 

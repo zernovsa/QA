@@ -383,10 +383,7 @@ test('ca_r6.8.0_secondNestingFilters_report_1', async () => {
 
 
 test('ca_r6.8.0_secondNestingFilters_report_2_1', async () => {
-
-        await t.setTestSpeed(1);
-        await Helper.login();
-
+        await login();
         await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
 
     }
@@ -395,8 +392,7 @@ test('ca_r6.8.0_secondNestingFilters_report_2_1', async () => {
 
 test('ca_r6.8.0_secondNestingFilters_report_2_2', async () => {
 
-        await t.setTestSpeed(1);
-        await Helper.login();
+        await login();
 
         await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Источники')
 
@@ -406,8 +402,7 @@ test('ca_r6.8.0_secondNestingFilters_report_2_2', async () => {
 
 test('ca_r6.8.0_secondNestingFilters_report_2_3', async () => {
 
-        await t.setTestSpeed(1);
-        await Helper.login();
+        await login();
 
         await secondNestingFilters('Общие отчёты', 'Анализ трафика', 'Каналы')
 
@@ -415,9 +410,7 @@ test('ca_r6.8.0_secondNestingFilters_report_2_3', async () => {
 );
 
 test('ca_r6.8.0_secondNestingFilters_report_3_1', async () => {
-
-        await t.setTestSpeed(1);
-        await Helper.login();
+        await login();
 
         await secondNestingFilters('Общие отчёты', 'Аудитория', 'Информация по сегментам')
 
@@ -427,8 +420,7 @@ test('ca_r6.8.0_secondNestingFilters_report_3_1', async () => {
 
 test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
 
-        await t.setTestSpeed(1);
-        await Helper.login();
+        await login();
 
         await secondNestingFilters('Общие отчёты', 'Аудитория', 'Список всех посетителей')
 
@@ -437,8 +429,7 @@ test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
 
 test('ca_r6.8.0_secondNestingFilters_report_4_2', async () => {
 
-        await t.setTestSpeed(1);
-        await Helper.login();
+        await login();
 
         await secondNestingFilters('Общие отчёты', 'Содержание', 'Входные страницы', 0)
 

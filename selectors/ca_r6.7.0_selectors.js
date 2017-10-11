@@ -76,5 +76,7 @@ export const getReportInput    = Selector('*[id*="ul-editabledisplayfield"][id*=
 export const add2Report        = Selector('*[id*="cm-drop-down-button"][id*="btnIconEl"]')
 
 export const getMoreTree              = 'img.x-tree-expander:not([role="presentation"])';
+
+// Для анализа трафика (второе измерение и первое измерение НОВОГО отчета! (не редактирование))
 export const getFirstNestingMoreTree  = 'div[class*="x-panel x-autowidth-table x-grid-header-hidden x-layer x-panel-ul x-tree-panel x-tree-lines x-grid x-border-box ul-shadow ul-floating"] div[class*="x-toolbar cm-editable-tabbar-addbtn-menu x-docked x-toolbar-ul x-docked-top x-toolbar-docked-top x-toolbar-ul-docked-top x-box-layout-ct"] ~ div ~ div img.x-tree-expander:not([role="presentation"])'
 export const getSecondNestingMoreTree = 'div[class*="x-panel x-autowidth-table x-grid-header-hidden x-layer x-panel-ul x-tree-panel x-tree-lines x-grid x-border-box ul-shadow ul-floating"] ~ div:not([class*="x-toolbar cm-editable-tabbar-addbtn-menu x-docked x-toolbar-ul x-docked-top x-toolbar-docked-top x-toolbar-ul-docked-top x-box-layout-ct"]) img.x-tree-expander:not([role="presentation"])'
