@@ -175,6 +175,12 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
 	return tree2
 }
 
+import escapeRegExp from 'lodash/escapeRegExp';
+
+function getWholeTextRe(text) {
+    return new RegExp(`^${escapeRegExp(text)}$`);
+}
+
 // функция перебирающая все вторые измерения и фильyр по этому измерению
 export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
@@ -190,7 +196,8 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                             {
                                 await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
                             }
-                            await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].children[index2].text).parent().find('img'))
+                            let a = getWholeTextRe(tree2[index1].children[index2].text)
+                            await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                             flag = true
                         }
                 }
