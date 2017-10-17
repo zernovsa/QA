@@ -331,3 +331,40 @@ export const filtersConditionIndexOrName = async (filters, value) => {
     }
 
 }
+
+// инициализация фильтров
+export const initFilters = async (menu2) => {
+
+    var tree = [];   
+
+    await t.click(Selectors_local2.getAddFilter)
+    await t.wait(1000)
+
+    var storeElCount = await Selectors_local2.getStoreEl(Selectors_local2.storeName)
+
+    var filtersCount = await Selectors_local2.getFiltersCount(Selectors_local2.storeName, storeElCount - 1)
+
+    console.log('Количество фильтров в отчете: ' + filtersCount)
+
+    var index
+    switch (menu2) {
+        case 'Звонки': {
+            index = 0;
+            break;
+        }
+        case 'Запросы к API': {
+            index = 0;
+            break;
+        }
+        default: {
+            index = storeElCount - 1;
+            break;
+        }
+    }
+
+    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName, index, menu2)
+
+    console.log(filters)
+
+    return filters;
+}
