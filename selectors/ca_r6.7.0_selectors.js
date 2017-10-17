@@ -1,6 +1,7 @@
 import {Selector, ClientFunction} from 'testcafe';
 
 export const storeName = 'cm-drop-down-button'
+export const storeNameFirst = 'Comagic.base.store.SecondDimension'
 export const storeNameSecond = 'Comagic.base.store.SecondDimension'
 
 export const getStoreLength = ClientFunction((name) => {
