@@ -122,31 +122,30 @@ test('ca_r6.8.0_secondNestingFilters_report_2_3', async () => {
 );
 
 test('ca_r6.8.0_secondNestingFilters_report_3_1', async () => {
-        // await login();
-        // await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
-        // //await enableAllColumns();
-        // let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
-        // await consolelogSecondNestingTree(tree2)
-        // await secondNestingFilters(tree2)
+        await login();
+        await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам')
+        let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
+        await consolelogSecondNestingTree(tree2)
+        await secondNestingFilters(tree2)
     }
 );
 
 
 test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
-
         await login();
-
-        await secondNestingFilters('Общие отчёты', 'Аудитория', 'Список всех посетителей')
-
+        await clickToTab('Общие отчёты', 'Аудитория', 'Список всех посетителей')
+        let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Список всех посетителей')
+        await consolelogSecondNestingTree(tree2)
+        await secondNestingFilters(tree2)
     }
 );
 
 test('ca_r6.8.0_secondNestingFilters_report_4_2', async () => {
-
         await login();
-
-        await secondNestingFilters('Общие отчёты', 'Содержание', 'Входные страницы', 0)
-
+        await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы')
+        let tree2 = await initSecondNestingTree('Общие отчёты', 'Содержание', 'Входные страницы')
+        await consolelogSecondNestingTree(tree2)
+        await secondNestingFilters(tree2)
     }
 );
 
