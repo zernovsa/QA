@@ -56,7 +56,7 @@ export const clickToTab = async (menu1, menu2, tabName) => {
         );
 
 // перебрать все фильтры отчета
-test, async () => {
+test('ca_r6.8.0_allFilters_report_1', async () => {
         await login();
 		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
 		await enableAllColumns();
