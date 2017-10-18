@@ -38,7 +38,7 @@ export const addReport = async () => {
     }
 }
 
-export const addReportWithName = async () => {
+export const addReportWithName = async (name) => {
     const reportCount = await Selectors_local.getReportCount()
     if (reportCount < 15) {
         await t
@@ -47,7 +47,7 @@ export const addReportWithName = async () => {
             .wait(1000)
             .pressKey('delete')
             .wait(1000)
-            .typeText(Selectors_local.getReportInput, 'Report-'+Helper.getRandomInt(10000,99999))
+            .typeText(Selectors_local.getReportInput, name)
             .wait(1000)
             .click(Selectors_local.getPencil)
             .wait(1000)
@@ -72,13 +72,12 @@ export const consolelogFirstNestingTree = async (tree) => {
     }
 }
 
-//инициализация дерева второго измерения
+//инициализация дерева первого измерения
 export const initFirstNestingTree = async ( ) => {
 
     await addReport();
-    let tree = []
-
-    // считываем индексы стора для второго измерения
+   
+    // считываем индексы стора для первого измерения
     let firstNesting = firstNestingTree()
 
     // количество элементов первой вложенности в store
@@ -87,42 +86,130 @@ export const initFirstNestingTree = async ( ) => {
     console.log('Всего элементов первой вложенности в store: ' + storeElCount)
 
 
+    let tree = []
+
+    // Записываем селекторы первой вложенности
+    for (var index1 = 0; index1 < firstNesting.length; index1++) {
+        
+        tree.push({ index: firstNesting[index1], selector: Selectors_local.getMoreTree })
+                
+        tree[index1].childsCount = await Selectors_local.getFirstNestElCount(storeName, firstNesting[index1])
+        tree[index1].disabled    = await Selectors_local.getFirstNestDisabled(storeName, firstNesting[index1])
+        tree[index1].expandable  = await Selectors_local.getFirstNestExpandable(storeName, firstNesting[index1])
+        tree[index1].expanded    = await Selectors_local.getFirstNestExpanded(storeName, firstNesting[index1])
+        tree[index1].text        = await Selectors_local.getFirstNestElText(storeName, firstNesting[index1])
+    }
 
 
+    // Записываем селекторы второй вложенности
+    for (var index1 = 0; index1 < tree.length; index1++) {
 
+        tree[index1].children = []
+
+        for (var j = 0; j < tree[index1].childsCount; j++) {
+            
+            //выбираем селектор второй вложенности в зависимости от наличия потомков
+            var selector
+            var childsCount = await Selectors_local.getSecondNestElChildCount(storeName, tree[index1].index, j)
+            
+            if (childsCount == 0) selector = Selectors_local.getSubChildItem
+                else selector = Selectors_local.getSecondNestingMoreTree
+            
+            var elText = await Selectors_local.getSecondNestElText(storeName, tree[index1].index, j)
+            var expandable = await Selectors_local.getSecondNestExpandable(storeName, tree[index1].index, j)
+            var expanded = await Selectors_local.getSecondNestExpanded(storeName, tree[index1].index, j)
+            var disabled = await Selectors_local.getSecondNestDisabled(storeName, tree[index1].index, j)
+
+            tree[index1].children.push(
+            {
+                index:       j,
+                text:        elText,
+                selector:    selector,
+                childsCount: childsCount,
+                expandable:  expandable,
+                expanded:    expanded,
+                disabled:    disabled
+            })
+
+                // Записываем селекторы третей вложенности
+                tree[index1].children[j].children = []
+
+                for (var z = 0; z < tree[index1].children[j].childsCount; z++) {
+
+                    var elText = await Selectors_local.getThirdNestElText(storeName, tree[index1].index, j, z)
+
+                    tree[index1].children[j].children.push({
+                        index:    z,
+                        text:     elText,
+                        selector: Selectors_local.getSubChildItem
+                    })
+                }
+            }
+        
+    }
 
     consolelogFirstNestingTree(tree)
     return tree
 }
 
+// чтобы выбрать не включение подстроки, а конкретную строку дерева
+import escapeRegExp from 'lodash/escapeRegExp';
+
+function getWholeTextRe(text) {
+    return new RegExp(`^${escapeRegExp(text)}$`);
+}
 
 // функция перебирающая все вторые измерения и фильyр по этому измерению
 export const addFirstNesting = async (tree, index1, index2, index3) => {
-    await addReportWithName();
+    var flag = false
+
+               if (tree[index1].children[index2].childsCount == 0)  // если 2 уровня вложенности
+               {
+                            await addReportWithName(tree[index1].text+'/'+tree[index1].children[index2].text);
+                                              
+                            if (tree[index1].expanded == false)
+                            {
+                                await t.click(Selector('*[class*="x-tree-node-text"').withText(tree[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+                            }
+                            let a = getWholeTextRe(tree[index1].children[index2].text)
+                            await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
+                            flag = true
+                }
+                else // если 3 уровня вложенности
+                {
+
+                    await addReportWithName(tree[index1].text+'/'+tree[index1].children[index2].text+'/'+tree[index1].children[index2].children[index3].text);
 
 
 
-
-
-
-
-
+                }
+    return flag   
 }
 
+
+
 export const allFirstNesting = async (tree) => {
-    
-    
-   
+     for (var index1 = 0; index1 < tree.length; index1++) 
+        for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
+         {
+            if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
+            {
+                console.log ('click ' +tree[index1].text +' / '+tree[index1].children[index2].text)
+                    let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
+                    //if(clearSecondNesting==true) await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                    await delReport();
+            }
+            else // если три уровня вложенности
+            {
+                for (var index3 = 0; index3 < tree[index1].children[index2].childsCount; index3++) 
+                {
+                    console.log ('click ' +tree[index1].text +' / '+tree[index1].children[index2].text + '/' + tree[index1].children[index2].childrem[index3].text )
+                    console.log(index1 +' '+index2 +' '+index3)
+                }
 
-
-    let index1, index2, index3
-    await  addFirstNesting(tree, index1, index2, index3)
-
-
-
-
-
-    await delReport();
+            }
+            
+        }
 }
 
 
