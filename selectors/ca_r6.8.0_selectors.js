@@ -1,149 +1,73 @@
-import {Selector, ClientFunction} from 'testcafe';
+import {t, Selector, ClientFunction} from 'testcafe';
 
-export const storeName = 'cm-menu';
+export const storeName = 'cm-filter2panel'; 
 
 export const getAddFilter = Selector('*[class*="cm-filter2panel"]').nth(0);
 
-export const getStoreEl = ClientFunction((name) => {
-    return Ext.ComponentQuery.query(name).length
+export const getFiltersCount = ClientFunction(() => {
+    return Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.length
 });
 
+export const getFiltersItem = ClientFunction((index) => {
 
-export const getFiltersCount = ClientFunction((name, index) => {
-    return Ext.ComponentQuery.query(name)[index].items.items[0].filterListStore.data.items.length
+    let item = {
+        id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].id,
+        data_id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.id,
+        name: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.name,
+        type: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.type,
+        valueElData: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.valueElData
+    };
+
+    return item
 });
 
-
-export const readFilters = ClientFunction((storeName, index, report ) => {
+export const readFilters = async (storeName, report) => {
     let list  = []
-    let count = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items.length
 
+    //количество фильтров в store
+    var count = await getFiltersCount()
+
+    //считываем все фильтры в объект
     for (let i = 0; i < count; i++) {
-        let id = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].id
-
-        let data_id = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.id
-        let name    = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.name
-        let type    = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.type
-
-        let valueElData = []
-
-        switch (type) {
-            case 'array': {
-                let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
-                for (let j = 0; j < valueElDataCount; j++) {
-
-                    let valueElDataId   = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
-                    let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-
-                    valueElData.push(
-                        {
-                            id:   valueElDataId,
-                            data: valueElDataData
-                        }
-                    )
-                }
-
-                break;
-            }
-            case 'list': {
-                switch (report) {
-                    case 'Звонки': {
-                        let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
-                        for (let j = 0; j < valueElDataCount; j++) {
-
-                            let valueElDataId   = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
-                            let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-
-                            valueElData.push(
-                                {
-                                    id:   valueElDataId,
-                                    data: valueElDataData
-                                }
-                            )
-
-                        }
-                        break;
-                    }
-                    case 'Запросы к API': {
-                        // let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
-                        // for (let j = 0; j < valueElDataCount; j++) 
-                        // {
-
-                        //     let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
-                        //     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-
-                        //     valueElData.push(
-                        //         {
-                        //             id: valueElDataId,
-                        //             data: valueElDataData
-                        //         }
-                        //     )
-
-                        // }
-                        break;
-                    }
-                    case 'Уведомления': {
-                        // let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.length
-                        // for (let j = 0; j < valueElDataCount; j++) 
-                        // {
-
-                        //     let valueElDataId = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].id
-                        //     let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData[j].data
-
-                        //     valueElData.push(
-                        //         {
-                        //             id: valueElDataId,
-                        //             data: valueElDataData
-                        //         }
-                        //     )
-
-                        // }
-                        break;
-                    }
-                    default : {
-                        let valueElDataCount = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data.length
-                        for (let j = 0; j < valueElDataCount; j++) {
-
-                            let valueElDataId   = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].id
-                            let valueElDataData = Ext.ComponentQuery.query(storeName)[index].items.items[0].filterListStore.data.items[i].data.valueElData.data[j].data
-
-                            valueElData.push(
-                                {
-                                    id:   valueElDataId,
-                                    data: valueElDataData
-                                }
-                            )
-
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-            default: {
-
-
-                break;
-            }
-        }
+        
+        let item = await getFiltersItem(i)
 
         list.push(
             {
                 el: i,
-                id: id,
+                id: item.id,
                 data:
                     {
-                        id:          data_id,
-                        name:        name,
-                        type:        type,
-                        valueElData: valueElData
+                        id:          item.id,
+                        name:        item.name,
+                        type:        item.type,
+                        valueElData: item.valueElData
                     }
             }
         )
     }
 
+    //сортируем по названию фильтра
+    list.sort(function (a, b) {
+      if (a.data.name > b.data.name) {
+        return 1;
+      }
+      if (a.data.name < b.data.name) {
+        return -1;
+      }
+      // a должно быть равным b
+      return 0;
+    });
+
+    // переписываем индексы фильтров
+    for (let i = 0; i < list.length; i++) {
+        list[i].el=i
+    }
+
+    console.log(list)
+    
     return list
-});
+};
 
 export const getArrowCount = ClientFunction(() => document.querySelectorAll('*[class*="x-form-arrow-trigger x-form-arrow-trigger-ul"]').length);
 

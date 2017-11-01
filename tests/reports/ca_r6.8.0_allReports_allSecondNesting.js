@@ -146,14 +146,3 @@ export const secondNestingFilters = async (tree2) => {
             }
         );
 
-
-        test('ca_r6.8.0_allSecondNesting_report_2_3', async () => {
-                await login();
-                await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
-                //await enableAllColumns();
-                let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
-                // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
-            }
-        );
-

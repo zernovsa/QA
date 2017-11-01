@@ -136,27 +136,32 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     await t.click(Selectors_local2.getAddFilter)
                     await t.wait(1000)
 
+                    //значение фильтра
                     let value = getRandomInt(1, 999);
-                    let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: integer' + ' conditionIndex:' +
-                                conditionIndex + ' value: ' + value
-                    console.log(text)
 
+                    console.log ('FILTER'.green +' text: ' + filters[filterIndex].data.name.green + ' type: '+ filters[filterIndex].data.type.green + ' conditionIndex:' + conditionIndex + ' value: ' + value)
+                    console.log (filters.length)
+                    
+                    //кликаем на стрелку параметров
                     let getParamArrow = await Selectors_local2.getParamArrow()
                     await t.click(getParamArrow)
+                    //выбираем нужный параметр
                     await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
-
+                    //кликаем на стрелку условий
                     let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                     await t.click(getСonditionArrow)
+                    //кликаем на условие 
                     await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
+                    //кликаем на поле значение
                     await t.click(Selectors_local2.getValueNumberSelector)
+                    //вводим значение 
                     await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
-
+                    //кликаем применить
                     await t.click(Selectors_local2.getValueButtonSelector)
+                    //кликаем применить
                     await t.click(Selectors_local2.getApplyButtonSelector)
-
-                    await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
-
+                    //кликаем отменить
                     await t.click(Selectors_local2.getCancelButtonSelector)
                 }
                 break;
@@ -342,30 +347,11 @@ export const initFilters = async (menu2) => {
     await t.click(Selectors_local2.getAddFilter)
     await t.wait(1000)
 
-    var storeElCount = await Selectors_local2.getStoreEl(Selectors_local2.storeName)
-    var filtersCount = await Selectors_local2.getFiltersCount(Selectors_local2.storeName, storeElCount - 1)
+    var filtersCount = await Selectors_local2.getFiltersCount()
 
     console.log('Количество фильтров в отчете: ' + filtersCount)
 
-    var index
-    switch (menu2) {
-        case 'Звонки': {
-            index = 0;
-            break;
-        }
-        case 'Запросы к API': {
-            index = 0;
-            break;
-        }
-        default: {
-            index = storeElCount - 1;
-            break;
-        }
-    }
-
-    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName, index, menu2)
-
-    console.log(filters)
+    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName, menu2)
 
     return filters;
 }
@@ -422,11 +408,11 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                             let a = getWholeTextRe(tree2[index1].children[index2].children[index3].text)
                             await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                             flag = true
-                            colorLog('TEST PASSED: '.green + tree2[index1].children[index2].children[index3].text, 'green')
+                            console.log('TEST PASSED: '.green + tree2[index1].children[index2].children[index3].text)
                         } 
                         catch(err) 
                         {
-                            colorLog('TEST FAILED: '.red + tree2[index1].children[index2].children[index3].text, 'red')
+                            console.log('TEST FAILED: '.red + tree2[index1].children[index2].children[index3].text)
                         }
                     }
                 }
@@ -445,7 +431,7 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
     // количество элементов первой вложенности в store
     let storeName = Selectors_local.storeNameSecond
     let storeElCount = await Selectors_local.getStoreLength(storeName);
-    console.log('Всего элементов первой вложенности в store: ' + storeElCount)
+    // console.log('Всего элементов первой вложенности в store: ' + storeElCount)
 
     // обяъвляем объект дерева
     var tree2 = [];
