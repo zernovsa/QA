@@ -95,3 +95,65 @@ export const secondNestingFilters = async (tree2) => {
             }
         );
 
+        test('ca_r6.8.0_allSecondNesting_report_2_2', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Анализ трафика', 'Источники');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Источники')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
+
+        test('ca_r6.8.0_allSecondNesting_report_2_3', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Анализ трафика', 'Каналы');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
+
+
+        test('ca_r6.8.0_allSecondNesting_report_3_1', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
+
+        test('ca_r6.8.0_allSecondNesting_report_3_2', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Список всех посетителей')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
+
+        test('ca_r6.8.0_allSecondNesting_report_4_2', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Содержание', 'Входные страницы')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
+
+
+        test('ca_r6.8.0_allSecondNesting_report_2_3', async () => {
+                await login();
+                await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
+                //await enableAllColumns();
+                let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
+                await consolelogSecondNestingTree(tree2)
+                await allSecondNesting(tree2)
+            }
+        );
+

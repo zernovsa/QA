@@ -399,11 +399,23 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                 }
                 else // если 3 уровня вложенности
                 {
+                    if (tree2[index1].children[index2].disabled == false)
+                    {
+                        await t.click(Selectors_local.add2Report)
 
+                        if (tree2[index1].expanded == false)
+                        {
+                            await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+                        }
 
-
-
-
+                        if (tree2[index1].children[index2].expanded == false)
+                        {
+                            await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].children[index2].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+                        }
+                        let a = getWholeTextRe(tree2[index1].children[index2].children[index3].text)
+                        await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
+                        flag = true
+                    }
                 }
 return flag   
 }
@@ -506,13 +518,22 @@ export const allSecondNesting = async (tree2) => {
             if (tree2[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
                     let clearSecondNesting = await addSecondNesting(tree2, index1, index2, -1)
-                    if(clearSecondNesting==true) await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                    if(clearSecondNesting==true) 
+                        {
+                            await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                            await console.log(index1 + ' ' + index2)
+                         }
             }
             else // если три уровня вложенности
             {
                 for (var index3 = 0; index3 < tree2[index1].children[index2].childsCount; index3++) 
                 {
-                    await console.log(index1 + ' ' + index2+' '+ index3)
+                    let clearSecondNesting = await addSecondNesting(tree2, index1, index2, index3)
+                     if(clearSecondNesting==true) 
+                        {
+                            await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                            await console.log(index1 + ' ' + index2+' '+ index3)
+                        }
                 }
 
             }

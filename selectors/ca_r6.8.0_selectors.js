@@ -176,5 +176,5 @@ export const getCancelButtonSelector = Selector('*[class*="cm-filter2panel-contr
 
 export const getHighchartsExists = Selector('*[id*="highcharts"]');
 
-export const getAccountArrow = Selector('[id*="main-actionbutton"][id*="btnWrap"]');
-export const getAccountItem  = Selector('[id*="menuitem"][id*="itemEl"]');
+export const getAccountArrow = Selector('*[id*="main-actionbutton"][id*="btnWrap"]');
+export const getAccountItem  = Selector('*[id*="menuitem"][id*="textEl"]')//.withText('Аккаунт');
