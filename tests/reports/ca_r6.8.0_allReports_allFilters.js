@@ -50,8 +50,8 @@ export const clickToTab = async (menu1, menu2, tabName) => {
         		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
         		await enableAllColumns();
                 let filters = await initFilters('Сквозная аналитика');
-                await filtersConditionIndexOrName(filters, 0);
-                await filtersConditionIndexOrName(filters, 'CTR');
+                //await filtersConditionIndexOrName(filters, 0);
+                await filtersConditionIndexOrName(filters, 'Качественные');
             }
         );
 

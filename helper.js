@@ -90,9 +90,37 @@ export const enableAllColumns = async () => {
     await t.click(getSaveButton);
 }
 
+export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
+
+export const errorCheck = async () => {
+
+    let flag=false
+    let count = await errorExists()
+    
+    await t.wait(1000) 
+    
+    if (count != 0)
+    {
+        flag=true
+        await t.click('*[id*="messagebox"][id*="toolbar-innerCt"]')
+    }
+    
+return flag
+}
 // что делать с фильтром в зависимости от его типа (выбрать фильтр, перебрать все значения условий, добавить случайное значение, применить фильтр и удалить его)
 export const filtersWhatToDo = async (filters, filterIndex) => {
-    
+        
+        // time
+        // time_with_days
+        // date
+        // system_list
+        // system_tree
+        // list
+        // text
+        // text_list
+        // numeric
+        // numeric_dict
+
         let step    = 1;
 
         let nowTime = dateFormat(Date(), "isoDateTime");
@@ -100,11 +128,12 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
             // тип Числовой
             case 'numeric': {
                 for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
+                    //значение фильтра
+                    let value = getRandomInt(1, 999);
+
                     try {
                         await t.click(Selectors_local2.getAddFilter)
                         await t.wait(1000)
-                        //значение фильтра
-                        let value = getRandomInt(1, 999);
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
@@ -123,10 +152,14 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         await t.click(Selectors_local2.getValueButtonSelector)
                         //кликаем применить
                         await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                            console.log('TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        else
+                            console.log('TEST PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //кликаем отменить
                         await t.click(Selectors_local2.getCancelButtonSelector)
-
-                        console.log('TEST PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
 
                     }
                     catch(err)
@@ -137,188 +170,188 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                 break;
             }
 
-            case 'integer': {
+            // case 'integer': {
 
-                for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
-                    await t.click(Selectors_local2.getAddFilter)
-                    await t.wait(1000)
+            //     for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
+            //         await t.click(Selectors_local2.getAddFilter)
+            //         await t.wait(1000)
 
-                    const arrowCount = await Selectors_local2.getArrowCount
+            //         const arrowCount = await Selectors_local2.getArrowCount
 
-                    let value = getRandomInt(1, 999);
-                    let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: integer' + ' conditionIndex:' +
-                                conditionIndex + ' value: ' + value
-                    console.log(text)
+            //         let value = getRandomInt(1, 999);
+            //         let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: integer' + ' conditionIndex:' +
+            //                     conditionIndex + ' value: ' + value
+            //         console.log(text)
 
-                    let getParamArrow = await Selectors_local2.getParamArrow()
-                    await t.click(getParamArrow)
-                    await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+            //         let getParamArrow = await Selectors_local2.getParamArrow()
+            //         await t.click(getParamArrow)
+            //         await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                    let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                    await t.click(getСonditionArrow)
-                    await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+            //         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+            //         await t.click(getСonditionArrow)
+            //         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
-                    await t.click(Selectors_local2.getValueNumberSelector)
-                    await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+            //         await t.click(Selectors_local2.getValueNumberSelector)
+            //         await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
 
-                    await t.click(Selectors_local2.getValueButtonSelector)
-                    await t.click(Selectors_local2.getApplyButtonSelector)
+            //         await t.click(Selectors_local2.getValueButtonSelector)
+            //         await t.click(Selectors_local2.getApplyButtonSelector)
 
-                    await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
+            //         await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
 
-                    await t.click(Selectors_local2.getCancelButtonSelector)
-                }
-                break;
-            }
+            //         await t.click(Selectors_local2.getCancelButtonSelector)
+            //     }
+            //     break;
+            // }
             
-            case 'string': {
-                for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++) {
+            // case 'string': {
+            //     for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++) {
 
-                    await t.click(Selectors_local2.getAddFilter)
-                    await t.wait(1000)
+            //         await t.click(Selectors_local2.getAddFilter)
+            //         await t.wait(1000)
 
-                    const arrowCount = await Selectors_local2.getArrowCount
+            //         const arrowCount = await Selectors_local2.getArrowCount
 
-                    let value = getRandomInt(1, 999);
-                    let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: string' + ' conditionIndex:' +
-                                conditionIndex + ' value: ' + value
-                    console.log(text)
+            //         let value = getRandomInt(1, 999);
+            //         let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: string' + ' conditionIndex:' +
+            //                     conditionIndex + ' value: ' + value
+            //         console.log(text)
 
-                     let getParamArrow = await Selectors_local2.getParamArrow()
-                    await t.click(getParamArrow)
-                    await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+            //          let getParamArrow = await Selectors_local2.getParamArrow()
+            //         await t.click(getParamArrow)
+            //         await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                    let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                    await t.click(getСonditionArrow)
-                    await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+            //         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+            //         await t.click(getСonditionArrow)
+            //         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
-                    await t.click(Selectors_local2.getValueTextSelector)
-                    await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
+            //         await t.click(Selectors_local2.getValueTextSelector)
+            //         await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
 
-                    await t.click(Selectors_local2.getValueButtonSelector)
-                    await t.click(Selectors_local2.getApplyButtonSelector)
+            //         await t.click(Selectors_local2.getValueButtonSelector)
+            //         await t.click(Selectors_local2.getApplyButtonSelector)
 
-                    await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
+            //         await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
 
-                    await t.click(Selectors_local2.getCancelButtonSelector)
-                }
-                break;
-            }
-            case 'array': {
-                let conditionCount = 2
-                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
-                    for (let valueIndex = 0; valueIndex < filters[filterIndex].data.valueElData.length; valueIndex++) {
-                        await t.click(Selectors_local2.getAddFilter)
-                        await t.wait(1000)
+            //         await t.click(Selectors_local2.getCancelButtonSelector)
+            //     }
+            //     break;
+            // }
+            // case 'array': {
+            //     let conditionCount = 2
+            //     for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+            //         for (let valueIndex = 0; valueIndex < filters[filterIndex].data.valueElData.length; valueIndex++) {
+            //             await t.click(Selectors_local2.getAddFilter)
+            //             await t.wait(1000)
 
-                        const arrowCount = await Selectors_local2.getArrowCount
+            //             const arrowCount = await Selectors_local2.getArrowCount
 
-                        let value = getRandomInt(1, 999);
-                        let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: array' +
-                                    ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
-                        console.log(text)
+            //             let value = getRandomInt(1, 999);
+            //             let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: array' +
+            //                         ' conditionIndex:' + conditionIndex + ' value: ' + filters[filterIndex].data.value
+            //             console.log(text)
 
-                        let getParamArrow = await Selectors_local2.getParamArrow()
-                        await t.click(getParamArrow)
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+            //             let getParamArrow = await Selectors_local2.getParamArrow()
+            //             await t.click(getParamArrow)
+            //             await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
-                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                        await t.click(getСonditionArrow)
-                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+            //             let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+            //             await t.click(getСonditionArrow)
+            //             await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
-                        let getValueArrow = await Selectors_local2.getValueArrow()
-                        await t.click(getValueArrow)
+            //             let getValueArrow = await Selectors_local2.getValueArrow()
+            //             await t.click(getValueArrow)
 
-                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
+            //             await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
 
-                        await t.click(Selectors_local2.getValueButtonSelector)
-                        await t.click(Selectors_local2.getApplyButtonSelector)
+            //             await t.click(Selectors_local2.getValueButtonSelector)
+            //             await t.click(Selectors_local2.getApplyButtonSelector)
 
-                        await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + '.' + text)
+            //             await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + '.' + text)
 
-                        await t.click(Selectors_local2.getCancelButtonSelector)
-
-
-                    }
-                }
-                break;
-            }
-            case 'time': {
-                let conditionCount = 4
-                // let valueCount = 96
-                let valueCount     = 1
-                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
-                    for (let valueIndex = 0; valueIndex < valueCount; valueIndex++) {
-                        await t.click(Selectors_local2.getAddFilter)
-                        await t.wait(1000)
-
-                        const arrowCount = await Selectors_local2.getArrowCount
-
-                        let value = 'None'
-                        let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: time' + ' conditionIndex:' +
-                                    conditionIndex + ' value: ' + value
-                        console.log(text)
-
-                         let getParamArrow = await Selectors_local2.getParamArrow()
-                        await t.click(getParamArrow)
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
-
-                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                        await t.click(getСonditionArrow)
-                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
-
-                        await t.click(Selectors_local2.getArrowSelectorForTime)
-                        await t.click(Selectors_local2.getValueSelectorForTime.nth(valueIndex))
-
-                        await t.click(Selectors_local2.getValueButtonSelector)
-                        await t.click(Selectors_local2.getApplyButtonSelector)
-
-                        await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
-
-                        await t.click(Selectors_local2.getCancelButtonSelector)
-                    }
-                }
-                break;
-            }
-            case 'list': {
-                let conditionCount = 2
-                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
-                    for (let valueIndex = 0; valueIndex < filters[filterIndex].data.valueElData.length; valueIndex++) {
-                        await t.click(Selectors_local2.getAddFilter)
-                        await t.wait(1000)
-
-                        const arrowCount = await Selectors_local2.getArrowCount
-
-                        let value = getRandomInt(1, 999);
-                        let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: list' + ' conditionIndex:' +
-                                    conditionIndex + ' value: ' + filters[filterIndex].data.value
-                        console.log(text)
-
-                        let getParamArrow = await Selectors_local2.getParamArrow()
-                        await t.click(getParamArrow)
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
-
-                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                        await t.click(getСonditionArrow)
-                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
-
-                        let getValueArrow = await Selectors_local2.getValueArrow()
-                        await t.click(getValueArrow)
-
-                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
-
-                        await t.click(Selectors_local2.getValueButtonSelector)
-                        await t.click(Selectors_local2.getApplyButtonSelector)
-
-                        await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + '.' + text)
-
-                        await t.click(Selectors_local2.getCancelButtonSelector)
+            //             await t.click(Selectors_local2.getCancelButtonSelector)
 
 
-                    }
-                }
-                break;
-            }
+            //         }
+            //     }
+            //     break;
+            // }
+            // case 'time': {
+            //     let conditionCount = 4
+            //     // let valueCount = 96
+            //     let valueCount     = 1
+            //     for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+            //         for (let valueIndex = 0; valueIndex < valueCount; valueIndex++) {
+            //             await t.click(Selectors_local2.getAddFilter)
+            //             await t.wait(1000)
+
+            //             const arrowCount = await Selectors_local2.getArrowCount
+
+            //             let value = 'None'
+            //             let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: time' + ' conditionIndex:' +
+            //                         conditionIndex + ' value: ' + value
+            //             console.log(text)
+
+            //              let getParamArrow = await Selectors_local2.getParamArrow()
+            //             await t.click(getParamArrow)
+            //             await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+            //             let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+            //             await t.click(getСonditionArrow)
+            //             await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+            //             await t.click(Selectors_local2.getArrowSelectorForTime)
+            //             await t.click(Selectors_local2.getValueSelectorForTime.nth(valueIndex))
+
+            //             await t.click(Selectors_local2.getValueButtonSelector)
+            //             await t.click(Selectors_local2.getApplyButtonSelector)
+
+            //             await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
+
+            //             await t.click(Selectors_local2.getCancelButtonSelector)
+            //         }
+            //     }
+            //     break;
+            // }
+            // case 'list': {
+            //     let conditionCount = 2
+            //     for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+            //         for (let valueIndex = 0; valueIndex < filters[filterIndex].data.valueElData.length; valueIndex++) {
+            //             await t.click(Selectors_local2.getAddFilter)
+            //             await t.wait(1000)
+
+            //             const arrowCount = await Selectors_local2.getArrowCount
+
+            //             let value = getRandomInt(1, 999);
+            //             let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: list' + ' conditionIndex:' +
+            //                         conditionIndex + ' value: ' + filters[filterIndex].data.value
+            //             console.log(text)
+
+            //             let getParamArrow = await Selectors_local2.getParamArrow()
+            //             await t.click(getParamArrow)
+            //             await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+            //             let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+            //             await t.click(getСonditionArrow)
+            //             await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+            //             let getValueArrow = await Selectors_local2.getValueArrow()
+            //             await t.click(getValueArrow)
+
+            //             await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount + valueIndex));
+
+            //             await t.click(Selectors_local2.getValueButtonSelector)
+            //             await t.click(Selectors_local2.getApplyButtonSelector)
+
+            //             await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + '.' + text)
+
+            //             await t.click(Selectors_local2.getCancelButtonSelector)
+
+
+            //         }
+            //     }
+            //     break;
+            // }
         }
     
 }
