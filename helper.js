@@ -97,7 +97,7 @@ export const errorCheck = async () => {
     let flag=false
     let count = await errorExists()
     
-    await t.wait(1000) 
+    await t.wait(3000) 
     
     if (count != 0)
     {
