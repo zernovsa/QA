@@ -79,7 +79,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
 
             }
@@ -90,7 +90,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );
@@ -100,7 +100,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Анализ трафика', 'Источники');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Источники')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );
@@ -110,7 +110,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Анализ трафика', 'Каналы');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );
@@ -121,7 +121,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );
@@ -131,7 +131,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Список всех посетителей')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );
@@ -141,7 +141,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Содержание', 'Входные страницы')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );
@@ -152,7 +152,7 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
-                await consolelogSecondNestingTree(tree2)
+                // await consolelogSecondNestingTree(tree2)
                 await allSecondNesting(tree2)
             }
         );

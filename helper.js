@@ -5,6 +5,7 @@ import * as Selectors from './selectors.js';
 import * as Selectors_local from './selectors/ca_r6.7.0_selectors.js';
 import * as Selectors_local2 from './selectors/ca_r6.8.0_selectors.js';
 
+var colors = require('colors');
 
 // для создания скриншотов (текущая дата, время)
 var dateFormat = require('dateformat');
@@ -386,35 +387,47 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                {
                         if (tree2[index1].children[index2].disabled == false)
                         {
-                            await t.click(Selectors_local.add2Report)
-                                              
-                            if (tree2[index1].expanded == false)
+                            try 
                             {
-                                await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+                                await t.click(Selectors_local.add2Report)
+                                              
+                                 if (tree2[index1].expanded == false)
+                                        await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+                                
+                                    let a = getWholeTextRe(tree2[index1].children[index2].text)
+                                    await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
+                                    flag = true
+                                    console.log('TEST PASSED: '.green + tree2[index1].children[index2].text)
                             }
-                            let a = getWholeTextRe(tree2[index1].children[index2].text)
-                            await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
-                            flag = true
+                            catch(err) 
+                            {
+                                console.log('TEST FAILED: '.red + tree2[index1].children[index2].text)
+                            }
                         }
                 }
                 else // если 3 уровня вложенности
                 {
                     if (tree2[index1].children[index2].disabled == false)
                     {
-                        await t.click(Selectors_local.add2Report)
-
-                        if (tree2[index1].expanded == false)
+                        try
                         {
-                            await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
-                        }
+                            await t.click(Selectors_local.add2Report)
 
-                        if (tree2[index1].children[index2].expanded == false)
+                            if (tree2[index1].expanded == false)
+                                await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+
+                            if (tree2[index1].children[index2].expanded == false)
+                                await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].children[index2].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+
+                            let a = getWholeTextRe(tree2[index1].children[index2].children[index3].text)
+                            await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
+                            flag = true
+                            colorLog('TEST PASSED: '.green + tree2[index1].children[index2].children[index3].text, 'green')
+                        } 
+                        catch(err) 
                         {
-                            await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].children[index2].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
+                            colorLog('TEST FAILED: '.red + tree2[index1].children[index2].children[index3].text, 'red')
                         }
-                        let a = getWholeTextRe(tree2[index1].children[index2].children[index3].text)
-                        await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
-                        flag = true
                     }
                 }
 return flag   
@@ -521,7 +534,6 @@ export const allSecondNesting = async (tree2) => {
                     if(clearSecondNesting==true) 
                         {
                             await t.click(Selectors_local2.getCancelNestingButtonSelector)
-                            await console.log(index1 + ' ' + index2)
                          }
             }
             else // если три уровня вложенности
@@ -532,7 +544,6 @@ export const allSecondNesting = async (tree2) => {
                      if(clearSecondNesting==true) 
                         {
                             await t.click(Selectors_local2.getCancelNestingButtonSelector)
-                            await console.log(index1 + ' ' + index2+' '+ index3)
                         }
                 }
 
