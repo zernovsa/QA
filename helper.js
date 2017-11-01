@@ -97,6 +97,46 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
 
         let nowTime = dateFormat(Date(), "isoDateTime");
         switch (filters[filterIndex].data.type) {
+            // тип Числовой
+            case 'numeric': {
+                for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
+                    try {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+                        //значение фильтра
+                        let value = getRandomInt(1, 999);
+                        //кликаем на стрелку параметров
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                        //кликаем на стрелку условий
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        //кликаем на условие 
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                        //кликаем на поле значение
+                        await t.click(Selectors_local2.getValueNumberSelector)
+                        //вводим значение 
+                        await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+                        //кликаем применить
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        //кликаем применить
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+                        //кликаем отменить
+                        await t.click(Selectors_local2.getCancelButtonSelector)
+
+                        console.log('TEST PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+
+                    }
+                    catch(err)
+                    {
+                        console.log('TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                    }
+                }
+                break;
+            }
+
             case 'integer': {
 
                 for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
@@ -130,42 +170,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                 }
                 break;
             }
-            case 'numeric': {
-                for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
-
-                    await t.click(Selectors_local2.getAddFilter)
-                    await t.wait(1000)
-
-                    //значение фильтра
-                    let value = getRandomInt(1, 999);
-
-                    console.log ('FILTER'.green +' text: ' + filters[filterIndex].data.name.green + ' type: '+ filters[filterIndex].data.type.green + ' conditionIndex:' + conditionIndex + ' value: ' + value)
-                    console.log (filters.length)
-                    
-                    //кликаем на стрелку параметров
-                    let getParamArrow = await Selectors_local2.getParamArrow()
-                    await t.click(getParamArrow)
-                    //выбираем нужный параметр
-                    await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
-                    //кликаем на стрелку условий
-                    let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                    await t.click(getСonditionArrow)
-                    //кликаем на условие 
-                    await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
-
-                    //кликаем на поле значение
-                    await t.click(Selectors_local2.getValueNumberSelector)
-                    //вводим значение 
-                    await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
-                    //кликаем применить
-                    await t.click(Selectors_local2.getValueButtonSelector)
-                    //кликаем применить
-                    await t.click(Selectors_local2.getApplyButtonSelector)
-                    //кликаем отменить
-                    await t.click(Selectors_local2.getCancelButtonSelector)
-                }
-                break;
-            }
+            
             case 'string': {
                 for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++) {
 

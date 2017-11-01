@@ -1,21 +1,31 @@
 import {t, Selector, ClientFunction} from 'testcafe';
 
-export const storeName = 'cm-filter2panel'; 
+//export const storeName = 'cm-filter2panel'; 
+export const storeName = 'cm-menu'; 
 
 export const getAddFilter = Selector('*[class*="cm-filter2panel"]').nth(0);
 
 export const getFiltersCount = ClientFunction(() => {
-    return Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.length
+    //return Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.length
+    return Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items.length
 });
 
 export const getFiltersItem = ClientFunction((index) => {
 
+    // let item = {
+    //     id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].id,
+    //     data_id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.id,
+    //     name: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.name,
+    //     type: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.type,
+    //     valueElData: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.valueElData
+    // };
+
     let item = {
-        id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].id,
-        data_id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.id,
-        name: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.name,
-        type: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.type,
-        valueElData: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.valueElData
+        id: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].id,
+        data_id: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.id,
+        name: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.name,
+        type: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.type,
+        valueElData: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.valueElData
     };
 
     return item
@@ -64,8 +74,8 @@ export const readFilters = async (storeName, report) => {
         list[i].el=i
     }
 
-    console.log(list)
-    
+    //console.log(list)
+
     return list
 };
 
@@ -78,6 +88,7 @@ export const getСonditionArrow = Selector('*[placeholder*="Условие"][id*
 export const getValueArrow = Selector('*[placeholder*="Значение"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
 
 export const getParamSelector     = Selector('*[class*="x-boundlist-item"]');
+
 export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');
 
 export const getValueNumberSelector = Selector('*[id*="inputEl"][id*=numberfield]');
