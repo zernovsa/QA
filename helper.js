@@ -7,6 +7,25 @@ import * as Selectors_local2 from './selectors/ca_r6.8.0_selectors.js';
 
 var colors = require('colors');
 
+function loggerInit(name) 
+{
+    var log4js = require('log4js');
+    log4js.configure({
+      appenders: { cheese: { type: 'file', filename: name } },
+      categories: { default: { appenders: ['cheese'], level: 'error' } }
+    });
+    const logger = log4js.getLogger('cheese');
+
+return logger  
+}
+
+function log(message) {
+    var logger = loggerInit('../logs/log.log')
+    console.log(message);
+    logger.error(message)
+}
+
+
 // для создания скриншотов (текущая дата, время)
 var dateFormat = require('dateformat');
 
@@ -72,7 +91,7 @@ export const enableAllColumns = async () => {
 
     const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
     var count                      = await getUncheckedColumnsCount()
-    console.log('Columns count: ' + count)
+    //console.log('Columns count: ' + count)
 
     while (count > 0) {
         var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
@@ -91,6 +110,7 @@ export const enableAllColumns = async () => {
 }
 
 export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
+export const reloadPage = ClientFunction(() => window.location.reload());
 
 export const errorCheck = async () => {
 
@@ -103,8 +123,11 @@ export const errorCheck = async () => {
     {
         flag=true
         await t.click('*[id*="messagebox"][id*="toolbar-innerCt"]')
+        await reloadPage()
     }
-    
+
+
+
 return flag
 }
 // что делать с фильтром в зависимости от его типа (выбрать фильтр, перебрать все значения условий, добавить случайное значение, применить фильтр и удалить его)
@@ -155,11 +178,16 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
 
                         let flag = await errorCheck()
                         if (flag==true) 
+                        {
                             console.log('TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            logger.error('TEST FAILED: ' + ' filter text: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        }
                         else
+                        {
                             console.log('TEST PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                        //кликаем отменить
-                        await t.click(Selectors_local2.getCancelButtonSelector)
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
 
                     }
                     catch(err)

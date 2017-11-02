@@ -7,7 +7,8 @@ export const getAddFilter = Selector('*[class*="cm-filter2panel"]').nth(0);
 
 export const getFiltersCount = ClientFunction(() => {
     //return Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.length
-    return Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items.length
+    //return Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items.length
+    return Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items.length
 });
 
 export const getFiltersItem = ClientFunction((index) => {
