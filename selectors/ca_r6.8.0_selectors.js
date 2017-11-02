@@ -13,23 +13,70 @@ export const getFiltersCount = ClientFunction(() => {
 
 export const getFiltersItem = ClientFunction((index) => {
 
-    // let item = {
-    //     id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].id,
-    //     data_id: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.id,
-    //     name: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.name,
-    //     type: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.type,
-    //     valueElData: Ext.ComponentQuery.query('cm-filter2panel')[0].filterListStore.data.items[index].data.valueElData
-    // };
+    var item 
 
-    let item = {
-        id: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].id,
-        data_id: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.id,
-        name: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.name,
-        type: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.type,
-        valueElData: Ext.ComponentQuery.query('cm-menu')[1].items.items[0].filterListStore.data.items[index].data.valueElData
-    };
+    // если valueElData массив
+    if(Ext.isArray(Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData)) 
+    {
+        var count = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.length
+        var list = []
 
-    return item
+        for(let i = 0; i < count; i++)
+        {
+            list.push(
+                {
+                    id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData[i].data.id,
+                    name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData[i].data.name
+                }
+            )
+        }
+   
+        item = {
+            id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
+            data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
+            name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
+            type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
+            valueElData: list
+        };
+    }
+    // если valueElData НЕ массив
+    else if (Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData!=undefined)
+    {
+        var count = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.data.length
+        var list = []
+
+        for(let i = 0; i < count; i++)
+        {
+            list.push(
+                {
+                    id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.data[i].data.id,
+                    name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.data[i].data.name
+                }
+            )
+        }
+   
+        item = {
+            id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
+            data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
+            name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
+            type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
+            valueElData: list
+        };
+
+     }
+
+     else // если valueElData НЕ определена
+     {
+         item = {
+            id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
+            data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
+            name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
+            type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
+            valueElData: null
+        };
+     }
+
+return item
 });
 
 export const readFilters = async (storeName, report) => {
@@ -41,7 +88,7 @@ export const readFilters = async (storeName, report) => {
     //считываем все фильтры в объект
     for (let i = 0; i < count; i++) {
         
-        let item = await getFiltersItem(i)
+        let item = await getFiltersItem(i);
 
         list.push(
             {

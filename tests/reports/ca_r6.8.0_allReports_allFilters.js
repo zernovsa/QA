@@ -45,100 +45,100 @@ export const clickToTab = async (menu1, menu2, tabName) => {
 }
 
         // выбрать фильтр по индексу и выбрать фильтр по названию
-        test('ca_r6.8.0_filterIndexAndName', async () => {
-                await login();
-        		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
-        		await enableAllColumns();
-                let filters = await initFilters('Сквозная аналитика');
-                //await filtersConditionIndexOrName(filters, 0);
-                await filtersConditionIndexOrName(filters, 'Качественные');
-            }
-        );
+        // test('ca_r6.8.0_filterIndexAndName', async () => {
+        //         await login();
+        // 		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+        // 		await enableAllColumns();
+        //         let filters = await initFilters('Сквозная аналитика');
+        //         //await filtersConditionIndexOrName(filters, 0);
+        //         await filtersConditionIndexOrName(filters, 'Качественные');
+        //     }
+        // );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_1', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
-		await enableAllColumns();
-        let filters = await initFilters('Сквозная аналитика');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_1', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+// 		await enableAllColumns();
+//         let filters = await initFilters('Сквозная аналитика');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_2_1', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
-		await enableAllColumns();
-        let filters = await initFilters('Анализ трафика');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_2_1', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
+// 		await enableAllColumns();
+//         let filters = await initFilters('Анализ трафика');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_2_2', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Анализ трафика', 'Источники');
-		await enableAllColumns();
-        let filters = await initFilters('Анализ трафика');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_2_2', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Анализ трафика', 'Источники');
+// 		await enableAllColumns();
+//         let filters = await initFilters('Анализ трафика');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_2_3', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Анализ трафика', 'Каналы');
-		await enableAllColumns();
-        let filters = await initFilters('Анализ трафика');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_2_3', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Анализ трафика', 'Каналы');
+// 		await enableAllColumns();
+//         let filters = await initFilters('Анализ трафика');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_3_1', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
-        let filters = await initFilters('Аудитория');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_3_1', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
+//         let filters = await initFilters('Аудитория');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_3_2', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Аудитория', 'Список всех посетителей');
-        let filters = await initFilters('Аудитория');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_3_2', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Аудитория', 'Список всех посетителей');
+//         let filters = await initFilters('Аудитория');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_4_1', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Содержание', 'Все страницы сайта');
-        let filters = await initFilters('Содержание');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_4_1', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Содержание', 'Все страницы сайта');
+//         let filters = await initFilters('Содержание');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_4_2', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы');
-        let filters = await initFilters('Содержание');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_4_2', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы');
+//         let filters = await initFilters('Содержание');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
-test('ca_r6.8.0_allFilters_report_5', async () => {
-        await login();
-		await clickToTab('Общие отчёты', 'Обращения по сотрудникам',  'Статистика');
-        let filters = await initFilters('Обращения по сотрудникам');
-        await clickAllFilters(filters);
-    }
-);
+// test('ca_r6.8.0_allFilters_report_5', async () => {
+//         await login();
+// 		await clickToTab('Общие отчёты', 'Обращения по сотрудникам',  'Статистика');
+//         let filters = await initFilters('Обращения по сотрудникам');
+//         await clickAllFilters(filters);
+//     }
+// );
 
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_1', async () => {
