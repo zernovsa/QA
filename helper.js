@@ -148,14 +148,12 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
         // numeric
         // numeric_dict
 
-        let step    = 1;
         let errors  = [];
 
         let nowTime = dateFormat(Date(), "isoDateTime");
         switch (filters[filterIndex].data.type) {
             // тип Числовой
             case 'numeric': {
-                var reportName = await Selectors_local2.whatReport()
                 for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
                     //значение фильтра
                     let value = getRandomInt(1, 999);
@@ -179,6 +177,8 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
                         //кликаем применить
                         await t.click(Selectors_local2.getValueButtonSelector)
+
+                        var reportName = await Selectors_local2.whatReport()
                         //кликаем применить
                         await t.click(Selectors_local2.getApplyButtonSelector)
 
@@ -189,15 +189,12 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                             log('error', 'STEP  FAILED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(
                                 {
-                                    id: step++,
+                                    id: filterIndex,
                                     report: reportName,
-                                    params: {
-                                        name: filters[filterIndex].data.name, 
-                                        type: filters[filterIndex].data.type, 
-                                        condition: conditionIndex, 
-                                        value: value
-                                    }
-
+                                    filter: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex, 
+                                    value: value
                                 }
                             )
                         }
@@ -217,18 +214,95 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
                             {
-                                id: step++,
+                                id: filterIndex,
                                 report: reportName,
-                                params: {
-                                    name: filters[filterIndex].data.name, 
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex, 
+                                value: value
+                            }
+                        )
+                    }
+                }
+                break;
+            }
+
+            case 'text': {
+                for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++) {
+                    try 
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let value = getRandomInt(1, 999);
+                        let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: string' + ' conditionIndex:' +
+                                    conditionIndex + ' value: ' + value
+                        console.log(text)
+
+                        //кликаем на стрелку параметров
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                        //кликаем на стрелку условий
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        //кликаем на условие
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                        //кликаем на поле значение
+                        await t.click(Selectors_local2.getValueTextSelector)
+                        //вводим значение 
+                        await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
+                        //кликаем применить
+                        await t.click(Selectors_local2.getValueButtonSelector)
+
+                        var reportName = await Selectors_local2.whatReport()
+                        //кликаем применить
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                        {
+                            //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('error', 'STEP  FAILED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            errors.push(
+                                {
+                                    id: filterIndex,
+                                    report: reportName,
+                                    filter: filters[filterIndex].data.name, 
                                     type: filters[filterIndex].data.type, 
                                     condition: conditionIndex, 
                                     value: value
                                 }
-
+                            )
+                        }
+                        else
+                        {
+                            //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('debug', 'STEP PASSED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
+                    }
+                    catch(err)
+                    {
+                        log('error', 'STEP  FAILED: '+ ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        errors.push(
+                            {
+                                id: filterIndex,
+                                report: reportName,
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex, 
+                                value: value
                             }
                         )
                     }
+                    //await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
                 }
                 break;
             }
@@ -267,39 +341,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
             //     break;
             // }
             
-            // case 'string': {
-            //     for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++) {
 
-            //         await t.click(Selectors_local2.getAddFilter)
-            //         await t.wait(1000)
-
-            //         const arrowCount = await Selectors_local2.getArrowCount
-
-            //         let value = getRandomInt(1, 999);
-            //         let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: string' + ' conditionIndex:' +
-            //                     conditionIndex + ' value: ' + value
-            //         console.log(text)
-
-            //          let getParamArrow = await Selectors_local2.getParamArrow()
-            //         await t.click(getParamArrow)
-            //         await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
-
-            //         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-            //         await t.click(getСonditionArrow)
-            //         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
-
-            //         await t.click(Selectors_local2.getValueTextSelector)
-            //         await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
-
-            //         await t.click(Selectors_local2.getValueButtonSelector)
-            //         await t.click(Selectors_local2.getApplyButtonSelector)
-
-            //         await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
-
-            //         await t.click(Selectors_local2.getCancelButtonSelector)
-            //     }
-            //     break;
-            // }
             // case 'array': {
             //     let conditionCount = 2
             //     for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
