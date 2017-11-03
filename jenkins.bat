@@ -1,0 +1,1 @@
+java -Dfile.encoding=UTF8 -jar "C:\Program Files (x86)\Jenkins\jenkins.war"

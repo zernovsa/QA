@@ -187,7 +187,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         if (flag==true) 
                         {
                             //console.log('STEP FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED: ' + ' filter text: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP  FAILED: ' + ' filter text: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(
                                 {
                                     id: step++,
@@ -213,7 +213,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        console.log('error', 'TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
                             {
                                 id: step++,

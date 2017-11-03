@@ -59,7 +59,7 @@ export const clickToTab = async (menu1, menu2, tabName) => {
                 //await filtersConditionIndexOrName(filters, 0);
                 let errors = await filtersConditionIndexOrName(filters, 'Качественные');
                 console.log(errors)
-                if(errors) throw errors
+                if(errors) throw 'TEST FAILED'
             }
         );
 
