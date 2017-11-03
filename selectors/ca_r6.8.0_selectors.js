@@ -1,6 +1,18 @@
 import {t, Selector, ClientFunction} from 'testcafe';
 
 //export const storeName = 'cm-filter2panel'; 
+
+export const whatReport    = ClientFunction(() => document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]')[0].textContent);
+
+export const whatReport3 = ClientFunction(() => {
+    return document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]')[0].textContent
+});
+
+
+export const whatReport2 = ClientFunction(() => {
+    return document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]').nth(0)
+})
+
 export const storeName = 'cm-menu'; 
 
 export const getAddFilter = Selector('*[class*="cm-filter2panel"]').nth(0);
@@ -13,73 +25,78 @@ export const getFiltersCount = ClientFunction(() => {
 
 export const getFiltersItem = ClientFunction((index) => {
 
-    var item 
-
-    // если valueElData массив
-    if(Ext.isArray(Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData)) 
-    {
-        var count = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.length
-        var list = []
-
-        for(let i = 0; i < count; i++)
-        {
-            list.push(
-                {
-                    id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData[i].data.id,
-                    name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData[i].data.name
-                }
-            )
-        }
-   
-        item = {
-            id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
-            data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
-            name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
-            type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
-            valueElData: list
-        };
+    var item = {
+        id: null,
+        data_id: null,
+        name: null,
+        type: null,
+        valueElData: null
     }
-    // если valueElData НЕ массив
-    else if (Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData!=undefined)
-    {
-        var count = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.data.length
-        var list = []
 
-        for(let i = 0; i < count; i++)
+    
+        var element = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData
+        if (typeof (element) == undefined && typeof (element) == null && typeof (element) == 'undefined') 
         {
-            list.push(
-                {
-                    id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.data[i].data.id,
-                    name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.data[i].data.name
-                }
-            )
+             item = {
+                id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
+                data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
+                name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
+                type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
+                valueElData: null
+            };
         }
-   
-        item = {
-            id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
-            data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
-            name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
-            type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
-            valueElData: list
-        };
+        else
+        {
+            item = {
+                id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
+                data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
+                name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
+                type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
+                valueElData: null
+            };
 
-     }
+            // // если valueElData массив
+            // if(Ext.isArray(Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData)) 
+            // {
+            //     var count = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData.length
+            //     var list = []
+            //     var id, name
+            //     for(let i = 0; i < count; i++)
+            //     {
+            //         if (Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type=="list")
+            //         {
+            //             id = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData[i].data.id
+            //             name = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData[i].data.name
+            //         }
+            //         else 
+            //         {
+            //             id=-1
+            //             name=''
+            //         }
+            //         list.push(
+            //             {
+            //                 id: id,
+            //                 name: name        
+                        
+            //             }
+            //         )
+            //     }
+           
+            //     item = {
+            //         id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
+            //         data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
+            //         name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
+            //         type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
+            //         valueElData: list
+            //     };
+            // }
+        }
 
-     else // если valueElData НЕ определена
-     {
-         item = {
-            id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].id,
-            data_id: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.id,
-            name: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.name,
-            type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
-            valueElData: null
-        };
-     }
-
+    // }  
 return item
 });
 
-export const readFilters = async (storeName, report) => {
+export const readFilters = async (storeName) => {
     let list  = []
 
     //количество фильтров в store

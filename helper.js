@@ -12,17 +12,18 @@ function loggerInit(name)
     var log4js = require('log4js');
     log4js.configure({
       appenders: { cheese: { type: 'file', filename: name } },
-      categories: { default: { appenders: ['cheese'], level: 'error' } }
+      categories: { default: { appenders: ['cheese'], level: 'debug' } }
     });
     const logger = log4js.getLogger('cheese');
 
 return logger  
 }
 
-function log(message) {
+function log(type, message) {
     var logger = loggerInit('../logs/log.log')
     console.log(message);
-    logger.error(message)
+    if (type =='error') logger.error(message)
+    if (type == 'debug') logger.debug(message)
 }
 
 
@@ -78,6 +79,8 @@ export const clickToTab = async (menu1, menu2, tabName) => {
         }
 }
 
+
+
 export const clickToAccountTab = async (menu, tabName) => {
     await t.click(Selectors.getView(menu))
     await Helper_local.clickToTabName(tabName)
@@ -118,7 +121,7 @@ export const errorCheck = async () => {
     let count = await errorExists()
     
     await t.wait(3000) 
-    
+
     if (count != 0)
     {
         flag=true
@@ -132,6 +135,7 @@ return flag
 }
 // что делать с фильтром в зависимости от его типа (выбрать фильтр, перебрать все значения условий, добавить случайное значение, применить фильтр и удалить его)
 export const filtersWhatToDo = async (filters, filterIndex) => {
+
         
         // time
         // time_with_days
@@ -145,6 +149,9 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
         // numeric_dict
 
         let step    = 1;
+        let errors  = [];
+
+        var reportName = await Selectors_local2.whatReport()
 
         let nowTime = dateFormat(Date(), "isoDateTime");
         switch (filters[filterIndex].data.type) {
@@ -179,12 +186,26 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         let flag = await errorCheck()
                         if (flag==true) 
                         {
-                            console.log('TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            logger.error('TEST FAILED: ' + ' filter text: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            //console.log('STEP FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('error', 'STEP FAILED: ' + ' filter text: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            errors.push(
+                                {
+                                    id: step++,
+                                    report: reportName,
+                                    params: {
+                                        name: filters[filterIndex].data.name, 
+                                        type: filters[filterIndex].data.type, 
+                                        condition: conditionIndex, 
+                                        value: value
+                                    }
+
+                                }
+                            )
                         }
                         else
                         {
-                            console.log('TEST PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            //console.log('STEP PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('debug', 'STEP PASSED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
@@ -192,7 +213,20 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        console.log('TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        console.log('error', 'TEST FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        errors.push(
+                            {
+                                id: step++,
+                                report: reportName,
+                                params: {
+                                    name: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex, 
+                                    value: value
+                                }
+
+                            }
+                        )
                     }
                 }
                 break;
@@ -381,32 +415,33 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
             //     break;
             // }
         }
-    
+
+return errors;
 }
 
 // функция выбирающая что передали в фильтр Индекс или Название фильтра, и вызываем filtersWhatToDo - что делать в зависимости от типа фильтра
 export const filtersConditionIndexOrName = async (filters, value) => {
-    
+    var errors
     switch (typeof value) {
         case 'number': { // если передали индекс  фильтра
-            await filtersWhatToDo(filters, value)
+            errors = await filtersWhatToDo(filters, value)
             break;
         }
         case 'string': { // если передали название  фильтра
             for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
                 if (filters[filterIndex].data.name == value) 
                 {
-                    await filtersWhatToDo(filters, filterIndex)
+                    errors = await filtersWhatToDo(filters, filterIndex)
 
                 }
         break;
         }
     }
-
+return errors
 }
 
 // инициализация фильтров
-export const initFilters = async (menu2) => {
+export const initFilters = async () => {
 
     var tree = [];   
 
@@ -417,7 +452,7 @@ export const initFilters = async (menu2) => {
 
     console.log('Количество фильтров в отчете: ' + filtersCount)
 
-    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName, menu2)
+    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName)
 
     return filters;
 }
