@@ -707,7 +707,7 @@ export const secondNestingFilters = async (tree2) => {
                 if(res[0]==true)
                 {
                     let filters = await initFilters();
-                    console.log(filters)
+                    //console.log(filters)
                     await filtersConditionIndexOrName(filters, tree2[index1].children[index2].text)
                     await t.click(Selectors_local2.getCancelNestingButtonSelector)
                 }

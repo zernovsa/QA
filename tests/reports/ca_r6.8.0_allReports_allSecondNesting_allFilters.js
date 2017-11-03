@@ -82,7 +82,7 @@ test('ca_r6.8.0_secondNestingFilters_report_1', async () => {
 		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
 		await enableAllColumns();
 		let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
-		await consolelogSecondNestingTree(tree2)
+		//await consolelogSecondNestingTree(tree2)
         await secondNestingFilters(tree2)
 
     }
@@ -94,7 +94,7 @@ test('ca_r6.8.0_secondNestingFilters_report_2_1', async () => {
         await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
         await enableAllColumns();
         let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
-        await consolelogSecondNestingTree(tree2)
+        //await consolelogSecondNestingTree(tree2)
         await secondNestingFilters(tree2)
     }
 );
