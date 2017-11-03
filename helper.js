@@ -237,9 +237,6 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         const arrowCount = await Selectors_local2.getArrowCount
 
                         let value = getRandomInt(1, 999);
-                        let text  = '.filter text: ' + filters[filterIndex].data.name + ' type: string' + ' conditionIndex:' +
-                                    conditionIndex + ' value: ' + value
-                        console.log(text)
 
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
@@ -512,6 +509,7 @@ function getWholeTextRe(text) {
 export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
     var flag = false
+    var errors = []
 
                if (tree2[index1].children[index2].childsCount == 0)  // если 2 уровня вложенности
                {
@@ -527,11 +525,17 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                                     let a = getWholeTextRe(tree2[index1].children[index2].text)
                                     await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                                     flag = true
-                                    console.log('TEST PASSED: '.green + tree2[index1].children[index2].text)
+                                    console.log('STEP PASSED: '.green + tree2[index1].text + ' / '+ tree2[index1].children[index2].text)
                             }
                             catch(err) 
                             {
-                                console.log('TEST FAILED: '.red + tree2[index1].children[index2].text)
+                                console.log('STEP  FAILED: '.red + tree2[index1].text + ' / '+  tree2[index1].children[index2].text)
+                                errors.push(
+                                    {
+                                        index: [index1, index2],
+                                        text:  tree2[index1].children[index2].text
+                                    }
+                                )
                             }
                         }
                 }
@@ -552,15 +556,21 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                             let a = getWholeTextRe(tree2[index1].children[index2].children[index3].text)
                             await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                             flag = true
-                            console.log('TEST PASSED: '.green + tree2[index1].children[index2].children[index3].text)
+                            console.log('STEP PASSED: '.green + tree2[index1].text + ' / ' + tree2[index1].children[index2].text + ' / '+  tree2[index1].children[index2].children[index3].text)
                         } 
                         catch(err) 
                         {
-                            console.log('TEST FAILED: '.red + tree2[index1].children[index2].children[index3].text)
+                            console.log('STEP  FAILED: '.red + tree2[index1].text + ' / ' + tree2[index1].children[index2].text + ' / '+  tree2[index1].children[index2].children[index3].text)
+                             errors.push(
+                                {
+                                    index: [index1, index2, index3],
+                                    text:  tree2[index1].children[index2].children[index3].text
+                                }
+                            )
                         }
                     }
                 }
-return flag   
+return [flag, errors]
 }
 
 //инициализация дерева второго измерения
@@ -656,28 +666,33 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
 export const allSecondNesting = async (tree2) => {
 
+    var errors = []
+
     for (var index1 = 0; index1 < tree2.length; index1++) 
         for (var index2 = 0; index2 < tree2[index1].childsCount; index2++) 
             if (tree2[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
-                    let clearSecondNesting = await addSecondNesting(tree2, index1, index2, -1)
-                    if(clearSecondNesting==true) 
+                    let res = await addSecondNesting(tree2, index1, index2, -1)
+                    if(res[0]==true) 
                         {
                             await t.click(Selectors_local2.getCancelNestingButtonSelector)
                          }
+                    if(res[1].length !== 0) errors.push(res[1])
             }
             else // если три уровня вложенности
             {
                 for (var index3 = 0; index3 < tree2[index1].children[index2].childsCount; index3++) 
                 {
-                    let clearSecondNesting = await addSecondNesting(tree2, index1, index2, index3)
-                     if(clearSecondNesting==true) 
-                        {
-                            await t.click(Selectors_local2.getCancelNestingButtonSelector)
-                        }
+                    let res = await addSecondNesting(tree2, index1, index2, index3)
+                    if(res[0]==true) 
+                    {
+                        await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                    }
+                    if(res[1].length !== 0) errors.push(res[1])
                 }
 
             }
+    return errors
 }
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
@@ -687,11 +702,12 @@ export const secondNestingFilters = async (tree2) => {
         for (var index2 = 0; index2 < tree2[index1].childsCount; index2++) 
             if (tree2[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
-                let clearSecondNesting = await addSecondNesting(tree2, index1, index2, -1)
+                let res = await addSecondNesting(tree2, index1, index2, -1)
                     
-                if(clearSecondNesting==true)
+                if(res[0]==true)
                 {
                     let filters = await initFilters();
+                    console.log(filters)
                     await filtersConditionIndexOrName(filters, tree2[index1].children[index2].text)
                     await t.click(Selectors_local2.getCancelNestingButtonSelector)
                 }

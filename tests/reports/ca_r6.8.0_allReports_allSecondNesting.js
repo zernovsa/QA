@@ -66,7 +66,9 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
 export const allSecondNesting = async (tree2) => {
-    await Helper.allSecondNesting(tree2)
+    var errors = await Helper.allSecondNesting(tree2)
+    if (errors.length==0) errors = null
+    return errors
 }
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
@@ -80,8 +82,9 @@ export const secondNestingFilters = async (tree2) => {
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Сквозная аналитика', '')
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
-
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
@@ -90,8 +93,11 @@ export const secondNestingFilters = async (tree2) => {
                 await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Рекламные кампании')
+                console.log(tree2)
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
@@ -101,7 +107,9 @@ export const secondNestingFilters = async (tree2) => {
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Источники')
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
@@ -111,7 +119,9 @@ export const secondNestingFilters = async (tree2) => {
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
@@ -122,7 +132,9 @@ export const secondNestingFilters = async (tree2) => {
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
@@ -132,7 +144,9 @@ export const secondNestingFilters = async (tree2) => {
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Список всех посетителей')
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
@@ -142,7 +156,9 @@ export const secondNestingFilters = async (tree2) => {
                 //await enableAllColumns();
                 let tree2 = await initSecondNestingTree('Общие отчёты', 'Содержание', 'Входные страницы')
                 // await consolelogSecondNestingTree(tree2)
-                await allSecondNesting(tree2)
+                let errors = await allSecondNesting(tree2)
+                console.log(errors)
+                if(errors) throw 'TEST FAILED'
             }
         );
 
