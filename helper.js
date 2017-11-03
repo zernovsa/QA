@@ -101,12 +101,12 @@ export const enableAllColumns = async () => {
         await t.click(selector.nth(0))
         await t.wait(1000)
         count = await getUncheckedColumnsCount()
-        console.log(count + ' ')
+        //console.log(count + ' ')
     }
 
     let nowTime = dateFormat(Date(), "isoDateTime");
     let step    = 'enableAllColumns'
-    await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step)
+    // await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step)
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
     await t.click(getSaveButton);
@@ -151,12 +151,11 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
         let step    = 1;
         let errors  = [];
 
-        var reportName = await Selectors_local2.whatReport()
-
         let nowTime = dateFormat(Date(), "isoDateTime");
         switch (filters[filterIndex].data.type) {
             // тип Числовой
             case 'numeric': {
+                var reportName = await Selectors_local2.whatReport()
                 for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
                     //значение фильтра
                     let value = getRandomInt(1, 999);
@@ -186,8 +185,8 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         let flag = await errorCheck()
                         if (flag==true) 
                         {
-                            //console.log('STEP FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP  FAILED: ' + ' filter text: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('error', 'STEP  FAILED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(
                                 {
                                     id: step++,
@@ -204,7 +203,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         }
                         else
                         {
-                            //console.log('STEP PASSED: '.green + 'filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                             log('debug', 'STEP PASSED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
@@ -213,7 +212,9 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        log('error', 'STEP  FAILED: '+ ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
                             {
                                 id: step++,

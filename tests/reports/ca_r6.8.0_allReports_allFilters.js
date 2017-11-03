@@ -71,7 +71,7 @@ test('ca_r6.8.0_allFilters_report_1', async () => {
         let filters = await initFilters();
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw errors
+        if(errors) throw 'TEST FAILED'
     }
 );
 
