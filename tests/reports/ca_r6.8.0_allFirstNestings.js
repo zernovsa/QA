@@ -57,7 +57,7 @@ export const allFirstNesting = async (tree) => {
 test('ca_r6.8.0_allFirstNestings_report_1', async () => {
         await login();
         await clickToTab('Общие отчёты', 'Анализ трафика', '');
-        //await enableAllColumns();
+        await enableAllColumns();
         let tree = await initFirstNestingTree()
         await allFirstNesting(tree)
     }
