@@ -84,7 +84,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -97,7 +97,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -109,7 +109,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -121,7 +121,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -134,7 +134,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -146,7 +146,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -158,7 +158,7 @@ export const secondNestingFilters = async (tree2) => {
                 // await consolelogSecondNestingTree(tree2)
                 let errors = await allSecondNesting(tree2)
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 

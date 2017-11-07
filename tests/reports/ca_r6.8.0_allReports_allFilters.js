@@ -59,7 +59,7 @@ export const clickToTab = async (menu1, menu2, tabName) => {
                 //await filtersConditionIndexOrName(filters, 0);
                 let errors = await filtersConditionIndexOrName(filters, 'Качественные');
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -72,7 +72,7 @@ test('ca_r6.8.0_allFilters_report_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -85,7 +85,7 @@ test('ca_r6.8.0_allFilters_report_2_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -98,7 +98,7 @@ test('ca_r6.8.0_allFilters_report_2_2', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -111,7 +111,7 @@ test('ca_r6.8.0_allFilters_report_2_3', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -123,7 +123,7 @@ test('ca_r6.8.0_allFilters_report_3_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -135,7 +135,7 @@ test('ca_r6.8.0_allFilters_report_3_2', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -147,7 +147,7 @@ test('ca_r6.8.0_allFilters_report_4_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -159,7 +159,7 @@ test('ca_r6.8.0_allFilters_report_4_2', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -171,7 +171,7 @@ test('ca_r6.8.0_allFilters_report_5', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -183,7 +183,7 @@ test('ca_r6.8.0_allFilters_report_6_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -195,7 +195,7 @@ test('ca_r6.8.0_allFilters_report_6_2', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -207,7 +207,7 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -219,7 +219,7 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
                 let filters = await initFilters();
                 let errors = await filtersConditionIndexOrName(filters, 'Номер абонента');
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -231,7 +231,7 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
                 let filters = await initFilters();
                 let errors = await filtersConditionIndexOrName(filters, 'Трансфер');
                 console.log(errors)
-                if(errors) throw 'TEST FAILED'
+                if(errors.length !== 0) throw 'TEST FAILED'
             }
         );
 
@@ -244,7 +244,7 @@ test('ca_r6.8.0_allFilters_report_7_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -257,7 +257,7 @@ test('ca_r6.8.0_allFilters_report_7_2', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -270,7 +270,7 @@ test('ca_r6.8.0_allFilters_report_7_3', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -283,7 +283,7 @@ test('ca_r6.8.0_allFilters_report_7_4', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -296,7 +296,7 @@ test('ca_r6.8.0_allFilters_report_8', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -309,7 +309,7 @@ test('ca_r6.8.0_allFilters_report_9', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -322,7 +322,7 @@ test('ca_r6.8.0_allFilters_report_10', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -335,7 +335,7 @@ test('ca_r6.8.0_allFilters_report_11_1', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -348,7 +348,7 @@ test('ca_r6.8.0_allFilters_report_11_2', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -361,7 +361,7 @@ test('ca_r6.8.0_allFilters_report_12', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -374,6 +374,6 @@ test('ca_r6.8.0_allFilters_report_13', async () => {
         console.log(filters)
         let errors = await clickAllFilters(filters);
         console.log(errors)
-        if(errors) throw 'TEST FAILED'
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
