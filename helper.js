@@ -151,6 +151,35 @@ export const errorCheck = async () => {
 
 return flag
 }
+
+// инициализация фильтров
+export const initFilters = async () => {
+
+    var tree = [];   
+
+    await t.click(Selectors_local2.getAddFilter)
+    await t.wait(1000)
+
+    var filtersCount = await Selectors_local2.getFiltersCount()
+
+    console.log('Количество фильтров в отчете: ' + filtersCount)
+
+    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName)
+
+    return filters;
+}
+
+// перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
+export const clickAllFilters = async (filters) => {
+    var errors = []
+        for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
+        {
+            var err = await filtersWhatToDo(filters, filterIndex)
+            if(err.length !== 0) errors.push(err)
+        }
+    return errors
+}
+
 // что делать с фильтром в зависимости от его типа (выбрать фильтр, перебрать все значения условий, добавить случайное значение, применить фильтр и удалить его)
 export const filtersWhatToDo = async (filters, filterIndex) => {
 
@@ -498,24 +527,6 @@ export const filtersConditionIndexOrName = async (filters, value) => {
 return errors
 }
 
-// инициализация фильтров
-export const initFilters = async () => {
-
-    var tree = [];   
-
-    await t.click(Selectors_local2.getAddFilter)
-    await t.wait(1000)
-
-    var filtersCount = await Selectors_local2.getFiltersCount()
-
-    console.log('Количество фильтров в отчете: ' + filtersCount)
-
-    var filters = await Selectors_local2.readFilters(Selectors_local2.storeName)
-
-    return filters;
-}
-
-
 // чтобы выбрать не включение подстроки, а конкретную строку дерева
 import escapeRegExp from 'lodash/escapeRegExp';
 
@@ -830,7 +841,6 @@ export const allFirstNesting = async (tree) => {
                     let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
                     if(clearSecondNesting==true) 
                     {
-                        //await t.click(Selectors_local2.getCancelNestingButtonSelector)
                         console.log ('STEP PASSED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
                         await delReport();
                     }
@@ -840,11 +850,9 @@ export const allFirstNesting = async (tree) => {
             {
                 for (var index3 = 0; index3 < tree[index1].children[index2].childsCount; index3++) 
                 {
-                    //console.log ('click ' +tree[index1].text +' / '+tree[index1].children[index2].text + '/' + tree[index1].children[index2].childrem[index3].text )
                     let clearSecondNesting = await addFirstNesting(tree, index1, index2, index3)
                     if(clearSecondNesting==true) 
                     {
-                        //await t.click(Selectors_local2.getCancelNestingButtonSelector
                         console.log ('STEP PASSED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                         await delReport();
                     }
@@ -856,6 +864,45 @@ export const allFirstNesting = async (tree) => {
         }
 }
 
+// функция которая перебирает все значения первого  измерения и фильтрыы
+export const allFirstNestingWithFilters = async (tree) => {
+     for (var index1 = 0; index1 < tree.length; index1++) 
+        for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
+         {
+            if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
+            {
+                   
+                    let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
+                    if(clearSecondNesting==true) 
+                    {
+                        let filters = await initFilters();
+                        let errors = await clickAllFilters(filters);
+                        console.log(errors)
+                        console.log ('STEP PASSED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
+                        await delReport();
+                    }
+                    else console.log ('STEP FAILED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
+            }
+            else // если три уровня вложенности
+            {
+                for (var index3 = 0; index3 < tree[index1].children[index2].childsCount; index3++) 
+                {
+                    let clearSecondNesting = await addFirstNesting(tree, index1, index2, index3)
+                    if(clearSecondNesting==true) 
+                    {
+                        let filters = await initFilters();
+                        let errors = await clickAllFilters(filters);
+                        console.log(errors)
+                        console.log ('STEP PASSED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
+                        await delReport();
+                    }
+                    else console.log ('STEP FAILED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
+                }
+
+            }
+            
+        }
+}
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
 export const allSecondNesting = async (tree2) => {

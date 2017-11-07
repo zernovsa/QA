@@ -177,4 +177,21 @@ export const getCancelButtonSelector = Selector('*[class*="cm-filter2panel-contr
 export const getHighchartsExists = Selector('*[id*="highcharts"]');
 
 export const getAccountArrow = Selector('*[id*="main-actionbutton"][id*="btnWrap"]');
-export const getAccountItem  = Selector('*[id*="menuitem"][id*="textEl"]')//.withText('Аккаунт');
+
+export const getAccountItem = Selector('*[id*="menuitem"][id*="textEl"]').nth(0);
+export const getAccountItem1  = Selector('*[id*="menuitem"][id*="textEl"]').withText('Аккаунт');
+export const getAccountItem2 = Selector('*').withText('Аккаунт')
+
+export const getAccountIte3 = ClientFunction(() => {
+    var list = []
+    for(var i = 0; i < document.querySelectorAll('*[id*="menuitem"][id*="textEl"]').length; i++)
+        list.push({
+            id: document.querySelectorAll('*[id*="menuitem"][id*="textEl"]')[i].id,
+            textContent: document.querySelectorAll('*[id*="menuitem"][id*="textEl"]')[i].textContent
+        })
+
+   return list
+});
+
+
+

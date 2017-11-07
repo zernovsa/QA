@@ -51,14 +51,16 @@ export const clickToAccountTab = async (menu, tabName) => {
 
 // переход в аккаунт
 export const clickToAccount = async () => {
-        await t.click(Selectors_local2.getAccountArrow)
-        await t.click(Selectors_local2.getAccountItem)
+    await t.click(Selectors_local2.getAccountArrow)
+    await t.wait(3000)
+    await t.click(Selectors_local2.getAccountItem)
+    await t.wait(3000)
 }
 
 // переход в аккаунт, переход в отчет, перебираем все фильтры отчета
 test('ca_r6.8.0_accountCharges_report_1', async () => {
         await login();
-        await clickToAccount();
+        await clickToAccount();    
         await clickToAccountTab('История списаний', 'Номера');
         let filters = await initFilters('История списаний');
         await clickAllFilters(filters);
