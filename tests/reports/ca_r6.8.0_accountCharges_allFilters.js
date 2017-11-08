@@ -40,11 +40,6 @@ export const clickAllFilters = async (filters) => {
 }
 
 // выбираем вкладку, в зависимости от отчета
-export const clickToTab = async (menu1, menu2, tabName) => {
-    await Helper.clickToTab(menu1, menu2, tabName);
-}
-
-// выбираем вкладку, в зависимости от отчета
 export const clickToAccountTab = async (menu, tabName) => {
     await Helper.clickToAccountTab(menu, tabName);
 }

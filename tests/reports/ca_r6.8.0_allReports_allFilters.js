@@ -46,14 +46,14 @@ export const clickAllFilters = async (filters) => {
 }
 
 // выбираем вкладку, в зависимости от отчета
-export const clickToTab = async (menu1, menu2, tabName) => {
-    await Helper.clickToTab(menu1, menu2, tabName);
+export const clickToMenu = async (menu1, menu2, tabName) => {
+    await Helper.clickToMenu(menu1, menu2, tabName);
 }
 
         // выбрать фильтр по индексу и выбрать фильтр по названию
         test('ca_r6.8.0_filterIndexAndName', async () => {
                 await login();
-        		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+        		await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
         		await enableAllColumns();
                 let filters = await initFilters();
                 //await filtersConditionIndexOrName(filters, 0);
@@ -66,7 +66,7 @@ export const clickToTab = async (menu1, menu2, tabName) => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_1', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Сквозная аналитика', '');
+		await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 		await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -79,7 +79,7 @@ test('ca_r6.8.0_allFilters_report_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_2_1', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
+		await clickToMenu('Общие отчёты', 'Анализ трафика', 'Рекламные кампании');
 		await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -92,7 +92,7 @@ test('ca_r6.8.0_allFilters_report_2_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_2_2', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Анализ трафика', 'Источники');
+		await clickToMenu('Общие отчёты', 'Анализ трафика', 'Источники');
 		await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -105,7 +105,7 @@ test('ca_r6.8.0_allFilters_report_2_2', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_2_3', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Анализ трафика', 'Каналы');
+		await clickToMenu('Общие отчёты', 'Анализ трафика', 'Каналы');
 		await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -118,7 +118,7 @@ test('ca_r6.8.0_allFilters_report_2_3', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_3_1', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Аудитория', 'Информация по сегментам');
+		await clickToMenu('Общие отчёты', 'Аудитория', 'Информация по сегментам');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -130,7 +130,7 @@ test('ca_r6.8.0_allFilters_report_3_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_3_2', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Аудитория', 'Список всех посетителей');
+		await clickToMenu('Общие отчёты', 'Аудитория', 'Список всех посетителей');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -142,7 +142,7 @@ test('ca_r6.8.0_allFilters_report_3_2', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_4_1', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Содержание', 'Все страницы сайта');
+		await clickToMenu('Общие отчёты', 'Содержание', 'Все страницы сайта');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -154,7 +154,7 @@ test('ca_r6.8.0_allFilters_report_4_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_4_2', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Содержание', 'Входные страницы');
+		await clickToMenu('Общие отчёты', 'Содержание', 'Входные страницы');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -166,7 +166,7 @@ test('ca_r6.8.0_allFilters_report_4_2', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_5', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Обращения по сотрудникам',  'Статистика');
+		await clickToMenu('Общие отчёты', 'Обращения по сотрудникам',  'Статистика');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -178,7 +178,7 @@ test('ca_r6.8.0_allFilters_report_5', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_1', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Распределение входящих звонков', 'По номерам ВАТС');
+		await clickToMenu('Общие отчёты', 'Распределение входящих звонков', 'По номерам ВАТС');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -190,7 +190,7 @@ test('ca_r6.8.0_allFilters_report_6_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_2', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Распределение входящих звонков', 'По сотрудникам');
+		await clickToMenu('Общие отчёты', 'Распределение входящих звонков', 'По сотрудникам');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -202,7 +202,7 @@ test('ca_r6.8.0_allFilters_report_6_2', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_6_3', async () => {
         await login();
-		await clickToTab('Общие отчёты', 'Распределение входящих звонков', 'По сценариям');
+		await clickToMenu('Общие отчёты', 'Распределение входящих звонков', 'По сценариям');
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(filters);
@@ -214,7 +214,7 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
         // выбрать фильтр по индексу и выбрать фильтр по названию
         test('ca_r6.8.0_filterIndexAndName_2', async () => {
                 await login();
-                await clickToTab('Список обращений', 'Звонки', 'По сайтам');
+                await clickToMenu('Список обращений', 'Звонки', 'По сайтам');
                 await enableAllColumns();
                 let filters = await initFilters();
                 let errors = await filtersConditionIndexOrName(filters, 'Номер абонента');
@@ -226,7 +226,7 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
                 // выбрать фильтр по индексу и выбрать фильтр по названию
         test('ca_r6.8.0_filterIndexAndName_3', async () => {
                 await login();
-                await clickToTab('Список обращений', 'Звонки', 'По сайтам');
+                await clickToMenu('Список обращений', 'Звонки', 'По сайтам');
                 await enableAllColumns();
                 let filters = await initFilters();
                 let errors = await filtersConditionIndexOrName(filters, 'Трансфер');
@@ -238,7 +238,7 @@ test('ca_r6.8.0_allFilters_report_6_3', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_1', async () => {
         await login();
-		await clickToTab('Список обращений', 'Звонки', 'По сайтам');
+		await clickToMenu('Список обращений', 'Звонки', 'По сайтам');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -251,7 +251,7 @@ test('ca_r6.8.0_allFilters_report_7_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_2', async () => {
         await login();
-		await clickToTab('Список обращений', 'Звонки', 'Все звонки');
+		await clickToMenu('Список обращений', 'Звонки', 'Все звонки');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -264,7 +264,7 @@ test('ca_r6.8.0_allFilters_report_7_2', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_3', async () => {
         await login();
-		await clickToTab('Список обращений', 'Звонки', 'Входящие');
+		await clickToMenu('Список обращений', 'Звонки', 'Входящие');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -277,7 +277,7 @@ test('ca_r6.8.0_allFilters_report_7_3', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_7_4', async () => {
         await login();
-		await clickToTab('Список обращений', 'Звонки', 'Исходящие');
+		await clickToMenu('Список обращений', 'Звонки', 'Исходящие');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -290,7 +290,7 @@ test('ca_r6.8.0_allFilters_report_7_4', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_8', async () => {
         await login();
-		await clickToTab('Список обращений', 'Чаты', 'Чаты');
+		await clickToMenu('Список обращений', 'Чаты', 'Чаты');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -303,7 +303,7 @@ test('ca_r6.8.0_allFilters_report_8', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_9', async () => {
         await login();
-		await clickToTab('Список обращений', 'Заявки', '');
+		await clickToMenu('Список обращений', 'Заявки', '');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -316,7 +316,7 @@ test('ca_r6.8.0_allFilters_report_9', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_10', async () => {
         await login();
-		await clickToTab('Список обращений', 'Цели', '');
+		await clickToMenu('Список обращений', 'Цели', '');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -329,7 +329,7 @@ test('ca_r6.8.0_allFilters_report_10', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_11_1', async () => {
         await login();
-		await clickToTab('Список сделок', '', 'Дата обращения');
+		await clickToMenu('Список сделок', '', 'Дата обращения');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -342,7 +342,7 @@ test('ca_r6.8.0_allFilters_report_11_1', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_11_2', async () => {
         await login();
-		await clickToTab('Список сделок', '', 'Дата сделки');
+		await clickToMenu('Список сделок', '', 'Дата сделки');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -355,7 +355,7 @@ test('ca_r6.8.0_allFilters_report_11_2', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_12', async () => {
         await login();
-		await clickToTab('Служебные', 'Запросы к API', '');
+		await clickToMenu('Служебные', 'Запросы к API', '');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)
@@ -368,7 +368,7 @@ test('ca_r6.8.0_allFilters_report_12', async () => {
 // перебрать все фильтры отчета
 test('ca_r6.8.0_allFilters_report_13', async () => {
         await login();
-		await clickToTab('Служебные', 'Уведомления', '');
+		await clickToMenu('Служебные', 'Уведомления', '');
         await enableAllColumns();
         let filters = await initFilters();
         console.log(filters)

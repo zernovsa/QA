@@ -68,12 +68,14 @@ export const addReportWithName = async (name) => {
 }
 
 // выбираем вкладку, в зависимости от отчета
-export const clickToTab = async (menu1, menu2, tabName) => {
+export const clickToReport = async (menu1, menu2) => {
 
         await t.click(Selectors.getView(menu1))
-        
         if (menu2 != '') await t.click(Selectors.getViewItem(menu2))
 
+}
+
+export const clickToTab = async (tabName) => {
         switch (tabName) {
             case '': {
                 break;
@@ -97,7 +99,31 @@ export const clickToTab = async (menu1, menu2, tabName) => {
         }
 }
 
+export const clickToMenu = async (menu1, menu2, tabName) => {
+    await clickToReport(menu1, menu2)
+    await clickToTab(tabName)
+}
 
+
+export const getCurrentReportAndTab = async () => {
+
+    let menu1, menu2, tabName
+
+    menu1 = null
+    menu2 = await Selectors_local2.whatReport()
+    tabName = null
+
+    return [menu1, menu2, tabName]
+}
+
+export const getCurrentSecondNesting = async () => {
+    
+    var result = null
+
+
+
+    return result
+}
 
 export const clickToAccountTab = async (menu, tabName) => {
     await t.click(Selectors.getView(menu))
@@ -162,7 +188,7 @@ export const initFilters = async () => {
 
     var filtersCount = await Selectors_local2.getFiltersCount()
 
-    console.log('Количество фильтров в отчете: ' + filtersCount)
+    //console.log('Количество фильтров в отчете: ' + filtersCount)
 
     var filters = await Selectors_local2.readFilters(Selectors_local2.storeName)
 
@@ -225,7 +251,9 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         //кликаем применить
                         await t.click(Selectors_local2.getValueButtonSelector)
 
-                        var reportName = await Selectors_local2.whatReport()
+                        var currentReportAndTab = await getCurrentReportAndTab()
+                        var currentSecondNesting = await getCurrentSecondNesting()
+
                         //кликаем применить
                         await t.click(Selectors_local2.getApplyButtonSelector)
 
@@ -233,11 +261,11 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         if (flag==true) 
                         {
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP  FAILED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP  FAILED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
-                                    report: reportName,
+                                    report: currentReportAndTab,
                                     filter: filters[filterIndex].data.name, 
                                     type: filters[filterIndex].data.type, 
                                     condition: conditionIndex, 
@@ -248,7 +276,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('debug', 'STEP PASSED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
@@ -256,13 +284,13 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP  FAILED: '+ ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        log('error', 'STEP  FAILED: '+ ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
                             {
                                 id: filterIndex,
-                                report: reportName,
+                                report: currentReportAndTab,
                                 filter: filters[filterIndex].data.name, 
                                 type: filters[filterIndex].data.type, 
                                 condition: conditionIndex, 
@@ -302,7 +330,9 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         //кликаем применить
                         await t.click(Selectors_local2.getValueButtonSelector)
 
-                        var reportName = await Selectors_local2.whatReport()
+                        var currentReportAndTab = await getCurrentReportAndTab()
+                        var currentSecondNesting = await getCurrentSecondNesting()
+                        
                         //кликаем применить
                         await t.click(Selectors_local2.getApplyButtonSelector)
 
@@ -310,11 +340,11 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         if (flag==true) 
                         {
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP  FAILED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP  FAILED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
-                                    report: reportName,
+                                    report: currentReportAndTab,
                                     filter: filters[filterIndex].data.name, 
                                     type: filters[filterIndex].data.type, 
                                     condition: conditionIndex, 
@@ -325,20 +355,20 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED: ' + ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('debug', 'STEP PASSED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
                     }
                     catch(err)
                     {
-                        log('error', 'STEP  FAILED: '+ ' report:  '+ reportName + ' filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        log('error', 'STEP  FAILED: '+ ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
                             {
                                 id: filterIndex,
-                                report: reportName,
+                                report: currentReportAndTab,
                                 filter: filters[filterIndex].data.name, 
                                 type: filters[filterIndex].data.type, 
                                 condition: conditionIndex, 
@@ -957,7 +987,15 @@ export const secondNestingFilters = async (tree2) => {
             {
                 for (var index3 = 0; index3 < tree2[index1].children[index2].childsCount; index3++) 
                 {
-                    await console.log(index1 + ' ' + index2+' '+ index3)
+                    let res = await addSecondNesting(tree2, index1, index2, index3)
+                    
+                    if(res[0]==true)
+                    {
+                        let filters = await initFilters();
+                        //console.log(filters)
+                        await filtersConditionIndexOrName(filters, tree2[index1].children[index2].children[index3].text)
+                        await t.click(Selectors_local2.getCancelNestingButtonSelector)
+                    }
                 }
 
             }

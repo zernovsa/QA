@@ -18,8 +18,8 @@ export const login = async () => {
 }
 
 // выбираем вкладку, в зависимости от отчета
-export const clickToTab = async (menu1, menu2, tabName) => {
-    await Helper.clickToTab(menu1, menu2, tabName);
+export const clickToMenu = async (menu1, menu2, tabName) => {
+    await Helper.clickToMenu(menu1, menu2, tabName);
 }
 
 // включаем все колонки отчета
@@ -56,7 +56,7 @@ export const allFirstNestingWithFilters = async (tree) => {
 // тест на все первые измерения отчета "Анализ трафика"
 test('ca_r6.8.0_allFirstNestingsWithFilters_report_1', async () => {
         await login();
-        await clickToTab('Общие отчёты', 'Анализ трафика', '');
+        await clickToMenu('Общие отчёты', 'Анализ трафика', '');
         await enableAllColumns();
         let tree = await initFirstNestingTree()
         await allFirstNestingWithFilters(tree)
