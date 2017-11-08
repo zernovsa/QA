@@ -35,8 +35,13 @@ export const filtersConditionIndexOrName = async (filters, value) => {
 
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
 export const clickAllFilters = async (filters) => {
-    for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
-    	await Helper.filtersWhatToDo(filters, filterIndex)
+	var errors = []
+	for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
+    {
+		var err = await Helper.filtersWhatToDo(filters, filterIndex)
+		if(err.length !== 0) errors.push(err)
+    }
+return errors
 }
 
 // выбираем вкладку, в зависимости от отчета
@@ -58,7 +63,10 @@ test('ca_r6.8.0_accountCharges_report_1', async () => {
         await clickToAccount();    
         await clickToAccountTab('История списаний', 'Номера');
         let filters = await initFilters('История списаний');
-        await clickAllFilters(filters);
+		console.log(filters)
+        let errors = await clickAllFilters(filters);
+        console.log(errors)
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
 
@@ -68,6 +76,9 @@ test('ca_r6.8.0_accountCharges_report_2', async () => {
         await clickToAccount();
         await clickToAccountTab('История списаний', 'Звонки');
         let filters = await initFilters('История списаний');
-        await clickAllFilters(filters);
+		console.log(filters)
+        let errors = await clickAllFilters(filters);
+        console.log(errors)
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
