@@ -104,14 +104,90 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
     await clickToTab(tabName)
 }
 
+export const tabTextContent = ClientFunction(() => document.querySelectorAll('div[class*="x-box-inner x-box-scroller-body-horizontal"] > div > a[class*="x-tab-active"][class*="x-tab x-unselectable"] > span > span[id*="btnEl"][id*="tab"] > span[id*="btnInnerEl"][id*="tab"][class*="x-tab-inner x-tab-inner-ul"]')[0].textContent)
 
 export const getCurrentReportAndTab = async () => {
 
     let menu1, menu2, tabName
 
-    menu1 = null
     menu2 = await Selectors_local2.whatReport()
-    tabName = null
+
+    switch (menu2) {
+            case 'Обзор': {
+                menu1 = menu2
+                menu2 = ''
+                break;
+            }
+            case 'Сквозная аналитика': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Анализ трафика': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Аудитория': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Содержание': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Динамика обращений': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Качество обращений': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Обращения по сотрудникам': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Распределение входящих звонков': {
+                menu1 = 'Общие отчёты'
+                break;
+            }
+            case 'Звонки': {
+                menu1 = 'Список обращений'
+                break;
+            }
+            case 'Чаты': {
+                menu1 = 'Список обращений'
+                break;
+            }
+            case 'Заявки': {
+                menu1 = 'Список обращений'
+                break;
+            }
+            case 'Цели': {
+                menu1 = 'Список обращений'
+                break;
+            }
+            case 'Лидогенерация': {
+                menu1 = menu2
+                menu2 = ''
+                break;
+            }
+            case 'Запросы к API': {
+                menu1 = 'Служебные'
+                break;
+            }
+            case 'Уведомления': {
+                menu1 = 'Служебные'
+                break;
+            }
+            default: {
+                menu1 = menu2
+                menu2 = ''
+                break;
+            }
+}
+
+    if(menu2!=='Анализ трафика') tabName = await tabTextContent()
+    else tabName=''
 
     return [menu1, menu2, tabName]
 }
@@ -260,8 +336,10 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                         let flag = await errorCheck()
                         if (flag==true) 
                         {
+                            await clickToMenu(currentReportAndTab[0], currentReportAndTab[1], currentReportAndTab[2]);
+
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP  FAILED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP FAILED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
@@ -284,7 +362,7 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP  FAILED: '+ ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        log('error', 'STEP FAILED: '+ ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -332,13 +410,15 @@ export const filtersWhatToDo = async (filters, filterIndex) => {
 
                         var currentReportAndTab = await getCurrentReportAndTab()
                         var currentSecondNesting = await getCurrentSecondNesting()
-                        
+
                         //кликаем применить
                         await t.click(Selectors_local2.getApplyButtonSelector)
 
                         let flag = await errorCheck()
                         if (flag==true) 
                         {
+                            await clickToMenu(currentReportAndTab[0], currentReportAndTab[1], currentReportAndTab[2]);
+
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                             log('error', 'STEP  FAILED: ' + ' report: ['+ currentReportAndTab + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
                             errors.push(

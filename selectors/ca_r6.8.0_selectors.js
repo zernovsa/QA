@@ -2,16 +2,7 @@ import {t, Selector, ClientFunction} from 'testcafe';
 
 //export const storeName = 'cm-filter2panel'; 
 
-export const whatReport    = ClientFunction(() => document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]')[0].textContent);
-
-export const whatReport3 = ClientFunction(() => {
-    return document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]')[0].textContent
-});
-
-
-export const whatReport2 = ClientFunction(() => {
-    return document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]').nth(0)
-})
+export const whatReport    = ClientFunction(() => document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]')[document.querySelectorAll('*[class*="x-grid-item x-grid-item-selected"]').length-1].textContent);
 
 export const storeName = 'cm-menu'; 
 
