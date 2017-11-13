@@ -34,11 +34,11 @@ export const filtersConditionIndexOrName = async (filters, value) => {
 }
 
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
-export const clickAllFilters = async (filters) => {
+export const clickAllFilters = async (report, filters) => {
 	var errors = []
 	for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
     {
-		var err = await Helper.filtersWhatToDo(filters, filterIndex)
+		var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
 		if(err.length !== 0) errors.push(err)
     }
 return errors
@@ -46,7 +46,8 @@ return errors
 
 // выбираем вкладку, в зависимости от отчета
 export const clickToAccountTab = async (menu, tabName) => {
-    await Helper.clickToAccountTab(menu, tabName);
+    let report = await Helper.clickToAccountTab(menu, tabName);
+    return report
 }
 
 // переход в аккаунт
@@ -61,10 +62,10 @@ export const clickToAccount = async () => {
 test('ca_r6.8.0_accountCharges_report_1', async () => {
         await login();
         await clickToAccount();    
-        await clickToAccountTab('История списаний', 'Номера');
+        let report = await clickToAccountTab('История списаний', 'Номера');
         let filters = await initFilters('История списаний');
 		console.log(filters)
-        let errors = await clickAllFilters(filters);
+        let errors = await clickAllFilters(report, filters);
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
@@ -74,10 +75,10 @@ test('ca_r6.8.0_accountCharges_report_1', async () => {
 test('ca_r6.8.0_accountCharges_report_2', async () => {
         await login();
         await clickToAccount();
-        await clickToAccountTab('История списаний', 'Звонки');
+        let report = await clickToAccountTab('История списаний', 'Звонки');
         let filters = await initFilters('История списаний');
 		console.log(filters)
-        let errors = await clickAllFilters(filters);
+        let errors = await clickAllFilters(report, filters);
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
