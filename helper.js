@@ -535,6 +535,84 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
+            case 'system_list': {
+                for (let conditionIndex = 0; conditionIndex < 2; conditionIndex++) {
+                    try 
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let value = getRandomInt(1, 999);
+
+                        //кликаем на стрелку параметров
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                        //кликаем на стрелку условий
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        //кликаем на условие
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                        //кликаем на поле значение
+                        let getValueArrow = await Selectors_local2.getValueArrow()
+                        await t.click(getValueArrow)
+                         // выбираем первое значение списка значение 
+                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + 2));
+                        //кликаем применить
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        //кликаем применить
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                        {
+                            await clickToMenu('', report[1], report[2]);
+
+                            //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            errors.push(
+                                {
+                                    id: filterIndex,
+                                    report: report,
+                                    filter: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex, 
+                                    value: value
+                                }
+                            )
+                        }
+                        else
+                        {
+                            //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
+                    }
+                    catch(err)
+                    {
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        errors.push(
+                            {
+                                id: filterIndex,
+                                report: report,
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex, 
+                                value: value
+                            }
+                        )
+                    }
+                    //await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
+                }
+                break;
+            }
+
             default: {
                 log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type)
                 break;
@@ -1097,6 +1175,9 @@ export const allFirstNestingWithFilters = async (tree) => {
 
 
 export const allFirstNestingsAndFirstFilters = async (tree) => {
+
+    var errors = []
+
      for (var index1 = 0; index1 < tree.length; index1++) 
         for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
          {
@@ -1107,8 +1188,8 @@ export const allFirstNestingsAndFirstFilters = async (tree) => {
                     if(clearSecondNesting==true) 
                     {
                         let filters = await initFilters();
-                        //console.log(filters)
-                        let errors = await filtersConditionIndexOrName(filters, tree[index1].children[index2].text);
+                        console.log(filters)
+                        let errors = await filtersConditionIndexOrName(report, filters, tree[index1].children[index2].text);
                         //console.log(errors)
                         console.log ('STEP [FILTER] PASSED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
                         await delReport();
@@ -1123,8 +1204,8 @@ export const allFirstNestingsAndFirstFilters = async (tree) => {
                     if(clearSecondNesting==true) 
                     {
                         let filters = await initFilters();
-                        //console.log(filters)
-                        let errors = await filtersConditionIndexOrName(filters, tree[index1].children[index2].children[index3].text);
+                        console.log(filters)
+                        let errors = await filtersConditionIndexOrName(report, filters, tree[index1].children[index2].children[index3].text);
                         //console.log(errors)
                         console.log ('STEP [FILTER] PASSED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                         await delReport();
@@ -1135,10 +1216,12 @@ export const allFirstNestingsAndFirstFilters = async (tree) => {
             }
             
         }
+
+    return errors
 } 
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
-export const allSecondNesting = async (tree2) => {
+export const allSecondNesting = async (report, tree2) => {
 
     var errors = []
 
@@ -1170,7 +1253,9 @@ export const allSecondNesting = async (tree2) => {
 }
 
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
-export const secondNestingFilters = async (tree2) => {
+export const secondNestingFilters = async (report, tree2) => {
+
+    ler errors = []
 
     for (var index1 = 0; index1 < tree2.length; index1++) 
         for (var index2 = 0; index2 < tree2[index1].childsCount; index2++) 
@@ -1181,8 +1266,8 @@ export const secondNestingFilters = async (tree2) => {
                 if(res[0]==true)
                 {
                     let filters = await initFilters();
-                    //console.log(filters)
-                    await filtersConditionIndexOrName(filters, tree2[index1].children[index2].text)
+                    console.log(filters)
+                    await filtersConditionIndexOrName(report, filters, tree2[index1].children[index2].text)
                     await t.click(Selectors_local2.getCancelNestingButtonSelector)
                 }
             }
@@ -1195,11 +1280,12 @@ export const secondNestingFilters = async (tree2) => {
                     if(res[0]==true)
                     {
                         let filters = await initFilters();
-                        //console.log(filters)
-                        await filtersConditionIndexOrName(filters, tree2[index1].children[index2].children[index3].text)
+                        console.log(filters)
+                        await filtersConditionIndexOrName(report, filters, tree2[index1].children[index2].children[index3].text)
                         await t.click(Selectors_local2.getCancelNestingButtonSelector)
                     }
                 }
 
             }
+return errors            
 }

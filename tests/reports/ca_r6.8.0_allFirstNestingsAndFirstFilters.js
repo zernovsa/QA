@@ -56,9 +56,11 @@ export const allFirstNestingsAndFirstFilters = async (tree) => {
 // тест на все первые измерения отчета "Анализ трафика"
 test('ca_r6.8.0_allFirstNestingsAndFirstFilters_report_1', async () => {
         await login();
-        await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+        let report = await  clickToMenu('Общие отчёты', 'Анализ трафика', '');
         await enableAllColumns();
         let tree = await initFirstNestingTree()
-        await allFirstNestingsAndFirstFilters(tree)
+        let errors = await allFirstNestingsAndFirstFilters(tree)
+        console.log(errors)
+        if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
