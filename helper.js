@@ -572,29 +572,28 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             await clickToMenu('', report[1], report[2]);
 
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
                                     report: report,
                                     filter: filters[filterIndex].data.name, 
                                     type: filters[filterIndex].data.type, 
-                                    condition: conditionIndex, 
-                                    value: value
+                                    condition: conditionIndex
                                 }
                             )
                         }
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -603,8 +602,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                                 report: report,
                                 filter: filters[filterIndex].data.name, 
                                 type: filters[filterIndex].data.type, 
-                                condition: conditionIndex, 
-                                value: value
+                                condition: conditionIndex
                             }
                         )
                     }
@@ -1255,7 +1253,7 @@ export const allSecondNesting = async (report, tree2) => {
 // функция которая перебирает все значения второго измерения и перекликивает фильтр по этому измерению
 export const secondNestingFilters = async (report, tree2) => {
 
-    ler errors = []
+    let errors = []
 
     for (var index1 = 0; index1 < tree2.length; index1++) 
         for (var index2 = 0; index2 < tree2[index1].childsCount; index2++) 

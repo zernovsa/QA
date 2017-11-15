@@ -112,7 +112,7 @@ test('ca_r6.8.0_secondNestingFilters_report_2_2', async () => {
         await enableAllColumns();
         let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Источники')
         await consolelogSecondNestingTree(tree2)
-        let errors = await secondNestingFilters(tree2)
+        let errors = await secondNestingFilters(report, tree2)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
@@ -125,7 +125,7 @@ test('ca_r6.8.0_secondNestingFilters_report_2_3', async () => {
         await enableAllColumns();
         let tree2 = await initSecondNestingTree('Общие отчёты', 'Анализ трафика', 'Каналы')
         await consolelogSecondNestingTree(tree2)
-        let errors = await secondNestingFilters(tree2)
+        let errors = await secondNestingFilters(report, tree2)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
@@ -136,7 +136,7 @@ test('ca_r6.8.0_secondNestingFilters_report_3_1', async () => {
         let report = await clickToMenu('Общие отчёты', 'Аудитория', 'Информация по сегментам')
         let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Информация по сегментам')
         await consolelogSecondNestingTree(tree2)
-        let errors = await secondNestingFilters(tree2)
+        let errors = await secondNestingFilters(report, tree2)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
@@ -148,7 +148,7 @@ test('ca_r6.8.0_secondNestingFilters_report_3_2', async () => {
         let report = await clickToMenu('Общие отчёты', 'Аудитория', 'Список всех посетителей')
         let tree2 = await initSecondNestingTree('Общие отчёты', 'Аудитория', 'Список всех посетителей')
         await consolelogSecondNestingTree(tree2)
-        let errors = await secondNestingFilters(tree2)
+        let errors = await secondNestingFilters(report, tree2)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
@@ -159,7 +159,7 @@ test('ca_r6.8.0_secondNestingFilters_report_4_2', async () => {
         let report = await clickToMenu('Общие отчёты', 'Содержание', 'Входные страницы')
         let tree2 = await initSecondNestingTree('Общие отчёты', 'Содержание', 'Входные страницы')
         await consolelogSecondNestingTree(tree2)
-        let errors =  await secondNestingFilters(tree2)
+        let errors = await secondNestingFilters(report, tree2)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
