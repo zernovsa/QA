@@ -380,7 +380,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
             }
 
             case 'text': {
-                for (let conditionIndex = 0; conditionIndex < 3; conditionIndex++) {
+                for (let conditionIndex = 0; conditionIndex < 4; conditionIndex++) {
                     try 
                     {
                         await t.click(Selectors_local2.getAddFilter)
@@ -1172,7 +1172,7 @@ export const allFirstNestingWithFilters = async (tree) => {
 }
 
 
-export const allFirstNestingsAndFirstFilters = async (tree) => {
+export const allFirstNestingsAndFirstFilters = async (report, tree) => {
 
     var errors = []
 

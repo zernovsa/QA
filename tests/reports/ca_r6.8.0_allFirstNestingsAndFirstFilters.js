@@ -48,8 +48,8 @@ export const addFirstNesting = async (tree, index1, index2, index3) => {
 }
 
 // функция добавляет первое измерение
-export const allFirstNestingsAndFirstFilters = async (tree) => {
-    let flag = await Helper.allFirstNestingsAndFirstFilters(tree)
+export const allFirstNestingsAndFirstFilters = async (report, tree) => {
+    let flag = await Helper.allFirstNestingsAndFirstFilters(report, tree)
     return flag
 }
 
@@ -59,7 +59,7 @@ test('ca_r6.8.0_allFirstNestingsAndFirstFilters_report_1', async () => {
         let report = await  clickToMenu('Общие отчёты', 'Анализ трафика', '');
         await enableAllColumns();
         let tree = await initFirstNestingTree()
-        let errors = await allFirstNestingsAndFirstFilters(tree)
+        let errors = await allFirstNestingsAndFirstFilters(report, tree)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'
     }
