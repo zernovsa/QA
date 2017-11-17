@@ -289,16 +289,17 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
         
         // time
-        // time_with_days
-        // date
         // system_list
-        // system_tree
-        // list
         // text
         // text_list
         // numeric
-        // numeric_dict
+        
 
+         // time_with_days
+         // date
+         // list
+         // system_tree
+         // numeric_dict
 
         let errors  = [];
 
@@ -341,7 +342,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             await clickToMenu('', report[1], report[2]);
 
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
@@ -356,7 +357,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
@@ -364,7 +365,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -421,7 +422,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             await clickToMenu('', report[1], report[2]);
 
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
@@ -436,14 +437,14 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString() + ' value: ' + value.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -503,7 +504,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             await clickToMenu('', report[1], report[2]);
 
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
@@ -517,14 +518,14 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -582,7 +583,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             await clickToMenu('', report[1], report[2]);
 
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
@@ -596,14 +597,14 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -653,7 +654,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             await clickToMenu('', report[1], report[2]);
 
                             //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                             errors.push(
                                 {
                                     id: filterIndex,
@@ -667,14 +668,14 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         else
                         {
                             //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
-                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                             //кликаем отменить
                             await t.click(Selectors_local2.getCancelButtonSelector)
                         }
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type + ' conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -693,7 +694,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
             }
 
             default: {
-                log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '] filter: ' + filters[filterIndex].data.name + ' type: '+ filters[filterIndex].data.type)
+                log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type)
                 break;
             }
 
@@ -1055,7 +1056,7 @@ export const addFirstNesting = async (tree, index1, index2, index3) => {
                         let a = getWholeTextRe(tree[index1].children[index2].text)
                         await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                         flag = true
-                        console.log('STEP [FIRST NESTING] PASSED: ' + tree[index1].text + ' / '+ tree[index1].children[index2].text)
+                        console.log('STEP PASSED [FIRST NESTING]: ' + tree[index1].text + ' / '+ tree[index1].children[index2].text)
                 }
                 else // если 3 уровня вложенности
                 {
@@ -1069,7 +1070,7 @@ export const addFirstNesting = async (tree, index1, index2, index3) => {
                         let a = getWholeTextRe(tree[index1].children[index2].children[index3].text)
                         await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                         flag = true
-                        console.log('STEP [FIRST NESTING] PASSED: ' + tree[index1].text + ' / ' + tree[index1].children[index2].text + ' / '+  tree[index1].children[index2].children[index3].text)
+                        console.log('STEP PASSED [FIRST NESTING]: ' + tree[index1].text + ' / ' + tree[index1].children[index2].text + ' / '+  tree[index1].children[index2].children[index3].text)
                 }
     return flag   
 }
@@ -1094,11 +1095,11 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                                     let a = getWholeTextRe(tree2[index1].children[index2].text)
                                     await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                                     flag = true
-                                    console.log('STEP [SECOND NESTING] PASSED: '.green + tree2[index1].text + ' / '+ tree2[index1].children[index2].text)
+                                    console.log('STEP PASSED [SECOND NESTING]: '.green + tree2[index1].text + ' / '+ tree2[index1].children[index2].text)
                             }
                             catch(err) 
                             {
-                                console.log('STEP [SECOND NESTING] FAILED: '.red + tree2[index1].text + ' / '+  tree2[index1].children[index2].text)
+                                console.log('STEP FAILED [SECOND NESTING]: '.red + tree2[index1].text + ' / '+  tree2[index1].children[index2].text)
                                 errors.push(
                                     {
                                         index: [index1, index2],
@@ -1125,11 +1126,11 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                             let a = getWholeTextRe(tree2[index1].children[index2].children[index3].text)
                             await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                             flag = true
-                            console.log('STEP [SECOND NESTING] PASSED: '.green + tree2[index1].text + ' / ' + tree2[index1].children[index2].text + ' / '+  tree2[index1].children[index2].children[index3].text)
+                            console.log('STEP PASSED [SECOND NESTING]: '.green + tree2[index1].text + ' / ' + tree2[index1].children[index2].text + ' / '+  tree2[index1].children[index2].children[index3].text)
                         } 
                         catch(err) 
                         {
-                            console.log('STEP [SECOND NESTING] FAILED: '.red + tree2[index1].text + ' / ' + tree2[index1].children[index2].text + ' / '+  tree2[index1].children[index2].children[index3].text)
+                            console.log('STEP FAILED [SECOND NESTING]: '.red + tree2[index1].text + ' / ' + tree2[index1].children[index2].text + ' / '+  tree2[index1].children[index2].children[index3].text)
                              errors.push(
                                 {
                                     index: [index1, index2, index3],
@@ -1153,10 +1154,10 @@ export const allFirstNesting = async (tree) => {
                     let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
                     if(clearSecondNesting==true) 
                     {
-                        console.log ('STEP [FIRST NESTING] PASSED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
+                        console.log ('STEP PASSED [FIRST NESTING]: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
                         await delReport();
                     }
-                    else console.log ('STEP [FIRST NESTING] FAILED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
+                    else console.log ('STEP FAILED [FIRST NESTING]: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
             }
             else // если три уровня вложенности
             {
@@ -1165,10 +1166,10 @@ export const allFirstNesting = async (tree) => {
                     let clearSecondNesting = await addFirstNesting(tree, index1, index2, index3)
                     if(clearSecondNesting==true) 
                     {
-                        console.log ('STEP [FIRST NESTING] PASSED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
+                        console.log ('STEP PASSED [FIRST NESTING]: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                         await delReport();
                     }
-                    else console.log ('STEP [FIRST NESTING] FAILED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
+                    else console.log ('STEP FAILED [FIRST NESTING]: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                 }
 
             }
@@ -1190,10 +1191,10 @@ export const allFirstNestingWithFilters = async (tree) => {
                         let filters = await initFilters();
                         let errors = await clickAllFilters(filters);
                         //console.log(errors)
-                        console.log ('STEP [FILTER] PASSED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
+                        console.log ('STEP PASSED [FILTER]: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
                         await delReport();
                     }
-                    else console.log ('STEP [FILTER] FAILED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
+                    else console.log ('STEP FAILED [FILTER]: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
             }
             else // если три уровня вложенности
             {
@@ -1205,10 +1206,10 @@ export const allFirstNestingWithFilters = async (tree) => {
                         let filters = await initFilters();
                         let errors = await clickAllFilters(filters);
                         //console.log(errors)
-                        console.log ('STEP [FILTER] PASSED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
+                        console.log ('STEP PASSED [FILTER]: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                         await delReport();
                     }
-                    else console.log ('STEP [FILTER] FAILED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
+                    else console.log ('STEP FAILED [FILTER]: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                 }
 
             }
