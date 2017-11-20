@@ -37,6 +37,13 @@ export const login = async () => {
         .typeText('input[name="login"]', username)
         .typeText('input[name="password"]', password)
         .pressKey('enter')
+  
+        // выбираем сайт siteapp.webdev.uiscom.ru
+        let siteArrow = Selector('*[class*="x-form-trigger x-form-trigger-cm-siteselector x-form-arrow-trigger x-form-arrow-trigger-cm-siteselector"]')
+        await t.click(siteArrow)
+        let siteClick = Selector('*[class*="x-boundlist-item"]').withText('siteapp.webdev.uiscom.ru')
+        await t.click(siteClick)
+
 }
 
 // случайное число
@@ -365,7 +372,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -374,8 +381,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                                 report: report,
                                 filter: filters[filterIndex].data.name, 
                                 type: filters[filterIndex].data.type, 
-                                condition: conditionIndex, 
-                                value: value
+                                condition: conditionIndex
                             }
                         )
                     }
@@ -444,7 +450,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() + ', value: ' + value.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -453,12 +459,10 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                                 report: report,
                                 filter: filters[filterIndex].data.name, 
                                 type: filters[filterIndex].data.type, 
-                                condition: conditionIndex, 
-                                value: value
+                                condition: conditionIndex
                             }
                         )
                     }
-                    //await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
                 }
                 break;
             }
@@ -525,7 +529,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -538,7 +542,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             }
                         )
                     }
-                    //await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
                 }
                 break;
             }
@@ -604,7 +607,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -617,7 +620,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             }
                         )
                     }
-                    //await t.takeScreenshot('./ca_r6.8.0-' + nowTime + '/' + step++ + text)
                 }
                 break;
             }
@@ -675,7 +677,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -688,7 +690,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             }
                         )
                     }
-
                 }
                 break;
             }
@@ -746,7 +747,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                     }
                     catch(err)
                     {
-                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
                         //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
                         errors.push(
@@ -759,7 +760,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                             }
                         )
                     }
-
                 }
                 break;
             }
