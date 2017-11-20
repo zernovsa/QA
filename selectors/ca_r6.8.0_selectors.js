@@ -24,7 +24,6 @@ export const getFiltersItem = ClientFunction((index) => {
         valueElData: null
     }
 
-    
         var element = Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData
         if (typeof (element) == undefined && typeof (element) == null && typeof (element) == 'undefined') 
         {
@@ -45,6 +44,7 @@ export const getFiltersItem = ClientFunction((index) => {
                 type: Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.type,
                 valueElData: null
             };
+        }
 
             // // если valueElData массив
             // if(Ext.isArray(Ext.ComponentQuery.query('cm-menu')[Ext.ComponentQuery.query('cm-menu').length-1].items.items[0].filterListStore.data.items[index].data.valueElData)) 
@@ -81,7 +81,7 @@ export const getFiltersItem = ClientFunction((index) => {
             //         valueElData: list
             //     };
             // }
-        }
+        
 
     // }  
 return item
@@ -113,22 +113,24 @@ export const readFilters = async (storeName) => {
         )
     }
 
-    //сортируем по названию фильтра
-    list.sort(function (a, b) {
-      if (a.data.name > b.data.name) {
-        return 1;
-      }
-      if (a.data.name < b.data.name) {
-        return -1;
-      }
-      // a должно быть равным b
-      return 0;
-    });
+    list.sort();
 
-    // переписываем индексы фильтров
-    for (let i = 0; i < list.length; i++) {
-        list[i].el=i
-    }
+    // //сортируем по названию фильтра
+    // list.sort(function (a, b) {
+    //   if (a.data.name > b.data.name) {
+    //     return 1;
+    //   }
+    //   if (a.data.name < b.data.name) {
+    //     return -1;
+    //   }
+    //   // a должно быть равным b
+    //   return 0;
+    // });
+
+    // // переписываем индексы фильтров
+    // for (let i = 0; i < list.length; i++) {
+    //     list[i].el=i
+    // }
 
     //console.log(list)
 

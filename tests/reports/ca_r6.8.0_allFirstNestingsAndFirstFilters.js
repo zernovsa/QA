@@ -59,6 +59,7 @@ test('ca_r6.8.0_allFirstNestingsAndFirstFilters_report_1', async () => {
         let report = await  clickToMenu('Общие отчёты', 'Анализ трафика', '');
         await enableAllColumns();
         let tree = await initFirstNestingTree()
+        console.log(tree)
         let errors = await allFirstNestingsAndFirstFilters(report, tree)
         console.log(errors)
         if(errors.length !== 0) throw 'TEST FAILED'

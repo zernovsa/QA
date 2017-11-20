@@ -43,6 +43,7 @@ export const login = async () => {
         await t.click(siteArrow)
         let siteClick = Selector('*[class*="x-boundlist-item"]').withText('siteapp.webdev.uiscom.ru')
         await t.click(siteClick)
+        await reloadPage()
 
 }
 
@@ -281,11 +282,11 @@ export const initFilters = async () => {
 }
 
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
-export const clickAllFilters = async (filters) => {
+export const clickAllFilters = async (report, filters) => {
     var errors = []
         for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
         {
-            var err = await filtersWhatToDo(filters, filterIndex)
+            var err = await filtersWhatToDo(report, filters, filterIndex)
             if(err.length !== 0) errors.push(err)
         }
     return errors
@@ -574,7 +575,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         let getValueArrow = await Selectors_local2.getValueArrow()
                         await t.click(getValueArrow)
                          // выбираем первое значение списка значение 
-                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + 2));
+                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount));
                         //кликаем применить
                         await t.click(Selectors_local2.getValueButtonSelector)
                         //кликаем применить
@@ -711,10 +712,14 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
-                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
 
-                        await t.click(Selectors_local2.getArrowSelectorForTime)
-                        await t.click(Selectors_local2.getValueSelectorForTime.nth(0))
+                        //кликаем на условие
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                        //кликаем на поле значение
+                        let getValueArrow = await Selectors_local2.getValueArrow()
+                        await t.click(getValueArrow)
+                         // выбираем первое значение списка значение 
+                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount));
 
                         await t.click(Selectors_local2.getValueButtonSelector)
                         await t.click(Selectors_local2.getApplyButtonSelector)
@@ -860,7 +865,7 @@ export const delReport = async () => {
 }
 
 //инициализация дерева первого измерения
-export const initFirstNestingTree = async ( ) => {
+export const initFirstNestingTree = async () => {
 
     await addReport();
    
@@ -935,7 +940,7 @@ export const initFirstNestingTree = async ( ) => {
         
     }
 
-    //consolelogFirstNestingTree(tree)
+    consolelogFirstNestingTree(tree)
     return tree
 }
 
@@ -1175,7 +1180,7 @@ export const allFirstNesting = async (tree) => {
 }
 
 // функция которая перебирает все значения первого  измерения и фильтрыы
-export const allFirstNestingWithFilters = async (tree) => {
+export const allFirstNestingWithFilters = async (report, tree) => {
      for (var index1 = 0; index1 < tree.length; index1++) 
         for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
          {
@@ -1186,7 +1191,8 @@ export const allFirstNestingWithFilters = async (tree) => {
                     if(clearSecondNesting==true) 
                     {
                         let filters = await initFilters();
-                        let errors = await clickAllFilters(filters);
+                        //console.log(filters)
+                        let errors = await clickAllFilters(report, filters);
                         //console.log(errors)
                         console.log ('STEP PASSED [FILTER]: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
                         await delReport();
@@ -1201,6 +1207,7 @@ export const allFirstNestingWithFilters = async (tree) => {
                     if(clearSecondNesting==true) 
                     {
                         let filters = await initFilters();
+                        //console.log(filters)
                         let errors = await clickAllFilters(filters);
                         //console.log(errors)
                         console.log ('STEP PASSED [FILTER]: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
@@ -1229,8 +1236,8 @@ export const allFirstNestingsAndFirstFilters = async (report, tree) => {
                     if(clearSecondNesting==true) 
                     {
                         let filters = await initFilters();
-                        console.log(filters)
-                        let errors = await filtersConditionIndexOrName(report, filters, tree[index1].children[index2].text);
+                        //console.log(filters)
+                        //let errors = await filtersConditionIndexOrName(report, filters, tree[index1].children[index2].text);
                         //console.log(errors)
                         console.log ('STEP [FILTER] PASSED: ' + tree[index1].text +' / '+tree[index1].children[index2].text)
                         await delReport();
@@ -1245,8 +1252,8 @@ export const allFirstNestingsAndFirstFilters = async (report, tree) => {
                     if(clearSecondNesting==true) 
                     {
                         let filters = await initFilters();
-                        console.log(filters)
-                        let errors = await filtersConditionIndexOrName(report, filters, tree[index1].children[index2].children[index3].text);
+                        //console.log(filters)
+                        //let errors = await filtersConditionIndexOrName(report, filters, tree[index1].children[index2].children[index3].text);
                         //console.log(errors)
                         console.log ('STEP [FILTER] PASSED: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                         await delReport();
