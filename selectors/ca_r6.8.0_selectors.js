@@ -113,24 +113,24 @@ export const readFilters = async (storeName) => {
         )
     }
 
-    list.sort();
+    //list.sort();
 
-    // //сортируем по названию фильтра
-    // list.sort(function (a, b) {
-    //   if (a.data.name > b.data.name) {
-    //     return 1;
-    //   }
-    //   if (a.data.name < b.data.name) {
-    //     return -1;
-    //   }
-    //   // a должно быть равным b
-    //   return 0;
-    // });
+    //сортируем по названию фильтра
+    list.sort(function (a, b) {
+      if (a.data.name > b.data.name) {
+        return 1;
+      }
+      if (a.data.name < b.data.name) {
+        return -1;
+      }
+      // a должно быть равным b
+      return 0;
+    });
 
-    // // переписываем индексы фильтров
-    // for (let i = 0; i < list.length; i++) {
-    //     list[i].el=i
-    // }
+    // переписываем индексы фильтров
+    for (let i = 0; i < list.length; i++) {
+        list[i].el=i
+    }
 
     //console.log(list)
 

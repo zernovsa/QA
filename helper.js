@@ -329,7 +329,12 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
                         //выбираем нужный параметр
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
+
                         //кликаем на стрелку условий
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
@@ -408,7 +413,11 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
                         //выбираем нужный параметр
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
                         //кликаем на стрелку условий
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
@@ -485,8 +494,12 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
+                                               //выбираем нужный параметр
+
+                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
                         //выбираем нужный параметр
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
                         //кликаем на стрелку условий
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
@@ -564,8 +577,12 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
+                                                //выбираем нужный параметр
+
+                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
                         //выбираем нужный параметр
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
                         //кликаем на стрелку условий
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
@@ -638,7 +655,12 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                                                //выбираем нужный параметр
+
+                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
 
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
@@ -708,7 +730,12 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+                        //выбираем нужный параметр
+
+                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
 
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
@@ -1208,7 +1235,7 @@ export const allFirstNestingWithFilters = async (report, tree) => {
                     {
                         let filters = await initFilters();
                         //console.log(filters)
-                        let errors = await clickAllFilters(filters);
+                        let errors = await clickAllFilters(report, filters);
                         //console.log(errors)
                         console.log ('STEP PASSED [FILTER]: ' + tree[index1].text +' / ' + tree[index1].children[index2].text + ' / ' + tree[index1].children[index2].children[index3].text)
                         await delReport();
