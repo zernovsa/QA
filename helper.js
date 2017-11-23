@@ -1,5 +1,5 @@
 import {t, Selector, ClientFunction} from 'testcafe';
-import {username, password, firstNestingTree, secondNestingTree} from './config.js';
+import {username, password, site,  firstNestingTree, secondNestingTree} from './config.js';
 import * as Helper_local from './helpers/ca_r6.7.0_Helper.js';
 import * as Selectors from './selectors.js';
 import * as Selectors_local from './selectors/ca_r6.7.0_selectors.js';
@@ -38,10 +38,10 @@ export const login = async () => {
         .typeText('input[name="password"]', password)
         .pressKey('enter')
   
-        // выбираем сайт siteapp.webdev.uiscom.ru
+        // выбираем сайт siteapp.webdev.uiscom.ru - переменная site из config.js
         let siteArrow = Selector('*[class*="x-form-trigger x-form-trigger-cm-siteselector x-form-arrow-trigger x-form-arrow-trigger-cm-siteselector"]')
         await t.click(siteArrow)
-        let siteClick = Selector('*[class*="x-boundlist-item"]').withText('siteapp.webdev.uiscom.ru')
+        let siteClick = Selector('*[class*="x-boundlist-item"]').withText(site)
         await t.click(siteClick)
         await reloadPage()
 
@@ -302,11 +302,10 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
         // text_list
         // numeric
         // list
-
-
         // time_with_days
         // date
-        // numeric_dict     
+
+        // numeric_dict // числовой
         // system_tree
 
         let errors  = [];
@@ -314,7 +313,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
         let nowTime = dateFormat(Date(), "isoDateTime");
         switch (filters[filterIndex].data.type) {
             // тип Числовой
-            case 'numeric': {
+            case 'numeric1': {
 
                 let conditionCount = 4
 
@@ -328,10 +327,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        //выбираем нужный параметр
-
-                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
-
+   
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
 
@@ -395,7 +391,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
-            case 'text': {
+            case 'text1': {
 
                 let conditionCount = 4
 
@@ -412,9 +408,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        //выбираем нужный параметр
-
-                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
@@ -477,7 +470,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
             
-            case 'text_list': {
+            case 'text_list1': {
 
                 let conditionCount = 4
 
@@ -494,9 +487,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                                               //выбираем нужный параметр
-
-                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
@@ -560,7 +550,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
-            case 'system_list': {
+            case 'system_list1': {
 
                 let conditionCount = 2
 
@@ -577,9 +567,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                                                //выбираем нужный параметр
-
-                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
@@ -642,7 +629,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
-            case 'time': {
+            case 'time1': {
                 let conditionCount = 4
 
                 for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
@@ -655,9 +642,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                                                //выбираем нужный параметр
-
-                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
@@ -717,7 +701,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
-            case 'list': {
+            case 'list1': {
                 let conditionCount = 4
 
                 for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
@@ -730,9 +714,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        //выбираем нужный параметр
-
-                        //await t.click(Selectors_local2.getParamSelector.nth(filterIndex))
 
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
@@ -748,6 +729,162 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                          // выбираем первое значение списка значение 
                         await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount));
 
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                        {
+                            await clickToMenu('', report[1], report[2]);
+
+                            //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            errors.push(
+                                {
+                                    id: filterIndex,
+                                    report: report,
+                                    filter: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex
+                                }
+                            )
+                        }
+                        else
+                        {
+                            //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
+                    }
+                    catch(err)
+                    {
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
+                        //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        errors.push(
+                            {
+                                id: filterIndex,
+                                report: report,
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex
+                            }
+                        )
+                    }
+                }
+                break;
+            }
+
+            case 'time_with_days': {
+                let conditionCount = 4
+
+                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+                    try 
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
+
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                        // прибавляем день
+                        await t.click(Selectors_local2.getArrowSelectorForTimeWithDays)
+
+                        // выбираем первое значение времени
+                        await t.click(Selectors_local2.getArrowSelectorForTime)
+                        await t.click(Selectors_local2.getValueSelectorForTime.nth(0))
+
+                        // применяем фильтр
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                        {
+                            await clickToMenu('', report[1], report[2]);
+
+                            //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            errors.push(
+                                {
+                                    id: filterIndex,
+                                    report: report,
+                                    filter: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex
+                                }
+                            )
+                        }
+                        else
+                        {
+                            //console.log('STEP PASSED: '.green + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
+                    }
+                    catch(err)
+                    {
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
+                        //console.log('STEP FAILED: '.red + ' report: '+ reportName + ' filter: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        //console.log('error', 'TEST  FAILED: '.red + ' filter text: ' + filters[filterIndex].data.name.yellow + ' type: '+ filters[filterIndex].data.type.yellow + ' conditionIndex: ' + conditionIndex.toString().yellow + ' value: ' + value.toString().yellow)
+                        errors.push(
+                            {
+                                id: filterIndex,
+                                report: report,
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex
+                            }
+                        )
+                    }
+                }
+                break;
+            }
+
+            case 'date': {
+                let conditionCount = 4
+
+                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+                    try 
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
+
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+
+                        // клик на календарик
+                        await t.click(Selectors_local2.getValueSelectorForDate);
+
+                        //кликаем на поле значение
+                        await t.click(Selectors_local2.getValueTextSelector)
+
+                        //вводим значение 
+                        await t.typeText(Selectors_local2.getValueTextSelector, '23.11.2017');
+
+                        // применяем фильтр
                         await t.click(Selectors_local2.getValueButtonSelector)
                         await t.click(Selectors_local2.getApplyButtonSelector)
 

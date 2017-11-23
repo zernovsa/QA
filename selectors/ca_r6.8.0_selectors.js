@@ -156,6 +156,11 @@ export const getValueTextSelector   = Selector('*[placeholder*="Значение
 export const getArrowSelectorForTime = Selector('*[id*="timefield"][id*=trigger-picker]');
 export const getValueSelectorForTime = Selector('*[data-boundview*="timepicker"]');
 
+export const getArrowSelectorForTimeWithDays = Selector('*[class*="x-form-spinner x-form-spinner-ul x-form-spinner-up x-form-spinner-up-ul"]');
+
+
+export const getValueSelectorForDate = Selector('*[id*="datefield"][id*=trigger-picker]').nth(4);
+
 export const getValueSelector = Selector('*[class*="x-boundlist-item"]');
 export const getValueSelectorList = ClientFunction((text) => ('*[class*="x-boundlist-item"]').withText(text))
 
