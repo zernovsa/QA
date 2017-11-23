@@ -933,7 +933,6 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
-            // тип Числовой
             case 'numeric_dict': {
 
                 let conditionCount = 4
@@ -1012,6 +1011,10 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
+            case 'system_tree': {
+                log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type)
+                break;
+            }
 
             default: {
                 log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type)
