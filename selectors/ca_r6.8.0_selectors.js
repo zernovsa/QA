@@ -161,6 +161,10 @@ export const getArrowSelectorForTimeWithDays = Selector('*[class*="x-form-spinne
 
 export const getValueSelectorForDate = Selector('*[id*="datefield"][id*=trigger-picker]').nth(4);
 
+export const getSystemTreePlus = ClientFunction(() => document.querySelectorAll('*[class*=" x-tree-elbow-img x-tree-elbow-plus x-tree-expander"]')[document.querySelectorAll('*[class*=" x-tree-elbow-img x-tree-elbow-plus x-tree-expander"]').length-1]);
+export const getSystemTreePlus2 = Selector('*[class*="x-tree-node-text"]').withText('Перенаправление')
+
+
 export const getValueSelector = Selector('*[class*="x-boundlist-item"]');
 export const getValueSelectorList = ClientFunction((text) => ('*[class*="x-boundlist-item"]').withText(text))
 
