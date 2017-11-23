@@ -1011,7 +1011,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
-            case 'system_tree1': {
+            case 'system_tree1': { // ЧТОБЫ ВКЛЮЧИТЬ ФИЛЬТР В НАЗВАНИИ ТИПА ФИЛЬТРА НУЖНО УБРАТЬ 1
                 let conditionCount = 2
 
                 for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
@@ -1035,10 +1035,11 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         let getValueArrow = await Selectors_local2.getValueArrow()
                         await t.click(getValueArrow)
 
-
-
-
-
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        /// ЕСТЫ НАПИСАТЬ НЕЛЬЗЯ Т.К. СРАБАТВЫАЕТ СКРЫТИЕ ФИЛЬТРА НА ДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ, НАПРИМЕР, ДВИЖЕНИЕ КОЛЕСИКОМ  ///
+                        /// ПОЧЕМУ ТО СРАБАТВАЕТ НА TESTCAFE, ПРИ КЛИКЕ НА СТРЕЛКУ ВЫПАДАЮЩЕГО ДЕРЕВА И ЭЛЕМЕНТ дерева                    ///
+                        /// НУЖНО НАПИСАТЬ КОСТЫЛЬ НА ВЕБЕ, ЧТОБЫ НЕ СКРЫВАТЬ ВЫПАДАЮЩИЙ СПИСОК ИМЕННО ДЛЯ ФИЛЬТРА ОПЕРАЦИИ               ///
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                         //кликаем применить
                         await t.click(Selectors_local2.getValueButtonSelector)
