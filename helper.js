@@ -79,6 +79,7 @@ export const addReportWithName = async (name) => {
 export const clickToReport = async (menu1, menu2) => {
 
         await t.click(Selectors.getView(menu1))
+        await t.wait(500);
         if (menu2 != '') await t.click(Selectors.getViewItem(menu2))
 
 }
