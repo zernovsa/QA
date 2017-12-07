@@ -33,6 +33,7 @@ var dateFormat = require('dateformat');
 // логин на страницу
 export const login = async () => {
     await t
+        .maximizeWindow( )
     //.navigateTo(`https://ca1.webdev.uiscom.ru`)
         .typeText('input[name="login"]', username)
         .typeText('input[name="password"]', password)
@@ -851,10 +852,10 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //await t.click(Selectors_local2.getValueSelectorForDate);
 
                         //кликаем на поле значение
-                        await t.click(Selectors_local2.getValueTextSelector)
+                        await t.click(Selectors_local2.getValueTextSelector2)
 
                         //вводим значение 
-                        await t.typeText(Selectors_local2.getValueTextSelector, '23.11.2017');
+                        await t.typeText(Selectors_local2.getValueTextSelector2, '23.11.2017');
 
                         // применяем фильтр
                         await t.click(Selectors_local2.getValueButtonSelector)

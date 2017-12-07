@@ -152,6 +152,7 @@ export const getСonditionSelector = Selector('*[class*="x-boundlist-item"]');
 export const getValueNumberSelector = Selector('*[id*="inputEl"][id*=numberfield]');
 
 export const getValueTextSelector   = Selector('*[placeholder*="Значение"][id*="inputEl"]');
+export const getValueTextSelector2   = Selector('*[placeholder*="дд.мм.гггг"][id*="inputEl"]');
 
 export const getArrowSelectorForTime = Selector('*[id*="timefield"][id*=trigger-picker]');
 export const getValueSelectorForTime = Selector('*[data-boundview*="timepicker"]');
