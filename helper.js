@@ -1,5 +1,5 @@
 import {t, Selector, ClientFunction} from 'testcafe';
-import {username, password, site,  firstNestingTree, secondNestingTree} from './config.js';
+import {username, password, test_link, site,  firstNestingTree, secondNestingTree} from './config.js';
 import * as Helper_local from './helpers/ca_r6.7.0_Helper.js';
 import * as Selectors from './selectors.js';
 import * as Selectors_local from './selectors/ca_r6.7.0_selectors.js';
@@ -34,7 +34,8 @@ var dateFormat = require('dateformat');
 export const login = async () => {
     await t.maximizeWindow( )
     //.navigateTo(`https://ca1.webdev.uiscom.ru`)
-    if (test_link=='http://app.comagic.ru/') await t.typeText('input[name="email"]', username)
+    await t.wait(3000)
+    if (test_link=='http://app.comagic.ru/') await t.typeText(Selector('input[name="email"]').nth(1), username)
     else await t.typeText('input[name="login"]', username)
     await t
         .typeText('input[name="password"]', password)

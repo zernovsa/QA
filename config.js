@@ -1,9 +1,13 @@
-// export const test_link = "http://ca3.webdev.uiscom.ru/"
-// export const site  = 'siteapp.webdev.uiscom.ru'
-// export const test_link = "http://app2.comagic.ru/"
-// export const site  = 'siteapp2.webdev.uiscom.ru'
+
 export const test_link = "http://app.comagic.ru/"
 export const site  = 'siteapp.webdev.uiscom.ru'
+
+// export const test_link = "http://app2.comagic.ru/"
+// export const site  = 'siteapp2.webdev.uiscom.ru'
+
+// export const test_link = "http://ca3.webdev.uiscom.ru/"
+// export const site  = 'siteapp.webdev.uiscom.ru'
+
 export const username  = "qa@uiscom.ru"
 export const password  = ">bcrjvRjvtl;br"
 
