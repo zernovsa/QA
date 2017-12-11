@@ -32,10 +32,11 @@ var dateFormat = require('dateformat');
 
 // логин на страницу
 export const login = async () => {
-    await t
-        .maximizeWindow( )
+    await t.maximizeWindow( )
     //.navigateTo(`https://ca1.webdev.uiscom.ru`)
-        .typeText('input[name="login"]', username)
+    if(site=='http://app.comagic.ru/') await t.typeText('input[name="email"]', username)
+    else await t.typeText('input[name="login"]', username)
+    await t
         .typeText('input[name="password"]', password)
         .pressKey('enter')
   
