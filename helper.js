@@ -34,7 +34,7 @@ var dateFormat = require('dateformat');
 export const login = async () => {
     await t.maximizeWindow( )
     //.navigateTo(`https://ca1.webdev.uiscom.ru`)
-    if(site=='http://app.comagic.ru/') await t.typeText('input[name="email"]', username)
+    if (test_link=='http://app.comagic.ru/') await t.typeText('input[name="email"]', username)
     else await t.typeText('input[name="login"]', username)
     await t
         .typeText('input[name="password"]', password)
