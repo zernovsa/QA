@@ -1056,6 +1056,78 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
 
+            case 'array_list': {
+                let conditionCount = 4
+
+                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+                    try 
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
+
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+
+                        //кликаем на условие
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                        //кликаем на поле значение
+                        let getValueArrow = await Selectors_local2.getValueArrow()
+                        await t.click(getValueArrow)
+                         // выбираем первое значение списка значение 
+                        await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount));
+
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                        {
+                            await clickToMenu('', report[1], report[2]);
+
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            errors.push(
+                                {
+                                    id: filterIndex,
+                                    report: report,
+                                    filter: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex
+                                }
+                            )
+                        }
+                        else
+                        {
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
+                    }
+                    catch(err)
+                    {
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
+                        errors.push(
+                            {
+                                id: filterIndex,
+                                report: report,
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex
+                            }
+                        )
+                    }
+                }
+                break;
+            }
+            
             default: {
                 log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type)
                 break;
