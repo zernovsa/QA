@@ -1,25 +1,25 @@
-Необходимо установить npm
-	Ссылка https://nodejs.org/en/download/
-Необходимо установить testcafe
+РќРµРѕР±С…РѕРґРёРјРѕ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ npm
+	РЎСЃС‹Р»РєР° https://nodejs.org/en/download/
+РќРµРѕР±С…РѕРґРёРјРѕ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ testcafe
 	npm install -g testcafe
-	npm install dateformat (выполнить в папке ./testcafe)
-Запуск теста командой
+	npm install dateformat (РІС‹РїРѕР»РЅРёС‚СЊ РІ РїР°РїРєРµ ./testcafe)
+Р—Р°РїСѓСЃРє С‚РµСЃС‚Р° РєРѕРјР°РЅРґРѕР№
 	testcafe chrome ca_r6.7.0_getstore.js 
-Запуск всех тестов одновременно
+Р—Р°РїСѓСЃРє РІСЃРµС… С‚РµСЃС‚РѕРІ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ
 	testcafe chrome ./tests/
-Запуск тестов со скриншотами 
+Р—Р°РїСѓСЃРє С‚РµСЃС‚РѕРІ СЃРѕ СЃРєСЂРёРЅС€РѕС‚Р°РјРё 
 	testcafe chrome click_all_reports.js --screenshots ../../screenshots
-Запуск тестов со скриншотами и со скриншотом при падении
+Р—Р°РїСѓСЃРє С‚РµСЃС‚РѕРІ СЃРѕ СЃРєСЂРёРЅС€РѕС‚Р°РјРё Рё СЃРѕ СЃРєСЂРёРЅС€РѕС‚РѕРј РїСЂРё РїР°РґРµРЅРёРё
 	testcafe chrome ca_r6.8.0_visitorsource.js --screenshots ../../screenshots --screenshots-on-fails 
-Запуск тестов с удаленным браузером
+Р—Р°РїСѓСЃРє С‚РµСЃС‚РѕРІ СЃ СѓРґР°Р»РµРЅРЅС‹Рј Р±СЂР°СѓР·РµСЂРѕРј
 	testcafe remote ca_r6.8.0_visitorsource.js
-Запусе отдельного теста из файла
+Р—Р°РїСѓСЃРµ РѕС‚РґРµР»СЊРЅРѕРіРѕ С‚РµСЃС‚Р° РёР· С„Р°Р№Р»Р°
 	testcafe chrome ca_r6.8.0_visitorsource.js -t ca_r6.8.0_visitorsource
 	testcafe chrome ca_r6.8.0_visitorsource.js --screenshots ../../screenshots --screenshots-on-fails ../../screenshots -t ca_r6.8.0_visitorsource
 	testcafe chrome ca_r6.8.0_visitorsource.js --screenshots ../../screenshots --screenshots-on-fails ../../screenshots -t ca_r6.8.0_visitorsource_secondNesting
 
-Запуск безголового хрома
+Р—Р°РїСѓСЃРє Р±РµР·РіРѕР»РѕРІРѕРіРѕ С…СЂРѕРјР°
 testcafe "chrome --headless --remote-debugging-port=9330 -user-agent='\"Mozilla/5.0 (X11; Linux x86_64^^^) AppleWebKit/537.36 (KHTML, like Gecko^^^) Chrome/60.0.3112.50 Safari/537.36\"'"
 testcafe "chrome --window-size='1920,1080' --headless --remote-debugging-port=9330 -user-agent='\"Mozilla/5.0 (X11; Linux x86_64^^^) AppleWebKit/537.36 (KHTML, like Gecko^^^) Chrome/60.0.3112.50 Safari/537.36\"'" ia-tests.js
-Подключение к нему http://localhost:9330
-порт может быть любой
+РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє РЅРµРјСѓ http://localhost:9330
+РїРѕСЂС‚ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р»СЋР±РѕР№
