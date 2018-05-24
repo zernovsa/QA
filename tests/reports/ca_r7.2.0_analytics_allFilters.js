@@ -56,6 +56,10 @@ test('ca_r7.2.0_allFilters', async () => {
         await login();
 		let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 		await enableAllColumns();
+
+        // здесь клииаем на Настройка измерений
+        // await enableAllColumns();
+
         let filters = await initFilters();
         console.log(filters)
         let errors = await clickAllFilters(report, filters);
