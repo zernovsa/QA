@@ -14,6 +14,7 @@
 Запуск тестов с удаленным браузером
 	testcafe remote ca_r6.8.0_visitorsource.js
 Запусе отдельного теста из файла
+	testcafe chrome ca_r6.8.0_visitorsource.js -t ca_r6.8.0_visitorsource
 	testcafe chrome ca_r6.8.0_visitorsource.js --screenshots ../../screenshots --screenshots-on-fails ../../screenshots -t ca_r6.8.0_visitorsource
 	testcafe chrome ca_r6.8.0_visitorsource.js --screenshots ../../screenshots --screenshots-on-fails ../../screenshots -t ca_r6.8.0_visitorsource_secondNesting
 
