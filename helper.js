@@ -247,18 +247,40 @@ export const enableAllColumns = async () => {
 }
 
 // включаем все измерения отчета
-export const nestingConfig = async () => {
+export const nestingConfigName = async (name) => {
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+    await t.click(getColumnsButton);
+
+        var selector = Selector('[class*="x-tree-node-text "]').withText(name);
+        await t.click(selector)
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
+}
+
+// включаем все измерения отчета
+export const nestingConfigAll = async () => {
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
 
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+    var count                      = await getUncheckedColumnsCount()
+    //console.log('Columns count: ' + count)
 
-
+    while (count > 0) {
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        await t.click(selector.nth(0))
+        await t.wait(1000)
+        count = await getUncheckedColumnsCount()
+        //console.log(count + ' ')
+    }
 
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
     await t.click(getSaveButton);
 }
+
 
 export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
 export const reloadPage = ClientFunction(() => window.location.reload());

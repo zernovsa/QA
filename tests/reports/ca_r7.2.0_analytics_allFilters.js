@@ -23,8 +23,13 @@ export const enableAllColumns = async () => {
 }
 
 // включаем все измерения отчета
-export const nestingConfig = async () => {
-    await Helper.nestingConfig()
+export const nestingConfigName = async (name) => {
+    await Helper.nestingConfigName(name)
+}
+
+// включаем все измерения отчета
+export const nestingConfigAll = async () => {
+    await Helper.nestingConfigAll()
 }
 
 // инициализация фильтров
@@ -60,10 +65,12 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 test('ca_r7.2.0_allFilters', async () => {
         await login();
 		let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-		await enableAllColumns();
+		//await enableAllColumns();
 
+        //
+        await nestingConfigName('География');
         // здесь клииаем на Настройка измерений
-        await nestingConfig();
+        await nestingConfigAll();
 
         let filters = await initFilters();
         console.log(filters)
