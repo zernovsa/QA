@@ -28,6 +28,16 @@ export const nestingConfigName = async (name) => {
 }
 
 // включаем все измерения отчета
+export const nestingConfigIndex = async (index) => {
+    await Helper.nestingConfigIndex(index)
+}
+
+// включаем все измерения отчета
+export const nestingConfigAllUnchecked = async () => {
+    await Helper.nestingConfigAllUnchecked()
+}
+
+// включаем все измерения отчета
 export const nestingConfigAll = async () => {
     await Helper.nestingConfigAll()
 }
@@ -65,11 +75,9 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 test('ca_r7.2.0_allFilters', async () => {
         await login();
 		let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-		//await enableAllColumns();
+		
+        await enableAllColumns();   
 
-        //
-        await nestingConfigName('География');
-        // здесь клииаем на Настройка измерений
         await nestingConfigAll();
 
         let filters = await initFilters();
@@ -79,3 +87,56 @@ test('ca_r7.2.0_allFilters', async () => {
         if(errors.length !== 0) throw 'TEST FAILED'
     }
 );
+
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0_nesting_1', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+        
+        await enableAllColumns();   
+
+        await nestingConfigAllUnchecked();
+        await nestingConfigName('География');
+
+        let filters = await initFilters();
+        console.log(filters)
+        let errors = await clickAllFilters(report, filters);
+        console.log(errors)
+        if(errors.length !== 0) throw 'TEST FAILED'
+    }
+);
+
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0_nestingAll_allFilters', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+        
+        //await enableAllColumns();   
+
+            const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+            await t.click(getColumnsButton);
+
+            const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+            var count                      = await getUncheckedColumnsCount()
+
+            count = await getUncheckedColumnsCount()
+
+            for(var i=0; i<count; i++)
+            {
+               
+               await nestingConfigAllUnchecked();
+
+               await nestingConfigIndex(i)
+            
+                // let filters = await initFilters();
+                // console.log(filters)
+                // let errors = await clickAllFilters(report, filters);
+                // console.log(errors)
+                // if(errors.length !== 0) throw 'TEST FAILED'
+
+            }
+    }
+);
+
