@@ -58,7 +58,7 @@ test('ca_r7.2.0_allFilters', async () => {
 		await enableAllColumns();
 
         // здесь клииаем на Настройка измерений
-        // await enableAllColumns();
+        await nestingConfig();
 
         let filters = await initFilters();
         console.log(filters)

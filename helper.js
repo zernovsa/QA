@@ -246,6 +246,20 @@ export const enableAllColumns = async () => {
     await t.click(getSaveButton);
 }
 
+// включаем все колонки отчета
+export const nestingConfig = async () => {
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настройка измерений');
+    await t.click(getColumnsButton);
+
+
+
+
+
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
+}
+
 export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
 export const reloadPage = ClientFunction(() => window.location.reload());
 
