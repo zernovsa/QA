@@ -22,6 +22,11 @@ export const enableAllColumns = async () => {
 	await Helper.enableAllColumns()
 }
 
+// включаем все измерения отчета
+export const nestingConfig = async () => {
+    await Helper.nestingConfig()
+}
+
 // инициализация фильтров
 export const initFilters = async (menu2) => {
     let filters = await Helper.initFilters(menu2)

@@ -248,7 +248,7 @@ export const enableAllColumns = async () => {
 
 // включаем все измерения отчета
 export const nestingConfig = async () => {
-    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настройка измерений');
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
 
