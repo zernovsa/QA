@@ -303,10 +303,18 @@ export const nestingExpandAll = async () => {
 
     while (count > 0) {
         var selector = await Selector('*[class*="x-tree-elbow-plus"]:not([role="presentation"])')
-        await t.click(selector.nth(0))
+
+        console.log(await selector.count);
+
+        var imageUrl = await selector.nth(count-1).getStyleProperty('background-image');
+
+        console.log(imageUrl);
+        
+        if (imageUrl.indexOf('plus.png') > -1) 
+            await t.click(selector.nth(0))
         await t.wait(1000)
-        count = await getUExpandColumnsCount()
-        //console.log(count + ' ')
+        
+        count--;
     }
 
 
