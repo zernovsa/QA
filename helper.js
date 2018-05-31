@@ -297,7 +297,6 @@ export const nestingConfigAllUnchecked = async () => {
 
 export const nestingExpandAll = async () => {
     
-
     const getUExpandColumnsCount = ClientFunction(() => document.querySelectorAll('*[class*="x-tree-elbow-plus"]:not([role="presentation"])').length);
     var count = await getUExpandColumnsCount()
 
@@ -317,8 +316,33 @@ export const nestingExpandAll = async () => {
         count--;
     }
 
+}
+
+
+export const nestingCollapseAll = async () => {
+
+    const getUCollapseColumnsCount = ClientFunction(() => document.querySelectorAll('*[class*="x-tree-elbow-plus"]:not([role="presentation"])').length);
+    var count = await getUCollapseColumnsCount()
+
+    while (count > 0) {
+        var selector = await Selector('*[class*="x-tree-elbow-plus"]:not([role="presentation"])')
+
+        console.log(await selector.count);
+
+        var imageUrl = await selector.nth(count-1).getStyleProperty('background-image');
+
+        console.log(imageUrl);
+        
+        if (imageUrl.indexOf('minus.png') > -1) 
+            await t.click(selector.nth(0))
+        await t.wait(1000)
+        
+        count--;
+    }
 
 }
+
+ 
 
 
 // включаем все измерения отчета
