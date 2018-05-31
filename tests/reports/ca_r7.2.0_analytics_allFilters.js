@@ -18,6 +18,11 @@ export const login = async () => {
 }
 
 // включаем все колонки отчета
+export const nestingExpandAll = async () => {
+    await Helper.nestingExpandAll()
+}
+
+// включаем все колонки отчета
 export const enableAllColumns = async () => {
 	await Helper.enableAllColumns()
 }
@@ -118,14 +123,16 @@ test('ca_r7.2.0_nestingAll_allFilters', async () => {
             const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
             await t.click(getColumnsButton);
 
+            await nestingExpandAll();
+
             const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
-            var count                      = await getUncheckedColumnsCount()
+            var count = await getUncheckedColumnsCount()
 
             count = await getUncheckedColumnsCount()
 
-            for(var i=0; i<count; i++)
+            for(var i = 0; i < count; i++)
             {
-               
+
                await nestingConfigAllUnchecked();
 
                await nestingConfigIndex(i)

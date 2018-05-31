@@ -281,20 +281,37 @@ export const nestingConfigAllUnchecked = async () => {
 
     const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"])').length);
     var count                      = await getUncheckedColumnsCount()
-    //console.log('Columns count: ' + count)
+    console.log('Columns count: ' + count)
 
     while (count > 0) {
         var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
         await t.click(selector.nth(0))
         await t.wait(1000)
         count = await getUncheckedColumnsCount()
-        //console.log(count + ' ')
     }
 
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
     await t.click(getSaveButton);
 }
+
+export const nestingExpandAll = async () => {
+    
+
+    const getUExpandColumnsCount = ClientFunction(() => document.querySelectorAll('*[class*="x-tree-elbow-plus"]:not([role="presentation"])').length);
+    var count = await getUExpandColumnsCount()
+
+    while (count > 0) {
+        var selector = await Selector('*[class*="x-tree-elbow-plus"]:not([role="presentation"])')
+        await t.click(selector.nth(0))
+        await t.wait(1000)
+        count = await getUExpandColumnsCount()
+        //console.log(count + ' ')
+    }
+
+
+}
+
 
 // включаем все измерения отчета
 export const nestingConfigAll = async () => {
