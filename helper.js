@@ -285,7 +285,7 @@ export const nestingConfigAllUnchecked = async () => {
 
     while (count > 0) {
         var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
-        await t.click(selector.nth(0))
+        await t.click(selector.nth(count-1))
         await t.wait(1000)
         count = await getUncheckedColumnsCount()
     }
@@ -297,11 +297,14 @@ export const nestingConfigAllUnchecked = async () => {
 
 export const nestingExpandAll = async () => {
     
-    const getUExpandColumnsCount = ClientFunction(() => document.querySelectorAll('*[class*="x-tree-elbow-plus"]:not([role="presentation"])').length);
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+    await t.click(getColumnsButton);
+
+    const getUExpandColumnsCount = ClientFunction(() => document.querySelectorAll(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])').length);
     var count = await getUExpandColumnsCount()
 
     while (count > 0) {
-        var selector = await Selector('*[class*="x-tree-elbow-plus"]:not([role="presentation"])')
+        var selector = await Selector(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])')
 
         console.log(await selector.count);
 
@@ -310,22 +313,28 @@ export const nestingExpandAll = async () => {
         console.log(imageUrl);
         
         if (imageUrl.indexOf('plus.png') > -1) 
-            await t.click(selector.nth(0))
+            await t.click(selector.nth(count-1))
         await t.wait(1000)
         
         count--;
     }
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
 
 }
 
 
 export const nestingCollapseAll = async () => {
 
-    const getUCollapseColumnsCount = ClientFunction(() => document.querySelectorAll('*[class*="x-tree-elbow-plus"]:not([role="presentation"])').length);
+    const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+    await t.click(getColumnsButton);
+
+    const getUCollapseColumnsCount = ClientFunction(() => document.querySelectorAll(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])').length);
     var count = await getUCollapseColumnsCount()
 
     while (count > 0) {
-        var selector = await Selector('*[class*="x-tree-elbow-plus"]:not([role="presentation"])')
+        var selector = await Selector(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])')
 
         console.log(await selector.count);
 
@@ -334,11 +343,14 @@ export const nestingCollapseAll = async () => {
         console.log(imageUrl);
         
         if (imageUrl.indexOf('minus.png') > -1) 
-            await t.click(selector.nth(0))
+            await t.click(selector.nth(count-1))
         await t.wait(1000)
         
         count--;
     }
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
 
 }
 

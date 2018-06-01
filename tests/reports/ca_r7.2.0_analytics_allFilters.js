@@ -125,12 +125,13 @@ test('ca_r7.2.0_nestingAll_allFilters', async () => {
         
         //await enableAllColumns();   
 
-            const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-            await t.click(getColumnsButton);
-
-            await nestingExpandAll();
+            // await nestingExpandAll();
             // await nestingCollapseAll();
 
+            await nestingExpandAll();
+
+            const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+            await t.click(getColumnsButton);
 
             const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
             var count = await getUncheckedColumnsCount()
