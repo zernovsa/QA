@@ -306,11 +306,11 @@ export const nestingExpandAll = async () => {
     while (count > 0) {
         var selector = await Selector(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])')
 
-        console.log(await selector.count);
+        //console.log(await selector.count);
 
         var imageUrl = await selector.nth(count-1).getStyleProperty('background-image');
 
-        console.log(imageUrl);
+        //console.log(imageUrl);
         
         if (imageUrl.indexOf('plus.png') > -1) 
             await t.click(selector.nth(count-1))
@@ -336,11 +336,11 @@ export const nestingCollapseAll = async () => {
     while (count > 0) {
         var selector = await Selector(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])')
 
-        console.log(await selector.count);
+        //console.log(await selector.count);
 
         var imageUrl = await selector.nth(count-1).getStyleProperty('background-image');
 
-        console.log(imageUrl);
+        //console.log(imageUrl);
         
         if (imageUrl.indexOf('minus.png') > -1) 
             await t.click(selector.nth(count-1))
