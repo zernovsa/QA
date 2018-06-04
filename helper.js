@@ -405,9 +405,9 @@ export const tableColumnsSortrers = async() => {
 
         console.log(count2)
 
-            if(count2 > 5) count2 = 5
+            if(count2 > 5) count2 = 5 // ограничение из-за множества столбцов сортировок по РК
 
-        for(var index=0; index < count2-1; index++)
+        for(var index=0; index < count2; index++)
         {            
                 await t.wait(1000)
                 await t.click(selector2.nth(index))
