@@ -354,8 +354,6 @@ export const nestingCollapseAll = async () => {
 
 }
 
- 
-
 
 // включаем все измерения отчета
 export const nestingConfigAll = async () => {
@@ -380,6 +378,43 @@ export const nestingConfigAll = async () => {
     await t.click(getSaveButton);
 }
 
+export const tableColumnsSortrers = async() => {
+
+        await reloadPage()
+
+        var tmp = Selector('*[class*=" cm-pageheader-text"]')
+        await t.click(tmp.nth(0))
+
+        const headerSelector = ClientFunction(() => document.querySelectorAll('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').length);
+        
+        var selector = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1)
+        var selector2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')
+
+        var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).count
+        var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
+
+        console.log(count)
+
+        for(var index=0; index < count-1; index++)
+        {            
+                await t.wait(1000)
+                await t.click(selector.nth(index))
+                await t.wait(1000)
+                await t.click(selector.nth(index))
+        }
+
+        console.log(count2)
+
+            if(count2 > 4) count2 = 4
+
+        for(var index=0; index < count2-1; index++)
+        {            
+                await t.wait(1000)
+                await t.click(selector2.nth(index))
+                await t.wait(1000)
+                await t.click(selector2.nth(index))
+        }
+}
 
 export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
 export const reloadPage = ClientFunction(() => window.location.reload());

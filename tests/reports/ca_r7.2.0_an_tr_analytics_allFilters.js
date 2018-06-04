@@ -52,6 +52,11 @@ export const nestingConfigAll = async () => {
     await Helper.nestingConfigAll()
 }
 
+// включаем все измерения отчета
+export const tableColumnsSortrers = async () => {
+    await Helper.tableColumnsSortrers()
+}
+
 // инициализация фильтров
 export const initFilters = async (menu2) => {
     let filters = await Helper.initFilters(menu2)
@@ -80,6 +85,20 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
     let report = await Helper.clickToMenu(menu1, menu2, tabName);
     return report
 }
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0__tableColumnsSortrers', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+        
+        //await enableAllColumns();   
+
+        //await nestingConfigAll();
+
+        await tableColumnsSortrers();
+    }
+);
+
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0__checkAll_allFilters', async () => {
