@@ -382,7 +382,7 @@ export const tableColumnsSortrers = async() => {
 
         await reloadPage()
 
-        var tmp = Selector('*[class*=" cm-pageheader-text"]')
+        var tmp = await Selector('*[class*=" cm-pageheader-text"]')
         await t.click(tmp.nth(0))
 
         const headerSelector = ClientFunction(() => document.querySelectorAll('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').length);
@@ -415,6 +415,49 @@ export const tableColumnsSortrers = async() => {
                 await t.click(selector2.nth(index))
         }
 }
+
+
+export const clickUserFilters = async() => {
+        
+        var selector = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-userfilters-btn-icon"')
+
+        console.log(await selector.count);
+
+        var imageUrl = await selector.nth(0).getStyleProperty('background-image');
+
+        console.log(imageUrl);
+        
+        if (imageUrl.indexOf('userfilters.png') > -1) 
+            await t.click(selector.nth(0))
+        await t.wait(1000)  
+
+}
+
+export const userFilters = async() => {
+
+        await clickUserFilters()
+
+        var filtersCount = ClientFunction(() =>  document.querySelectorAll('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div').length);
+        var filterSelector = Selector('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div');
+
+        var count = await filtersCount()
+        console.log(count)
+
+        for(var index=0; index < count; index++)
+        {            
+                if(index!=0) await clickUserFilters()
+                await t.wait(1000)
+                console.log(index)
+                await t.click(filterSelector.nth(index))
+                await t.wait(1000)
+                //кликаем применить
+                await t.click(Selectors_local2.getApplyButtonSelector)
+                var cancel = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-cancel "]')
+                await t.click(cancel.nth(0))
+        }
+
+}
+
 
 export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
 export const reloadPage = ClientFunction(() => window.location.reload());

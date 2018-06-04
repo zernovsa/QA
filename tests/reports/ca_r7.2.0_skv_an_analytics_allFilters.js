@@ -57,6 +57,11 @@ export const tableColumnsSortrers = async () => {
     await Helper.tableColumnsSortrers()
 }
 
+// включаем все измерения отчета
+export const userFilters = async () => {
+    await Helper.userFilters()
+}
+
 // инициализация фильтров
 export const initFilters = async (menu2) => {
     let filters = await Helper.initFilters(menu2)
@@ -87,6 +92,15 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 }
 
 // перебрать все фильтры отчета
+test('ca_r7.2.0_userFilters', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+
+        await userFilters();
+    }
+);
+
+// перебрать все фильтры отчета
 test('ca_r7.2.0__tableColumnsSortrers', async () => {
         await login();
         let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
@@ -98,7 +112,6 @@ test('ca_r7.2.0__tableColumnsSortrers', async () => {
         await tableColumnsSortrers();
     }
 );
-
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0__checkAll_allFilters', async () => {

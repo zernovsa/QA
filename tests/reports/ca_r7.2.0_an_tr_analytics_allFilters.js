@@ -57,6 +57,22 @@ export const tableColumnsSortrers = async () => {
     await Helper.tableColumnsSortrers()
 }
 
+// включаем все измерения отчета
+export const userFilters = async () => {
+    await Helper.userFilters()
+}
+
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0_userFilters', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+
+        await userFilters();
+    }
+);
+
+
 // инициализация фильтров
 export const initFilters = async (menu2) => {
     let filters = await Helper.initFilters(menu2)
