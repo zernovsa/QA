@@ -82,7 +82,7 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 }
 
 // перебрать все фильтры отчета
-test('ca_r7.2.0_allFilters', async () => {
+test('ca_r7.2.0__checkAll_allFilters', async () => {
         await login();
 		let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 		
@@ -100,7 +100,7 @@ test('ca_r7.2.0_allFilters', async () => {
 
 
 // перебрать все фильтры отчета
-test('ca_r7.2.0_nesting_1', async () => {
+test('ca_r7.2.0_nestingName_allFilters', async () => {
         await login();
         let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
         
@@ -119,7 +119,7 @@ test('ca_r7.2.0_nesting_1', async () => {
 
 
 // перебрать все фильтры отчета
-test('ca_r7.2.0_nestingAll_allFilters', async () => {
+test('ca_r7.2.0_indexAll_allFilters', async () => {
         await login();
         let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
         
