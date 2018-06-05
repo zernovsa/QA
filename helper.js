@@ -458,6 +458,59 @@ export const userFilters = async() => {
 
 }
 
+export const addUserFilters = async(report) => {
+       
+        let filters = await initFilters();
+        console.log(filters)
+        
+                        let value = getRandomInt(1, 999);
+
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+                        //кликаем на стрелку параметров
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+   
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[0].data.name))
+
+                        //кликаем на стрелку условий
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        //кликаем на условие 
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + 0));
+                        //кликаем на поле значение
+                        await t.click(Selectors_local2.getValueNumberSelector)
+                        //вводим значение 
+                        await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+                        //кликаем применить
+                        await t.click(Selectors_local2.getValueButtonSelector)
+
+
+            var selector = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-save"')
+
+            console.log(await selector.count);
+
+            var imageUrl = await selector.nth(0).getStyleProperty('background-image');
+
+            console.log(imageUrl);
+            
+            if (imageUrl.indexOf('save.png') > -1) await t.click(selector.nth(0))
+
+            await t.wait(1000)  
+
+            var filter_name = await Selector('*[name*="filter_name"')
+            
+            await t.click(filter_name.nth(0))
+            await t.typeText(filter_name.nth(0), 'test');
+
+            await t.wait(3000)  
+
+            var save_button = await Selector('*[class*="x-btn-inner x-btn-inner-ul-main-medium"]')
+            await t.click(save_button.nth(0))
+
+}
+
 
 export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
 export const reloadPage = ClientFunction(() => window.location.reload());

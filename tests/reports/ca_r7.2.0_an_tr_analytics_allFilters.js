@@ -62,15 +62,10 @@ export const userFilters = async () => {
     await Helper.userFilters()
 }
 
-
-// перебрать все фильтры отчета
-test('ca_r7.2.0_userFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-
-        await userFilters();
-    }
-);
+// включаем все измерения отчета
+export const addUserFilters = async (report) => {
+    await Helper.addUserFilters(report)
+}
 
 
 // инициализация фильтров
@@ -103,13 +98,23 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 }
 
 // перебрать все фильтры отчета
+test('ca_r7.2.0_userFilters', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+
+        await userFilters();
+    }
+);
+
+
+// перебрать все фильтры отчета
 test('ca_r7.2.0__tableColumnsSortrers', async () => {
         await login();
         let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
         
-        //await enableAllColumns();   
+        await enableAllColumns();   
 
-        //await nestingConfigAll();
+        await nestingConfigAll();
 
         await tableColumnsSortrers();
     }
