@@ -63,6 +63,11 @@ export const userFilters = async () => {
 }
 
 // включаем все измерения отчета
+export const delUserFilters = async () => {
+    await Helper.delUserFilters()
+}
+
+// включаем все измерения отчета
 export const addUserFilters = async (report) => {
     await Helper.addUserFilters(report)
 }

@@ -63,6 +63,11 @@ export const userFilters = async () => {
 }
 
 // включаем все измерения отчета
+export const delUserFilters = async () => {
+    await Helper.delUserFilters()
+}
+
+// включаем все измерения отчета
 export const addUserFilters = async (report) => {
     await Helper.addUserFilters(report)
 }
@@ -98,9 +103,21 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 }
 
 // перебрать все фильтры отчета
+test('ca_r7.2.0_addUserFilters', async () => {
+        await login();
+        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+
+        await addUserFilters(report);
+
+        await userFilters();
+
+    }
+);
+
+// перебрать все фильтры отчета
 test('ca_r7.2.0_userFilters', async () => {
         await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
 
         await userFilters();
     }
@@ -124,7 +141,7 @@ test('ca_r7.2.0__tableColumnsSortrers', async () => {
 // перебрать все фильтры отчета
 test('ca_r7.2.0__checkAll_allFilters', async () => {
         await login();
-		let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+		let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
 		
         await enableAllColumns();   
 
@@ -142,7 +159,7 @@ test('ca_r7.2.0__checkAll_allFilters', async () => {
 // перебрать все фильтры отчета
 test('ca_r7.2.0_nestingName_allFilters', async () => {
         await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
         
         await enableAllColumns();   
 
@@ -161,7 +178,7 @@ test('ca_r7.2.0_nestingName_allFilters', async () => {
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
         await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
         
         //await enableAllColumns();   
 

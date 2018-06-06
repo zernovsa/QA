@@ -455,8 +455,31 @@ export const userFilters = async() => {
                 var cancel = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-cancel "]')
                 await t.click(cancel.nth(0))
         }
-
 }
+
+export const delUserFilters = async() => {
+
+        await clickUserFilters()
+
+        var filtersCount = ClientFunction(() =>  document.querySelectorAll('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div').length);
+        var filterSelector = Selector('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div');
+
+        var count = await filtersCount()
+        console.log(count)
+
+        for(var index=0; index < count; index++)
+        {            
+                if(index!=0) await clickUserFilters()
+                await t.wait(1000)
+                console.log(index)
+                await t.click(filterSelector.nth(index))
+                await t.wait(1000)
+                //кликаем применить
+                await t.click(Selectors_local2.getApplyButtonSelector)
+                var cancel = await Selector('*[class*="cm-filter2panel-userfilters-boundlist-removebtn"]')
+        }
+}
+
 
 export const addUserFilters = async(report) => {
        
@@ -1394,6 +1417,82 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
             
+            case 'duration1': {
+
+                let conditionCount = 4
+
+                for (let conditionIndex = 0; conditionIndex < conditionCount; conditionIndex++) {
+                    try 
+                    {
+                        await t.click(Selectors_local2.getAddFilter)
+                        await t.wait(1000)
+
+                        const arrowCount = await Selectors_local2.getArrowCount
+
+                        let value = getRandomInt(1, 999);
+
+                        //кликаем на стрелку параметров
+                        let getParamArrow = await Selectors_local2.getParamArrow()
+                        await t.click(getParamArrow)
+
+                        //выбираем нужный параметр
+                        await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
+                        //кликаем на стрелку условий
+                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+                        await t.click(getСonditionArrow)
+                        //кликаем на условие
+                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
+                        //кликаем на поле значение
+                        await t.click(Selectors_local2.getValueTextSelector)
+                        // пауза
+                        await t.wait(3000)
+                        //вводим значение 
+                        await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
+                        //кликаем применить
+                        await t.click(Selectors_local2.getValueButtonSelector)
+                        //кликаем применить
+                        await t.click(Selectors_local2.getApplyButtonSelector)
+
+                        let flag = await errorCheck()
+                        if (flag==true) 
+                        {
+                            await clickToMenu('', report[1], report[2]);
+
+                            log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            errors.push(
+                                {
+                                    id: filterIndex,
+                                    report: report,
+                                    filter: filters[filterIndex].data.name, 
+                                    type: filters[filterIndex].data.type, 
+                                    condition: conditionIndex
+                                }
+                            )
+                        }
+                        else
+                        {
+                            log('debug', 'STEP PASSED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());
+                            //кликаем отменить
+                            await t.click(Selectors_local2.getCancelButtonSelector)
+                        }
+                    }
+                    catch(err)
+                    {
+                        log('error', 'STEP FAILED [FILTER]: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString() );
+                        errors.push(
+                            {
+                                id: filterIndex,
+                                report: report,
+                                filter: filters[filterIndex].data.name, 
+                                type: filters[filterIndex].data.type, 
+                                condition: conditionIndex
+                            }
+                        )
+                    }
+                }
+                break;
+            }
+
             default: {
                 log('error', 'STEP [FILTER] UNKNOWN RESULT: '+ ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type)
                 break;
