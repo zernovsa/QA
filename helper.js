@@ -380,6 +380,8 @@ export const nestingConfigAll = async () => {
 
 export const tableColumnsSortrers = async() => {
 
+        var scroll = ClientFunction((value) => document.querySelector('.x-grid-inner-normal .x-grid-view').scrollLeft = value) // вынести в функцию
+
         await reloadPage()
 
         var tmp = await Selector('*[class*=" cm-pageheader-text"]')
@@ -393,27 +395,54 @@ export const tableColumnsSortrers = async() => {
         var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).count
         var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
 
-        console.log(count)
 
-        for(var index=0; index < count-1; index++)
-        {            
-                await t.wait(1000)
-                await t.click(selector.nth(index))
-                await t.wait(1000)
-                await t.click(selector.nth(index))
-        }
+        //console.log(count)
+
+        // for(var index=0; index < count-1; index++)
+        // {            
+               
+        //        // var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+        //        // var offset = await scrollOffsetLeft
+
+        //        // await scroll(offset)
+        //        // await t.wait(1000)
+        //        // await t.click(selector.nth(index))
+
+        //        // await scroll(offset)
+        //        // await t.wait(1000)
+        //        // await t.click(selector.nth(index))
+        // }
 
         console.log(count2)
 
-            if(count2 > 5) count2 = 5 // ограничение из-за множества столбцов сортировок по РК
+        for(var index = 0; index < count2; index++)
+        {                           
+                
+                var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')[index].offsetParent.offsetParent.offsetParent.offsetLeft)
 
-        for(var index=0; index < count2; index++)
-        {            
-                await t.wait(1000)
+                var offset = await scrollOffsetLeft(index)
+
+                console.log(offset)
+
+                await t.wait(2000)
+                await scroll(offset)
+                await t.wait(2000)
                 await t.click(selector2.nth(index))
-                await t.wait(1000)
+
+                await t.wait(2000)
+                await scroll(offset)
+                await t.wait(2000)
                 await t.click(selector2.nth(index))
         }
+
+
+
+
+
+
+
+
+
 }
 
 
