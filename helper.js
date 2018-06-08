@@ -367,7 +367,7 @@ export const nestingConfigAll = async () => {
 
     while (count > 0) {
         var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
-        await t.click(selector.nth(0))
+        await t.click(selector.nth(count-1))
         await t.wait(1000)
         count = await getUncheckedColumnsCount()
         //console.log(count + ' ')
@@ -396,26 +396,25 @@ export const tableColumnsSortrers = async() => {
         var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
 
 
-        //console.log(count)
+        console.log(count)
 
-        // for(var index=0; index < count-1; index++)
-        // {            
-               
-        //        // var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
-        //        // var offset = await scrollOffsetLeft
+        for(var index=0; index < count-1; index++)
+        {                 
+               var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+               var offset = await scrollOffsetLeft
 
-        //        // await scroll(offset)
-        //        // await t.wait(1000)
-        //        // await t.click(selector.nth(index))
+               await scroll(offset)
+               await t.wait(1000)
+               await t.click(selector.nth(index))
 
-        //        // await scroll(offset)
-        //        // await t.wait(1000)
-        //        // await t.click(selector.nth(index))
-        // }
+               await scroll(offset)
+               await t.wait(1000)
+               await t.click(selector.nth(index))
+        }
 
         console.log(count2)
 
-        for(var index = 0; index < count2; index++)
+        for(var index = 0; index < count2-1; index++)
         {                           
                 
                 var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')[index].offsetParent.offsetParent.offsetParent.offsetLeft)

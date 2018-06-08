@@ -185,7 +185,7 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
             // await nestingExpandAll();
             // await nestingCollapseAll();
 
-            await nestingExpandAll();
+            //await nestingExpandAll();
 
             const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
             await t.click(getColumnsButton);
