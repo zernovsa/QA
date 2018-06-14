@@ -264,7 +264,7 @@ export const nestingConfigIndex = async (index) => {
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]')
         await t.click(selector.nth(index))
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
@@ -279,12 +279,12 @@ export const nestingConfigAllUnchecked = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"])').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"])[aria-checked="true"]').length);
     var count                      = await getUncheckedColumnsCount()
     console.log('Columns count: ' + count)
 
     while (count > 0) {
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]')
         await t.click(selector.nth(count-1))
         await t.wait(1000)
         count = await getUncheckedColumnsCount()
@@ -361,12 +361,12 @@ export const nestingConfigAll = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]').length);
     var count                      = await getUncheckedColumnsCount()
     //console.log('Columns count: ' + count)
 
     while (count > 0) {
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]')
         await t.click(selector.nth(count-1))
         await t.wait(1000)
         count = await getUncheckedColumnsCount()
