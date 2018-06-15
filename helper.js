@@ -264,8 +264,10 @@ export const nestingConfigIndex = async (index) => {
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]')
-        await t.click(selector.nth(index))
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`)
+        var check = await selector.nth(index).getStyleProperty('display');
+
+        if(check==="inline-block") await t.click(selector.nth(index))
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
     await t.click(getSaveButton);
@@ -279,15 +281,27 @@ export const nestingConfigAllUnchecked = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"])[aria-checked="true"]').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"]`).length);
     var count                      = await getUncheckedColumnsCount()
     console.log('Columns count: ' + count)
 
-    while (count > 0) {
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]')
-        await t.click(selector.nth(count-1))
-        await t.wait(1000)
-        count = await getUncheckedColumnsCount()
+    var y=0;
+
+    for(var i=0; i<count;i++) {
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"]`)
+        var check = await selector.nth(y).getStyleProperty('display');
+
+       if(check==="inline-block")
+        {
+                console.log(check)
+                await t.click(selector.nth(y))
+                await t.wait(1000)
+        }   
+        if(check==="none")
+        {
+                console.log(check)
+                y++
+        }
     }
 
 
@@ -417,10 +431,12 @@ export const tableColumnsSortrers = async() => {
                await scroll(offset)
                await t.wait(1000)
                await t.click(selector.nth(index))
+               console.log('click to '+index+' ASC')
 
                await scroll(offset)
                await t.wait(1000)
                await t.click(selector.nth(index))
+               console.log('click to '+index+' DESC')
         }
 
         console.log(count2)
@@ -438,11 +454,13 @@ export const tableColumnsSortrers = async() => {
                 await scroll(offset)
                 await t.wait(2000)
                 await t.click(selector2.nth(index))
+                console.log('click to '+index+' ASC')
 
                 await t.wait(2000)
                 await scroll(offset)
                 await t.wait(2000)
                 await t.click(selector2.nth(index))
+                console.log('click to '+index+' DESC')
         }
 
 
