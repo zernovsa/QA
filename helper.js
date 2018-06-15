@@ -361,16 +361,27 @@ export const nestingConfigAll = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
     var count                      = await getUncheckedColumnsCount()
-    //console.log('Columns count: ' + count)
 
-    while (count > 0) {
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])[aria-checked="true"]')
-        await t.click(selector.nth(count-1))
-        await t.wait(1000)
-        count = await getUncheckedColumnsCount()
-        //console.log(count + ' ')
+    var y=0;
+
+    for(var i=0; i<count;i++) {
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        var check = await selector.nth(y).getStyleProperty('display');
+
+       if(check==="inline-block")
+        {
+                console.log(check)
+                await t.click(selector.nth(y))
+                await t.wait(1000)
+        }   
+        if(check==="none")
+        {
+                console.log(check)
+                y++
+        }
+
     }
 
 
