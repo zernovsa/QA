@@ -180,7 +180,6 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
         
         //await enableAllColumns();   
 
-            // await nestingExpandAll();
             // await nestingCollapseAll();
 
             await nestingExpandAll();
@@ -188,17 +187,27 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
             const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
             await t.click(getColumnsButton);
 
-            const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+            const selector = Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+            const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
             var count = await getUncheckedColumnsCount()
 
             count = await getUncheckedColumnsCount()
 
-            for(var i = 0; i < count; i++)
+            for(var index = 0; index < count; index++)
             {
+                await nestingConfigAllUnchecked(); 
 
-               await nestingConfigAllUnchecked();
+                var check = await selector.nth(index).getStyleProperty('display');
 
-               await nestingConfigIndex(i)
+                if(check==="inline-block") 
+                {
+                      await nestingConfigIndex(index)
+                      console.log(check)
+                }
+                 if(check==="none")
+                {
+                    console.log(check)
+                }
             
                 // let filters = await initFilters();
                 // console.log(filters)
