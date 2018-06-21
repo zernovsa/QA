@@ -9,7 +9,7 @@ import * as Selectors_local2 from '../../selectors/ca_r6.8.0_selectors.js';
 var dateFormat = require('dateformat');
 
 fixture `Getting Started`
-    .page(test_link);
+.page(test_link);
 
 // логин на страницу
 export const login = async () => {
@@ -88,12 +88,12 @@ export const filtersConditionIndexOrName = async (report, filters, value) => {
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
 export const clickAllFilters = async (report, filters) => {
     var errors = []
-        for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
-        {
-        	var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
-            if(err.length !== 0) errors.push(err)
-        }
-    return errors
+    for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
+    {
+       var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
+       if(err.length !== 0) errors.push(err)
+   }
+return errors
 }
 
 // выбираем вкладку, в зависимости от отчета
@@ -104,82 +104,82 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_addUserFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
 
-        await addUserFilters(report);
+    await addUserFilters(report);
 
-        await userFilters();
+    await userFilters();
 
-    }
+}
 );
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_userFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
 
-        await userFilters();
-    }
+    await userFilters();
+}
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0__tableColumnsSortrers', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-        
-        await enableAllColumns();   
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    
+    await enableAllColumns();   
 
-        await nestingConfigAll();
+    await nestingConfigAll();
 
-        await tableColumnsSortrers();
-    }
+    await tableColumnsSortrers();
+}
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0__checkAll_allFilters', async () => {
-        await login();
-		let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-		
-        await enableAllColumns();   
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    
+    await enableAllColumns();   
 
-        await nestingConfigAll();
+    await nestingConfigAll();
 
-        let filters = await initFilters();
-        console.log(filters)
-        let errors = await clickAllFilters(report, filters);
-        console.log(errors)
-        if(errors.length !== 0) throw 'TEST FAILED'
-    }
+    let filters = await initFilters();
+    console.log(filters)
+    let errors = await clickAllFilters(report, filters);
+    console.log(errors)
+    if(errors.length !== 0) throw 'TEST FAILED'
+}
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_nestingName_allFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-        
-        await enableAllColumns();   
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    
+    await enableAllColumns();   
 
-        await nestingConfigAllUnchecked();
-        await nestingConfigName('География');
+    await nestingConfigAllUnchecked();
+    await nestingConfigName('География');
 
-        let filters = await initFilters();
-        console.log(filters)
-        let errors = await clickAllFilters(report, filters);
-        console.log(errors)
-        if(errors.length !== 0) throw 'TEST FAILED'
-    }
+    let filters = await initFilters();
+    console.log(filters)
+    let errors = await clickAllFilters(report, filters);
+    console.log(errors)
+    if(errors.length !== 0) throw 'TEST FAILED'
+}
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-        
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    
         //await enableAllColumns();   
 
             // await nestingExpandAll();
@@ -198,10 +198,10 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
             for(var i = 0; i < count; i++)
             {
 
-               await nestingConfigAllUnchecked();
+             await nestingConfigAllUnchecked();
 
-               await nestingConfigIndex(i)
-            
+             await nestingConfigIndex(i)
+             
                 // let filters = await initFilters();
                 // console.log(filters)
                 // let errors = await clickAllFilters(report, filters);
@@ -209,6 +209,6 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
                 // if(errors.length !== 0) throw 'TEST FAILED'
 
             }
-    }
-);
+        }
+        );
 

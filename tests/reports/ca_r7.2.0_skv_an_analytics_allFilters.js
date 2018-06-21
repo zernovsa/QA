@@ -9,7 +9,7 @@ import * as Selectors_local2 from '../../selectors/ca_r6.8.0_selectors.js';
 var dateFormat = require('dateformat');
 
 fixture `Getting Started`
-    .page(test_link);
+.page(test_link);
 
 // логин на страницу
 export const login = async () => {
@@ -19,12 +19,12 @@ export const login = async () => {
 
 // включаем все колонки отчета
 export const nestingExpandAll = async () => {
-    await Helper.nestingExpandAll()
+	await Helper.nestingExpandAll()
 }
 
 // включаем все колонки отчета
 export const nestingCollapseAll = async () => {
-    await Helper.nestingCollapseAll()
+	await Helper.nestingCollapseAll()
 }
 
 // включаем все колонки отчета
@@ -34,188 +34,201 @@ export const enableAllColumns = async () => {
 
 // включаем все измерения отчета
 export const nestingConfigName = async (name) => {
-    await Helper.nestingConfigName(name)
+	await Helper.nestingConfigName(name)
 }
 
 // включаем все измерения отчета
 export const nestingConfigIndex = async (index) => {
-    await Helper.nestingConfigIndex(index)
+	await Helper.nestingConfigIndex(index)
 }
 
 // включаем все измерения отчета
 export const nestingConfigAllUnchecked = async () => {
-    await Helper.nestingConfigAllUnchecked()
+	await Helper.nestingConfigAllUnchecked()
 }
 
 // включаем все измерения отчета
 export const nestingConfigAll = async () => {
-    await Helper.nestingConfigAll()
+	await Helper.nestingConfigAll()
 }
 
 // включаем все измерения отчета
 export const tableColumnsSortrers = async () => {
-    await Helper.tableColumnsSortrers()
+	await Helper.tableColumnsSortrers()
 }
 
 // включаем все измерения отчета
 export const userFilters = async () => {
-    await Helper.userFilters()
+	await Helper.userFilters()
 }
 
 // включаем все измерения отчета
 export const delUserFilters = async () => {
-    await Helper.delUserFilters()
+	await Helper.delUserFilters()
 }
 
 // включаем все измерения отчета
 export const addUserFilters = async (report) => {
-    await Helper.addUserFilters(report)
+	await Helper.addUserFilters(report)
 }
 
 // инициализация фильтров
 export const initFilters = async (menu2) => {
-    let filters = await Helper.initFilters(menu2)
-    return filters;
+	let filters = await Helper.initFilters(menu2)
+	return filters;
 }
 
 // выбрать фильтр по индексу или по названию и перебрать все его условия
 export const filtersConditionIndexOrName = async (report, filters, value) => {
 	var errors = await Helper.filtersConditionIndexOrName(report, filters, value)
-    return errors
+	return errors
 }
 
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
 export const clickAllFilters = async (report, filters) => {
-    var errors = []
-        for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
-        {
-        	var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
-            if(err.length !== 0) errors.push(err)
-        }
-    return errors
+	var errors = []
+	for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
+	{
+		var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
+		if(err.length !== 0) errors.push(err)
+	}
+return errors
 }
 
 // выбираем вкладку, в зависимости от отчета
 export const clickToMenu = async (menu1, menu2, tabName) => {
-    let report = await Helper.clickToMenu(menu1, menu2, tabName);
-    return report
+	let report = await Helper.clickToMenu(menu1, menu2, tabName);
+	return report
 }
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_addUserFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+	await login();
+	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 
-        await addUserFilters(report);
+	await addUserFilters(report);
 
-        await userFilters();
+	await userFilters();
 
-    }
+}
 );
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_userFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+	await login();
+	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 
-        await userFilters();
-    }
+	await userFilters();
+}
 );
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0__tableColumnsSortrers', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-        
-        await enableAllColumns();   
+	await login();
+	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+	
+	await enableAllColumns();   
 
-        await nestingConfigAll();
+	await nestingConfigAll();
 
-        await tableColumnsSortrers();
-    }
+	await tableColumnsSortrers();
+}
 );
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0__checkAll_allFilters', async () => {
-        await login();
-		let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-		
-        await enableAllColumns();   
+	await login();
+	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+	
+	await enableAllColumns();   
 
-        await nestingConfigAll();
+	await nestingConfigAll();
 
-        let filters = await initFilters();
-        console.log(filters)
-        let errors = await clickAllFilters(report, filters);
-        console.log(errors)
-        if(errors.length !== 0) throw 'TEST FAILED'
-    }
+	let filters = await initFilters();
+	console.log(filters)
+	let errors = await clickAllFilters(report, filters);
+	console.log(errors)
+	if(errors.length !== 0) throw 'TEST FAILED'
+}
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_nestingName_allFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-        
-        await enableAllColumns();   
+	await login();
+	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+	
+	await enableAllColumns();   
 
-        await nestingConfigAllUnchecked();
-        await nestingConfigName('География');
+	await nestingConfigAllUnchecked();
+	await nestingConfigName('География');
 
-        let filters = await initFilters();
-        console.log(filters)
-        let errors = await clickAllFilters(report, filters);
-        console.log(errors)
-        if(errors.length !== 0) throw 'TEST FAILED'
-    }
+	let filters = await initFilters();
+	console.log(filters)
+	let errors = await clickAllFilters(report, filters);
+	console.log(errors)
+	if(errors.length !== 0) throw 'TEST FAILED'
+}
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
-        await login();
-        let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-        
-        //await enableAllColumns();   
+	await login();
+	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+	
+		//await enableAllColumns();   
 
-            // await nestingCollapseAll();
+			// await nestingCollapseAll();
 
-            await nestingExpandAll();
+			//await nestingExpandAll();
 
-            const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-            await t.click(getColumnsButton);
+			await nestingConfigAllUnchecked(); 
 
-            const selector = Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
-            const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
-            var count = await getUncheckedColumnsCount()
+			const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+			await t.click(getColumnsButton);
 
-            count = await getUncheckedColumnsCount()
+			const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+			var count = await getUncheckedColumnsCount()
 
-            for(var index = 0; index < count; index++)
-            {
-                await nestingConfigAllUnchecked(); 
+			for(var index = 0; index < count; index++)
+			{
 
-                var check = await selector.nth(index).getStyleProperty('display');
+				var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+				var check = await selector.nth(index).getStyleProperty('display');
 
-                if(check==="inline-block") 
-                {
-                      await nestingConfigIndex(index)
-                      console.log(check)
-                }
-                 if(check==="none")
-                {
-                    console.log(check)
-                }
-            
-                // let filters = await initFilters();
-                // console.log(filters)
-                // let errors = await clickAllFilters(report, filters);
-                // console.log(errors)
-                // if(errors.length !== 0) throw 'TEST FAILED'
+				if(check==="inline-block") 
+				{
 
-            }
-    }
-);
+					await t.click(selector.nth(index))
+					console.log(check)
+
+					const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+					await t.click(getSaveButton);
+
+					await nestingConfigAllUnchecked(); 
+
+					const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+					await t.click(getColumnsButton);
+
+
+				}
+				if(check==="none")
+				{
+					console.log(check)
+				}
+
+				const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+				await t.click(getSaveButton);
+
+				// let filters = await initFilters();
+				// console.log(filters)
+				// let errors = await clickAllFilters(report, filters);
+				// console.log(errors)
+				// if(errors.length !== 0) throw 'TEST FAILED'
+
+			}
+		}
+		);
 

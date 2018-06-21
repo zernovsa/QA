@@ -11,7 +11,7 @@ export const addReport = async () => {
     const reportCount = await Selectors.getReportCount()
     if (reportCount < 15) {
         await t
-            .click(Selectors.getAddReport)
+        .click(Selectors.getAddReport)
         // .click(getPencil)
         // .wait(1000)
         // .pressKey('delete')
@@ -47,59 +47,59 @@ export const firstNestingTree = async (storeIndex) => {
     var tree         = [];
 
     var storeElCount = await Selectors.getStoreElCount.with({
+        dependencies: {
+            name: Selectors.storeName,
+            storeIndex : storeIndex
+        }
+    })();
+
+    console.log('Всего элементов первой вложенности в store: ' + storeElCount)
+
+    for (var i = 0; i < firstNesting.length; i++) {
+        tree.push({ id: firstNesting[i], selector: Selectors.getFirstNestingMoreTree })
+
+        var elCount = await Selectors.getFirstNestElCount.with({
             dependencies: {
-                name: Selectors.storeName,
+                name:  Selectors.storeName,
+                index: firstNesting[i],
                 storeIndex : storeIndex
             }
         })();
 
-        console.log('Всего элементов первой вложенности в store: ' + storeElCount)
+        tree[i].childsCount = elCount
 
-        for (var i = 0; i < firstNesting.length; i++) {
-            tree.push({ id: firstNesting[i], selector: Selectors.getFirstNestingMoreTree })
+        var elText   = await Selectors.getFirstNestElText.with({
+            dependencies: {
+                name:  Selectors.storeName,
+                index: firstNesting[i],
+                storeIndex : storeIndex
+            }
+        })();
+        tree[i].text = elText
+    }
 
-            var elCount = await Selectors.getFirstNestElCount.with({
+    for (var i = 0; i < tree.length; i++) {
+
+        tree[i].children = []
+
+        for (var j = 0; j < tree[i].childsCount; j++) {
+            var elText = await Selectors.getSecondNestElText.with({
                 dependencies: {
-                    name:  Selectors.storeName,
-                    index: firstNesting[i],
+                    name:   Selectors.storeName,
+                    index1: tree[i].id,
+                    index2: j,
                     storeIndex : storeIndex
                 }
             })();
 
-            tree[i].childsCount = elCount
-
-            var elText   = await Selectors.getFirstNestElText.with({
+            var childsCount = await Selectors.getSecondNestElChildCount.with({
                 dependencies: {
-                    name:  Selectors.storeName,
-                    index: firstNesting[i],
+                    name:   Selectors.storeName,
+                    index1: tree[i].id,
+                    index2: j,
                     storeIndex : storeIndex
                 }
             })();
-            tree[i].text = elText
-        }
-
-        for (var i = 0; i < tree.length; i++) {
-
-            tree[i].children = []
-
-            for (var j = 0; j < tree[i].childsCount; j++) {
-                var elText = await Selectors.getSecondNestElText.with({
-                    dependencies: {
-                        name:   Selectors.storeName,
-                        index1: tree[i].id,
-                        index2: j,
-                        storeIndex : storeIndex
-                    }
-                })();
-
-                var childsCount = await Selectors.getSecondNestElChildCount.with({
-                    dependencies: {
-                        name:   Selectors.storeName,
-                        index1: tree[i].id,
-                        index2: j,
-                        storeIndex : storeIndex
-                    }
-                })();
 
                 //выбираем селектор второй вложенности в зависимости от наличия потомков
                 if (childsCount == 0) tree[i].children.push({
@@ -108,35 +108,35 @@ export const firstNestingTree = async (storeIndex) => {
                     selector:    Selectors.getSubChildItem,
                     childsCount: childsCount
                 })
-                else {
-                    tree[i].children.push({
-                        id:          j,
-                        text:        elText,
-                        selector:    Selectors.getFirstNestingMoreTree,
-                        childsCount: childsCount
-                    })
-                    tree[i].children[j].children = []
-                    for (var z = 0; z < tree[i].children[j].childsCount; z++) {
-
-                        var elText = await Selectors.getThirdNestElText.with({
-                            dependencies: {
-                                name:   Selectors.storeName,
-                                index1: tree[i].id,
-                                index2: j,
-                                index3: z,
-                                storeIndex : storeIndex
-                            }
-                        })();
-
-                        tree[i].children[j].children.push({
-                            id:       z,
-                            text:     elText,
-                            selector: Selectors.getSubChildItem
+                    else {
+                        tree[i].children.push({
+                            id:          j,
+                            text:        elText,
+                            selector:    Selectors.getFirstNestingMoreTree,
+                            childsCount: childsCount
                         })
+                        tree[i].children[j].children = []
+                        for (var z = 0; z < tree[i].children[j].childsCount; z++) {
+
+                            var elText = await Selectors.getThirdNestElText.with({
+                                dependencies: {
+                                    name:   Selectors.storeName,
+                                    index1: tree[i].id,
+                                    index2: j,
+                                    index3: z,
+                                    storeIndex : storeIndex
+                                }
+                            })();
+
+                            tree[i].children[j].children.push({
+                                id:       z,
+                                text:     elText,
+                                selector: Selectors.getSubChildItem
+                            })
+                        }
                     }
                 }
             }
-        }
 
         //Вывод дерева
         console.log('Дерево: ')
@@ -145,5 +145,5 @@ export const firstNestingTree = async (storeIndex) => {
         }
 
 
-return tree
-}
+        return tree
+    }
