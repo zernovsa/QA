@@ -127,7 +127,7 @@ test('ca_r7.2.0_userFilters', async () => {
 test('ca_r7.2.0__tableColumnsSortrers', async () => {
 	await login();
 	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-	
+
 	await enableAllColumns();   
 
 	await nestingConfigAll();
@@ -140,7 +140,7 @@ test('ca_r7.2.0__tableColumnsSortrers', async () => {
 test('ca_r7.2.0__checkAll_allFilters', async () => {
 	await login();
 	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-	
+
 	await enableAllColumns();   
 
 	await nestingConfigAll();
@@ -158,7 +158,7 @@ test('ca_r7.2.0__checkAll_allFilters', async () => {
 test('ca_r7.2.0_nestingName_allFilters', async () => {
 	await login();
 	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-	
+
 	await enableAllColumns();   
 
 	await nestingConfigAllUnchecked();
@@ -177,11 +177,10 @@ test('ca_r7.2.0_nestingName_allFilters', async () => {
 test('ca_r7.2.0_indexAll_allFilters', async () => {
 	await login();
 	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
-	
+
 		//await enableAllColumns();   
 
 			// await nestingCollapseAll();
-
 			//await nestingExpandAll();
 
 			await nestingConfigAllUnchecked(); 
@@ -192,43 +191,45 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
 			const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
 			var count = await getUncheckedColumnsCount()
 
-			for(var index = 0; index < count; index++)
-			{
+			console.log(count)
 
-				var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
-				var check = await selector.nth(index).getStyleProperty('display');
+			// for(var index = 0; index < count; index++)
+			// {
 
-				if(check==="inline-block") 
-				{
+			// 	var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+			// 	var check = await selector.nth(index).getStyleProperty('display');
 
-					await t.click(selector.nth(index))
-					console.log(check)
+			// 	if(check==="inline-block") 
+			// 	{
 
-					const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-					await t.click(getSaveButton);
+			// 		await t.click(selector.nth(index))
+			// 		console.log(check)
 
-					await nestingConfigAllUnchecked(); 
+			// 		const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+			// 		await t.click(getSaveButton);
 
-					const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-					await t.click(getColumnsButton);
+			// 		await nestingConfigAllUnchecked(); 
+
+			// 		const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+			// 		await t.click(getColumnsButton);
 
 
-				}
-				if(check==="none")
-				{
-					console.log(check)
-				}
+			// 	}
+			// 	if(check==="none")
+			// 	{
+			// 		console.log(check)
+			// 	}
 
-				const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-				await t.click(getSaveButton);
+			// 	const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+			// 	await t.click(getSaveButton);
 
-				// let filters = await initFilters();
-				// console.log(filters)
-				// let errors = await clickAllFilters(report, filters);
-				// console.log(errors)
-				// if(errors.length !== 0) throw 'TEST FAILED'
+			// 	// let filters = await initFilters();
+			// 	// console.log(filters)
+			// 	// let errors = await clickAllFilters(report, filters);
+			// 	// console.log(errors)
+			// 	// if(errors.length !== 0) throw 'TEST FAILED'
 
-			}
+			// }
 		}
 		);
 

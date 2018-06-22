@@ -40,7 +40,7 @@ export const login = async () => {
             await t
         .typeText('input[name="password"]', password)
         .pressKey('enter')
-        
+
         // выбираем сайт siteapp.webdev.uiscom.ru - переменная site из config.js
         let siteArrow = Selector('*[class*="x-form-trigger x-form-trigger-cm-siteselector x-form-arrow-trigger x-form-arrow-trigger-cm-siteselector"]')
         await t.click(siteArrow)
@@ -266,7 +266,7 @@ export const nestingConfigIndex = async (index) => {
     var check = await selector.nth(index).getStyleProperty('display');
 
     if(check==="inline-block") await t.click(selector.nth(index))
-        
+
 }
 
 // document.querySelectorAll('[role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"])')
@@ -306,27 +306,29 @@ export const nestingConfigAllUnchecked = async () => {
 }
 
 export const nestingExpandAll = async () => {
-    
+
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
-    const getUExpandColumnsCount = ClientFunction(() => document.querySelectorAll(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])').length);
-    var count = await getUExpandColumnsCount()
+    var getExpandColumnsCount = ClientFunction(() => document.querySelectorAll(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])').length);
+    var count = await getExpandColumnsCount()
 
-    while (count > 0) {
+    var y=0;
+
+    while (y < count) {
         var selector = await Selector(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])')
 
         //console.log(await selector.count);
 
-        var imageUrl = await selector.nth(count-1).getStyleProperty('background-image');
+        var imageUrl = await selector.nth(y).getStyleProperty('background-image');
 
         //console.log(imageUrl);
         
         if (imageUrl.indexOf('plus.png') > -1) 
-            await t.click(selector.nth(count-1))
+            await t.click(selector.nth(y))
         await t.wait(1000)
         
-        count--;
+        y++;
     }
 
     const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
@@ -439,7 +441,7 @@ export const tableColumnsSortrers = async() => {
 
      for(var index = 0; index < count2-1; index++)
      {                           
-        
+
         var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')[index].offsetParent.offsetParent.offsetParent.offsetLeft)
 
         var offset = await scrollOffsetLeft(index)
@@ -471,7 +473,7 @@ export const tableColumnsSortrers = async() => {
 
 
 export const clickUserFilters = async() => {
-    
+
     var selector = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-userfilters-btn-icon"')
 
     console.log(await selector.count);
@@ -479,7 +481,7 @@ export const clickUserFilters = async() => {
     var imageUrl = await selector.nth(0).getStyleProperty('background-image');
 
     console.log(imageUrl);
-    
+
     if (imageUrl.indexOf('userfilters.png') > -1) 
         await t.click(selector.nth(0))
     await t.wait(1000)  
@@ -488,127 +490,142 @@ export const clickUserFilters = async() => {
 
 export const userFilters = async() => {
 
-    await clickUserFilters()
+    await clickUserFilters();
 
     var filtersCount = ClientFunction(() =>  document.querySelectorAll('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div').length);
     var filterSelector = Selector('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div');
 
-    var count = await filtersCount()
-    console.log(count)
+    var count = await filtersCount();
+    console.log(count);
 
     for(var index=0; index < count; index++)
     {            
-        if(index!=0) await clickUserFilters()
+        if(index!=0) await clickUserFilters() {
             await t.wait(1000)
+        }
         console.log(index)
         await t.click(filterSelector.nth(index))
         await t.wait(1000)
-                //кликаем применить
-                await t.click(Selectors_local2.getApplyButtonSelector)
-                var cancel = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-cancel "]')
-                await t.click(cancel.nth(0))
-            }
-        }
 
-        export const delUserFilters = async() => {
+        await t.click(Selectors_local2.getApplyButtonSelector)
+        var cancel = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-cancel "]')
+        await t.click(cancel.nth(0))
+    }
+}
 
-            await clickUserFilters()
+export const delUserFilters = async() => {
 
-            var filtersCount = ClientFunction(() =>  document.querySelectorAll('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div').length);
-            var filterSelector = Selector('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div');
+    await clickUserFilters();
 
-            var count = await filtersCount()
-            console.log(count)
+    var filtersCount = ClientFunction(() =>  document.querySelectorAll('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div').length);
+    var filterSelector = Selector('*[class*="x-boundlist cm-filter2panel-userfilters-boundlist x-fit-item x-boundlist-ul"] div ul div');
 
-            for(var index=0; index < count; index++)
-            {            
-                if(index!=0) await clickUserFilters()
-                    await t.wait(1000)
-                console.log(index)
-                await t.click(filterSelector.nth(index))
-                await t.wait(1000)
-                //кликаем применить
-                await t.click(Selectors_local2.getApplyButtonSelector)
-                var cancel = await Selector('*[class*="cm-filter2panel-userfilters-boundlist-removebtn"]')
-            }
-        }
+    var count = await filtersCount();
+    console.log(count);
 
-
-        export const addUserFilters = async(report) => {
-         
-            let filters = await initFilters();
-            console.log(filters)
-            
-            let value = getRandomInt(1, 999);
-
-            await t.click(Selectors_local2.getAddFilter)
+    for(var index=0; index < count; index++)
+    {            
+        if(index!=0) await clickUserFilters(){
             await t.wait(1000)
-                        //кликаем на стрелку параметров
-                        let getParamArrow = await Selectors_local2.getParamArrow()
-                        await t.click(getParamArrow)
-                        
-                        //выбираем нужный параметр
-                        await t.click(Selectors_local2.getParamSelector.withText(filters[0].data.name))
+        }
+        console.log(index)
+        await t.click(filterSelector.nth(index))
+        await t.wait(1000)
 
-                        //кликаем на стрелку условий
-                        let getСonditionArrow = await Selectors_local2.getСonditionArrow()
-                        await t.click(getСonditionArrow)
-                        //кликаем на условие 
-                        await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + 0));
-                        //кликаем на поле значение
-                        await t.click(Selectors_local2.getValueNumberSelector)
-                        //вводим значение 
-                        await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
-                        //кликаем применить
-                        await t.click(Selectors_local2.getValueButtonSelector)
+        await t.click(Selectors_local2.getApplyButtonSelector)
+        var cancel = await Selector('*[class*="cm-filter2panel-userfilters-boundlist-removebtn"]')
+    }
+}
 
 
-                        var selector = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-save"')
+export const addUserFilters = async(report) => {
 
-                        console.log(await selector.count);
+    let filters = await initFilters();
+    console.log(filters)
 
-                        var imageUrl = await selector.nth(0).getStyleProperty('background-image');
+    let value = getRandomInt(1, 999);
 
-                        console.log(imageUrl);
-                        
-                        if (imageUrl.indexOf('save.png') > -1) await t.click(selector.nth(0))
+    await t.click(Selectors_local2.getAddFilter)
+    await t.wait(1000)
+     //кликаем на стрелку параметров
+     let getParamArrow = await Selectors_local2.getParamArrow()
+     await t.click(getParamArrow)
 
-                            await t.wait(1000)  
+    //выбираем нужный параметр
+    await t.click(Selectors_local2.getParamSelector.withText(filters[0].data.name))
 
-                        var filter_name = await Selector('*[name*="filter_name"')
-                        
-                        await t.click(filter_name.nth(0))
-                        await t.typeText(filter_name.nth(0), 'test');
-
-                        await t.wait(3000)  
-
-                        var save_button = await Selector('*[class*="x-btn-inner x-btn-inner-ul-main-medium"]')
-                        await t.click(save_button.nth(0))
-
-                    }
-
-
-                    export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
-                    export const reloadPage = ClientFunction(() => window.location.reload());
-
-                    export const errorCheck = async () => {
-
-                        let flag=false
-                        let count = await errorExists()
-                        
-                        await t.wait(3000) 
-
-                        if (count != 0)
-                        {
-                            flag=true
-                            await t.click('*[id*="messagebox"][id*="toolbar-innerCt"]')
-                            await reloadPage()
-                        }
+    //кликаем на стрелку условий
+    let getСonditionArrow = await Selectors_local2.getСonditionArrow()
+    await t.click(getСonditionArrow)
+     //кликаем на условие 
+     await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + 0));
+    //кликаем на поле значение
+    await t.click(Selectors_local2.getValueNumberSelector)
+    //вводим значение 
+    await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+    //кликаем применить
+    await t.click(Selectors_local2.getValueButtonSelector)
 
 
+    var selector = await Selector('*[class*="x-btn-icon-el x-btn-icon-el-ul-usual-medium cm-filter2panel-controlpanel-btn-save"')
 
-                        return flag
-                    }
+    console.log(await selector.count);
+
+    var imageUrl = await selector.nth(0).getStyleProperty('background-image');
+
+    console.log(imageUrl);
+
+    if (imageUrl.indexOf('save.png') > -1) {
+        await t.click(selector.nth(0))
+    }
+
+    await t.wait(1000)  
+
+    var filter_name = await Selector('*[name*="filter_name"')
+
+    await t.click(filter_name.nth(0))
+    await t.typeText(filter_name.nth(0), 'test');
+
+    await t.wait(3000)  
+
+    var save_button = await Selector('*[class*="x-btn-inner x-btn-inner-ul-main-medium"]')
+    await t.click(save_button.nth(0))
+
+}
+
+
+export const errorExists = ClientFunction(() => document.querySelectorAll('*[id*="messagebox"][id*="innerCt"]').length);
+export const reloadPage = ClientFunction(() => window.location.reload());
+
+export const errorCheck = async () => {
+
+    let flag=false
+    let count = await errorExists()
+
+    await t.wait(3000) 
+
+    if (count != 0)
+    {
+        flag=true
+        await t.click('*[id*="messagebox"][id*="toolbar-innerCt"]')
+        await reloadPage()
+    }
+
+    return flag
+}
+
+
+export const clickConfigNestingButton = async () => {
+  const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+  await t.click(getColumnsButton);
+}
+
+export const clickSaveNestingButton = async () => {
+
+    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    await t.click(getSaveButton);
+
+}
 
 // инициализация фильтров
 export const initFilters = async () => {
@@ -640,7 +657,7 @@ return errors
 
 // что делать с фильтром в зависимости от его типа (выбрать фильтр, перебрать все значения условий, добавить случайное значение, применить фильтр и удалить его)
 export const filtersWhatToDo = async (report, filters, filterIndex) => {
-    
+
         // time
         // system_list
         // text
@@ -672,7 +689,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        
+
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
 
@@ -1057,7 +1074,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                          await t.click(Selectors_local2.getValueButtonSelector)
                          await t.click(Selectors_local2.getApplyButtonSelector)
 
-                         
+
                          let flag = await errorCheck()
                          if (flag==true) 
                          {
@@ -1260,7 +1277,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        
+
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
 
@@ -1331,7 +1348,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                         //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
-                        
+
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
 
@@ -1429,7 +1446,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                          await t.click(Selectors_local2.getValueButtonSelector)
                          await t.click(Selectors_local2.getApplyButtonSelector)
 
-                         
+
                          let flag = await errorCheck()
                          if (flag==true) 
                          {
@@ -1603,7 +1620,7 @@ export const delReport = async () => {
 export const initFirstNestingTree = async () => {
 
     await addReport();
-    
+
     // считываем индексы стора для первого измерения
     let firstNesting = firstNestingTree()
 
@@ -1617,9 +1634,9 @@ export const initFirstNestingTree = async () => {
 
     // Записываем селекторы первой вложенности
     for (var index1 = 0; index1 < firstNesting.length; index1++) {
-        
+
         tree.push({ index: firstNesting[index1], selector: Selectors_local.getMoreTree })
-        
+
         tree[index1].childsCount = await Selectors_local.getFirstNestElCount(storeName, firstNesting[index1])
         tree[index1].disabled    = await Selectors_local.getFirstNestDisabled(storeName, firstNesting[index1])
         tree[index1].expandable  = await Selectors_local.getFirstNestExpandable(storeName, firstNesting[index1])
@@ -1634,14 +1651,14 @@ export const initFirstNestingTree = async () => {
         tree[index1].children = []
 
         for (var j = 0; j < tree[index1].childsCount; j++) {
-            
+
             //выбираем селектор второй вложенности в зависимости от наличия потомков
             var selector
             var childsCount = await Selectors_local.getSecondNestElChildCount(storeName, tree[index1].index, j)
             
             if (childsCount == 0) selector = Selectors_local.getSubChildItem
                 else selector = Selectors_local.getSecondNestingMoreTree
-                    
+
                     var elText = await Selectors_local.getSecondNestElText(storeName, tree[index1].index, j)
                 var expandable = await Selectors_local.getSecondNestExpandable(storeName, tree[index1].index, j)
                 var expanded = await Selectors_local.getSecondNestExpanded(storeName, tree[index1].index, j)
@@ -1672,7 +1689,7 @@ export const initFirstNestingTree = async () => {
                     })
                 }
             }
-            
+
         }
 
         consolelogFirstNestingTree(tree)
@@ -1690,7 +1707,7 @@ export const consolelogFirstNestingTree = async (tree) => {
 
 //инициализация дерева второго измерения
 export const initSecondNestingTree = async (menu1, menu2, tabName) => {
-    
+
     // открыть второе измерение, чтобы disabled элемента было заполнено
     await t.click(Selectors_local.add2Report)
 
@@ -1734,14 +1751,14 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
         tree2[index1].children = []
 
         for (var j = 0; j < tree2[index1].childsCount; j++) {
-            
+
             //выбираем селектор второй вложенности в зависимости от наличия потомков
             var selector
             var childsCount = await Selectors_local.getSecondNestElChildCount(storeName, tree2[index1].index, j)
             
             if (childsCount == 0) selector = Selectors_local.getSubChildItem
                 else selector = Selectors_local.getSecondNestingMoreTree
-                    
+
                     var elText = await Selectors_local.getSecondNestElText(storeName, tree2[index1].index, j)
                 var expandable = await Selectors_local.getSecondNestExpandable(storeName, tree2[index1].index, j)
                 var expanded = await Selectors_local.getSecondNestExpanded(storeName, tree2[index1].index, j)
@@ -1772,7 +1789,7 @@ export const initSecondNestingTree = async (menu1, menu2, tabName) => {
                     })
                 }
             }
-            
+
         }
 
         return tree2
@@ -1785,7 +1802,7 @@ export const addFirstNesting = async (tree, index1, index2, index3) => {
                if (tree[index1].children[index2].childsCount == 0)  // если 2 уровня вложенности
                {
                 await addReportWithName(tree[index1].text+'/'+tree[index1].children[index2].text);
-                
+
                 if (tree[index1].expanded == false)
                 {
                     await t.click(Selector('*[class*="x-tree-node-text"').withText(tree[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
@@ -1825,10 +1842,10 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
                     try 
                     {
                         await t.click(Selectors_local.add2Report)
-                        
+
                         if (tree2[index1].expanded == false)
                             await t.click(Selector('*[class*="x-tree-node-text"').withText(tree2[index1].text).parent().find('img.x-tree-expander:not([role="presentation"])'))
-                        
+
                         let a = getWholeTextRe(tree2[index1].children[index2].text)
                         await t.click(Selector('*[class*="x-tree-node-text"').withText(a).parent().find('img'))
                         flag = true
@@ -1887,7 +1904,7 @@ export const allFirstNesting = async (tree) => {
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
-             
+
                 let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
                 if(clearSecondNesting==true) 
                 {
@@ -1910,7 +1927,7 @@ export const allFirstNesting = async (tree) => {
                 }
 
         }
-        
+
     }
 }
 
@@ -1921,7 +1938,7 @@ export const allFirstNestingWithFilters = async (report, tree) => {
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
-             
+
                 let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
                 if(clearSecondNesting==true) 
                 {
@@ -1952,7 +1969,7 @@ export const allFirstNestingWithFilters = async (report, tree) => {
                 }
 
         }
-        
+
     }
 }
 
@@ -1966,7 +1983,7 @@ export const allFirstNestingsAndFirstFilters = async (report, tree) => {
         {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
-             
+
                 let clearSecondNesting = await addFirstNesting(tree, index1, index2, -1)
                 if(clearSecondNesting==true) 
                 {
@@ -1997,7 +2014,7 @@ export const allFirstNestingsAndFirstFilters = async (report, tree) => {
                 }
 
         }
-        
+
     }
 
     return errors
@@ -2045,7 +2062,7 @@ export const secondNestingFilters = async (report, tree2) => {
             if (tree2[index1].children[index2].childsCount==0) // если два уровня вложенности
             {
                 let res = await addSecondNesting(tree2, index1, index2, -1)
-                
+
                 if(res[0]==true)
                 {
                     let filters = await initFilters();

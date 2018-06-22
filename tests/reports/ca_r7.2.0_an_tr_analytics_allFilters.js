@@ -72,6 +72,15 @@ export const addUserFilters = async (report) => {
     await Helper.addUserFilters(report)
 }
 
+// включаем все измерения отчета
+export const clickConfigNestingButton = async () => {
+    await Helper.clickConfigNestingButton()
+}
+
+// включаем все измерения отчета
+export const clickSaveNestingButton = async () => {
+    await Helper.clickSaveNestingButton()
+}
 
 // инициализация фильтров
 export const initFilters = async (menu2) => {
@@ -90,9 +99,9 @@ export const clickAllFilters = async (report, filters) => {
     var errors = []
     for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
     {
-       var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
-       if(err.length !== 0) errors.push(err)
-   }
+     var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
+     if(err.length !== 0) errors.push(err)
+ }
 return errors
 }
 
@@ -108,7 +117,6 @@ test('ca_r7.2.0_addUserFilters', async () => {
     let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
 
     await addUserFilters(report);
-
     await userFilters();
 
 }
@@ -128,11 +136,9 @@ test('ca_r7.2.0_userFilters', async () => {
 test('ca_r7.2.0__tableColumnsSortrers', async () => {
     await login();
     let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-    
+
     await enableAllColumns();   
-
     await nestingConfigAll();
-
     await tableColumnsSortrers();
 }
 );
@@ -142,9 +148,8 @@ test('ca_r7.2.0__tableColumnsSortrers', async () => {
 test('ca_r7.2.0__checkAll_allFilters', async () => {
     await login();
     let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-    
-    await enableAllColumns();   
 
+    await enableAllColumns();   
     await nestingConfigAll();
 
     let filters = await initFilters();
@@ -160,7 +165,7 @@ test('ca_r7.2.0__checkAll_allFilters', async () => {
 test('ca_r7.2.0_nestingName_allFilters', async () => {
     await login();
     let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-    
+
     await enableAllColumns();   
 
     await nestingConfigAllUnchecked();
@@ -174,41 +179,73 @@ test('ca_r7.2.0_nestingName_allFilters', async () => {
 }
 );
 
+// перебрать все фильтры отчета
+test('ca_r7.2.0_indexAll', async () => {
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+
+    await nestingExpandAll();
+    await nestingConfigAllUnchecked(); 
+    await clickConfigNestingButton()
+
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+    var count = await getUncheckedColumnsCount()
+
+    console.log(count)
+
+    for(var index = 0; index < count; index++)
+    {
+
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+        var check = await selector.nth(index).getStyleProperty('display');
+
+        if(check==="inline-block") 
+        {
+            await t.click(selector.nth(index))
+            await clickSaveNestingButton()
+            await nestingConfigAllUnchecked(); 
+            await clickConfigNestingButton()
+        }
+    }
+}
+);
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
     await login();
     let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
-    
-        //await enableAllColumns();   
 
-            // await nestingExpandAll();
-            // await nestingCollapseAll();
+    await nestingExpandAll();
+    await nestingConfigAllUnchecked(); 
+    await clickConfigNestingButton()
 
-            //await nestingExpandAll();
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+    var count = await getUncheckedColumnsCount()
 
-            const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-            await t.click(getColumnsButton);
 
-            const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
-            var count = await getUncheckedColumnsCount()
+    console.log(count)
 
-            count = await getUncheckedColumnsCount()
+    for(var index = 0; index < count; index++)
+    {
 
-            for(var i = 0; i < count; i++)
-            {
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+        var check = await selector.nth(index).getStyleProperty('display');
 
-             await nestingConfigAllUnchecked();
+        if(check==="inline-block") 
+        {
 
-             await nestingConfigIndex(i)
-             
-                // let filters = await initFilters();
-                // console.log(filters)
-                // let errors = await clickAllFilters(report, filters);
-                // console.log(errors)
-                // if(errors.length !== 0) throw 'TEST FAILED'
-
-            }
+            await t.click(selector.nth(index))
+            await clickSaveNestingButton()
+            await nestingConfigAllUnchecked(); 
+            await clickConfigNestingButton()
         }
-        );
 
+        let filters = await initFilters();
+        console.log(filters)
+        let errors = await clickAllFilters(report, filters);
+        console.log(errors)
+        if(errors.length !== 0) throw 'TEST FAILED'
+    }
+}
+
+);
