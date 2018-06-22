@@ -111,43 +111,73 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
     return report
 }
 
-// перебрать все фильтры отчета
-test('ca_r7.2.0_addUserFilters', async () => {
+// включаем все измерения отчета
+export const goToReport = async () => {
     await login();
     let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+    return report
+}
+
+// включаем все измерения отчета
+export const goalsOff = async () => {
+    await Helper.goalsOff()
+}
+
+// включаем все измерения отчета
+export const goalsOff = async () => {
+    await Helper.goalsOff()
+}
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0_addUserFilters', async () => {
+
+    let report = await goToReport()
 
     await addUserFilters(report);
-    await userFilters();
+
+    // добавить метод , который включает созданный фильтр
+    
 
 }
 );
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_userFilters', async () => {
-    await login();
-    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+
+    let report = await goToReport()
 
     await userFilters();
 }
 );
 
+// перебрать все фильтры отчета
+test('ca_r7.2.0_goalsOff', async () => {
+
+    let report = await goToReport()
+
+    await goalsOff();
+}
+);
+
 
 // перебрать все фильтры отчета
-test('ca_r7.2.0__tableColumnsSortrers', async () => {
-    await login();
-    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+test('ca_r7.2.0_tableColumnsSortrers', async () => {
+
+    let report = await goToReport()
 
     await enableAllColumns();   
+    await nestingExpandAll();
     await nestingConfigAll();
+    await goalsOff();
     await tableColumnsSortrers();
 }
 );
 
 
 // перебрать все фильтры отчета
-test('ca_r7.2.0__checkAll_allFilters', async () => {
-    await login();
-    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+test('ca_r7.2.0_checkAll_allFilters', async () => {
+
+    let report = await goToReport()
 
     await enableAllColumns();   
     await nestingConfigAll();
@@ -163,8 +193,8 @@ test('ca_r7.2.0__checkAll_allFilters', async () => {
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_nestingName_allFilters', async () => {
-    await login();
-    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+
+    let report = await goToReport()
 
     await enableAllColumns();   
 
@@ -181,8 +211,8 @@ test('ca_r7.2.0_nestingName_allFilters', async () => {
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll', async () => {
-    await login();
-    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+
+    let report = await goToReport()
 
     await nestingExpandAll();
     await nestingConfigAllUnchecked(); 
@@ -212,8 +242,8 @@ test('ca_r7.2.0_indexAll', async () => {
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
-    await login();
-    let report = await clickToMenu('Общие отчёты', 'Анализ трафика', '');
+
+    let report = await goToReport()
 
     await nestingExpandAll();
     await nestingConfigAllUnchecked(); 

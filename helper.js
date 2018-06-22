@@ -500,9 +500,12 @@ export const userFilters = async() => {
 
     for(var index=0; index < count; index++)
     {            
-        if(index!=0) await clickUserFilters() {
-            await t.wait(1000)
+        if(index!=0) 
+        {
+            await clickUserFilters() 
         }
+        await t.wait(1000)
+        
         console.log(index)
         await t.click(filterSelector.nth(index))
         await t.wait(1000)
@@ -525,9 +528,12 @@ export const delUserFilters = async() => {
 
     for(var index=0; index < count; index++)
     {            
-        if(index!=0) await clickUserFilters(){
-            await t.wait(1000)
+        if(index!=0) 
+        {
+            await clickUserFilters()
         }
+        await t.wait(1000)
+        
         console.log(index)
         await t.click(filterSelector.nth(index))
         await t.wait(1000)
@@ -626,6 +632,49 @@ export const clickSaveNestingButton = async () => {
     await t.click(getSaveButton);
 
 }
+
+export const goalsOff = async () => {
+    var selector = Selector('[id*="cm-goalsselector"][id*="btnWrap"]')
+    await t.click(selector);
+
+    await t.wait(1000)
+
+    const getUCollapseColumnsCount = ClientFunction(() => document.querySelectorAll(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])').length);
+    var count = await getUCollapseColumnsCount()
+
+    while (count > 0) {
+        var selector = await Selector(':-webkit-any([class*="x-tree-elbow-plus"], [class*="x-tree-elbow-end-plus"]):not([role="presentation"])')
+
+        //console.log(await selector.count);
+
+        var imageUrl = await selector.nth(count-1).getStyleProperty('background-image');
+
+        //console.log(imageUrl);
+        
+        if (imageUrl.indexOf('minus.png') > -1) 
+            await t.click(selector.nth(count-1))
+        await t.wait(1000)
+        
+        count--;
+    }
+
+    var selector = Selector('table[id*="cm-settings-treeview"] input[class*="x-tree-checkbox-checked"]');
+    var checkCount =  ClientFunction(() => document.querySelectorAll('table[id*="cm-settings-treeview"] input[class*="x-tree-checkbox-checked"]').length);
+
+    var count2 = await checkCount()
+
+    console.log(count2)
+
+    for (var i=0; i<count2; i++)
+    {
+
+       await t.click(selector.nth(i));
+       console.log(i)
+   }
+
+}
+
+
 
 // инициализация фильтров
 export const initFilters = async () => {
