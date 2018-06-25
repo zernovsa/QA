@@ -272,7 +272,7 @@ export const nestingConfigIndex = async (index) => {
 // document.querySelectorAll('[role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"])')
 
 // выключаем все измерения отчета
-export const nestingConfigAllUnchecked = async () => {
+export const nestingConfigAllUnchecked = async (text) => {
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
@@ -300,12 +300,18 @@ export const nestingConfigAllUnchecked = async () => {
         }
     }
 
+    var getSaveButton = await Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
 
-    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-    await t.click(getSaveButton);
+    if (typeof text == 'string') 
+    {
+        getSaveButton = await Selector('*[id*="cm-dimensionwindow"] a').withText(text);
+    }   
+
+    await t.click(getSaveButton.nth(0));
+
 }
 
-export const nestingExpandAll = async () => {
+export const nestingExpandAll = async (text) => {
 
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
@@ -331,13 +337,19 @@ export const nestingExpandAll = async () => {
         y++;
     }
 
-    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-    await t.click(getSaveButton);
+    var getSaveButton  = await  Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+
+    if (typeof text == 'string')  {
+
+        getSaveButton = await  Selector('*[id*="cm-dimensionwindow"] a').withText(text);
+    }
+
+    await t.click(getSaveButton.nth(0));
 
 }
 
 
-export const nestingCollapseAll = async () => {
+export const nestingCollapseAll = async (text) => {
 
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
@@ -361,8 +373,14 @@ export const nestingCollapseAll = async () => {
         count--;
     }
 
-    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-    await t.click(getSaveButton);
+    var getSaveButton  = await  Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+
+    if (typeof text == 'string')  {
+
+        getSaveButton = await  Selector('*[id*="cm-dimensionwindow"] a').withText(text);
+    }
+
+    await t.click(getSaveButton.nth(0));
 
 }
 
@@ -423,24 +441,24 @@ export const tableColumnsSortrers = async() => {
 
         for(var index=0; index < count-1; index++)
         {                 
-         var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
-         var offset = await scrollOffsetLeft
+           var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+           var offset = await scrollOffsetLeft
 
-         await scroll(offset)
-         await t.wait(1000)
-         await t.click(selector.nth(index))
-         console.log('click to '+index+' ASC')
+           await scroll(offset)
+           await t.wait(1000)
+           await t.click(selector.nth(index))
+           console.log('click to '+index+' ASC')
 
-         await scroll(offset)
-         await t.wait(1000)
-         await t.click(selector.nth(index))
-         console.log('click to '+index+' DESC')
-     }
+           await scroll(offset)
+           await t.wait(1000)
+           await t.click(selector.nth(index))
+           console.log('click to '+index+' DESC')
+       }
 
-     console.log(count2)
+       console.log(count2)
 
-     for(var index = 0; index < count2-1; index++)
-     {                           
+       for(var index = 0; index < count2-1; index++)
+       {                           
 
         var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')[index].offsetParent.offsetParent.offsetParent.offsetLeft)
 
@@ -624,17 +642,28 @@ export const errorCheck = async () => {
 }
 
 
-export const clickConfigNestingButton = async () => {
-  const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-  await t.click(getColumnsButton);
+export const clickConfigNestingButton = async (text) => {
+ var getColumnsButton
+ if(text)
+ {
+    getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText(text);
+}
+else 
+{
+    getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
+}
+await t.click(getColumnsButton);
 }
 
-export const clickSaveNestingButton = async () => {
+export const clickSaveNestingButton = async (text) => {
 
-    const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-    await t.click(getSaveButton);
-
+    var getSaveButton  = await  Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
+    if (typeof text == 'string')  {
+        getSaveButton = await  Selector('*[id*="cm-dimensionwindow"] a').withText(text);
+    }
+    await t.click(getSaveButton.nth(0));
 }
+
 
 export const goalsOff = async () => {
     var selector = Selector('[id*="cm-goalsselector"][id*="btnWrap"]')
@@ -671,9 +700,9 @@ export const goalsOff = async () => {
     for (var i=0; i<count2; i++)
     {
 
-       await t.click(selector.nth(i));
-       console.log(i)
-   }
+     await t.click(selector.nth(i));
+     console.log(i)
+ }
 
 }
 
@@ -1948,7 +1977,7 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
 // функция которая перебирает все значения первого  измерения
 export const allFirstNesting = async (tree) => {
-   for (var index1 = 0; index1 < tree.length; index1++) 
+ for (var index1 = 0; index1 < tree.length; index1++) 
     for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
@@ -1982,7 +2011,7 @@ export const allFirstNesting = async (tree) => {
 
 // функция которая перебирает все значения первого  измерения и фильтрыы
 export const allFirstNestingWithFilters = async (report, tree) => {
-   for (var index1 = 0; index1 < tree.length; index1++) 
+ for (var index1 = 0; index1 < tree.length; index1++) 
     for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности

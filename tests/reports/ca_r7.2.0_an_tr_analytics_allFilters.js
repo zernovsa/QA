@@ -18,13 +18,13 @@ export const login = async () => {
 }
 
 // включаем все колонки отчета
-export const nestingExpandAll = async () => {
-    await Helper.nestingExpandAll()
+export const nestingExpandAll = async (text) => {
+    await Helper.nestingExpandAll(text)
 }
 
 // включаем все колонки отчета
-export const nestingCollapseAll = async () => {
-    await Helper.nestingCollapseAll()
+export const nestingCollapseAll = async (text) => {
+    await Helper.nestingCollapseAll(text)
 }
 
 // включаем все колонки отчета
@@ -43,8 +43,8 @@ export const nestingConfigIndex = async (index) => {
 }
 
 // включаем все измерения отчета
-export const nestingConfigAllUnchecked = async () => {
-    await Helper.nestingConfigAllUnchecked()
+export const nestingConfigAllUnchecked = async (text) => {
+    await Helper.nestingConfigAllUnchecked(text)
 }
 
 // включаем все измерения отчета
@@ -78,8 +78,8 @@ export const clickConfigNestingButton = async () => {
 }
 
 // включаем все измерения отчета
-export const clickSaveNestingButton = async () => {
-    await Helper.clickSaveNestingButton()
+export const clickSaveNestingButton = async (text) => {
+    await Helper.clickSaveNestingButton(text)
 }
 
 // инициализация фильтров
@@ -234,6 +234,44 @@ test('ca_r7.2.0_indexAll', async () => {
     }
 }
 );
+
+// перебрать все фильтры отчета ДРИЛДАУН
+test('ca_r7.2.0_indexAll_DD', async () => {
+
+    let report = await goToReport()
+
+    // проавлиться в интегрированную РК
+
+    var selector = Selector('a').withText('[интегрированная]')
+    await t.click(selector.nth(0))
+
+
+    await nestingExpandAll('Применить');
+    await nestingConfigAllUnchecked('Применить'); 
+    await clickConfigNestingButton()
+
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+    var count = await getUncheckedColumnsCount()
+
+    console.log(count)
+
+    for(var index = 0; index < count; index++)
+    {
+
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+        var check = await selector.nth(index).getStyleProperty('display');
+
+        if(check==="inline-block") 
+        {
+            await t.click(selector.nth(index))
+            await clickSaveNestingButton('Применить')
+            await nestingConfigAllUnchecked('Применить'); 
+            await clickConfigNestingButton()
+        }
+    }
+}
+);
+
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
