@@ -144,6 +144,7 @@ export const getParamArrow    =  Selector('*[placeholder*="Параметр"][id
 export const getСonditionArrow = Selector('*[placeholder*="Условие"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
 
 export const getValueArrow = Selector('*[placeholder*="Значение"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
+export const getValueArrowDuration = Selector('*[placeholder*="00:00:00"][id*="inputEl"]').parent().parent().find('*[id*="trigger-picker"]')
 
 export const getParamSelector     = Selector('*[class*="x-boundlist-item"]');
 
@@ -167,7 +168,6 @@ export const getSystemTreePlus2 = Selector('*[class*="x-tree-node-text"]').withT
 
 
 export const getValueSelector = Selector('*[class*="x-boundlist-item"]');
-export const getValueSelectorList = ClientFunction((text) => ('*[class*="x-boundlist-item"]').withText(text))
 
 export const getValueButtonSelector = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Выбрать');
 

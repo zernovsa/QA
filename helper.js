@@ -565,10 +565,13 @@ export const addUserFilters = async(report) => {
     await t.click(getСonditionArrow)
      //кликаем на условие 
      await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + 0));
-    //кликаем на поле значение
-    await t.click(Selectors_local2.getValueNumberSelector)
-    //вводим значение 
-    await t.typeText(Selectors_local2.getValueNumberSelector, value.toString());
+      //кликаем на поле значение
+      let getValueArrow = await Selectors_local2.getValueArrowDuration()
+      await t.click(getValueArrow)
+    // выбираем первое значение списка значение 
+    var q =  Selector('*[class*="x-boundlist-item"]').withText("00:00:00")
+    await t.click(q.nth(0));
+
     //кликаем применить
     await t.click(Selectors_local2.getValueButtonSelector)
 
@@ -1536,7 +1539,7 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
                 break;
             }
             
-            case 'duration1': {
+            case 'duration': {
 
                 let conditionCount = 4
 
@@ -1548,33 +1551,30 @@ export const filtersWhatToDo = async (report, filters, filterIndex) => {
 
                         const arrowCount = await Selectors_local2.getArrowCount
 
-                        let value = getRandomInt(1, 999);
-
-                        //кликаем на стрелку параметров
                         let getParamArrow = await Selectors_local2.getParamArrow()
                         await t.click(getParamArrow)
 
                         //выбираем нужный параметр
                         await t.click(Selectors_local2.getParamSelector.withText(filters[filterIndex].data.name))
-                        //кликаем на стрелку условий
+
                         let getСonditionArrow = await Selectors_local2.getСonditionArrow()
                         await t.click(getСonditionArrow)
+
                         //кликаем на условие
                         await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + conditionIndex));
                         //кликаем на поле значение
-                        await t.click(Selectors_local2.getValueTextSelector)
-                        // пауза
-                        await t.wait(3000)
-                        //вводим значение 
-                        await t.typeText(Selectors_local2.getValueTextSelector, value.toString());
-                        //кликаем применить
-                        await t.click(Selectors_local2.getValueButtonSelector)
-                        //кликаем применить
-                        await t.click(Selectors_local2.getApplyButtonSelector)
+                        let getValueArrow = await Selectors_local2.getValueArrowDuration()
+                        await t.click(getValueArrow)
+                         // выбираем первое значение списка значение 
+                         await t.click(Selectors_local2.getValueSelector.nth(filters.length + conditionCount));
 
-                        let flag = await errorCheck()
-                        if (flag==true) 
-                        {
+                         await t.click(Selectors_local2.getValueButtonSelector)
+                         await t.click(Selectors_local2.getApplyButtonSelector)
+
+
+                         let flag = await errorCheck()
+                         if (flag==true) 
+                         {
                             await clickToMenu('', report[1], report[2]);
 
                             log('error', 'STEP FAILED [FILTER]: ' + ' report: ['+ report + '], filter: ' + filters[filterIndex].data.name + ', type: '+ filters[filterIndex].data.type + ', conditionIndex: ' + conditionIndex.toString());

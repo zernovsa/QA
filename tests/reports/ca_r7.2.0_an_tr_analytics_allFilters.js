@@ -123,11 +123,6 @@ export const goalsOff = async () => {
     await Helper.goalsOff()
 }
 
-// включаем все измерения отчета
-export const goalsOff = async () => {
-    await Helper.goalsOff()
-}
-
 // перебрать все фильтры отчета
 test('ca_r7.2.0_addUserFilters', async () => {
 
