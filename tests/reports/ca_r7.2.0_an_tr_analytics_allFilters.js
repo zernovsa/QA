@@ -245,28 +245,35 @@ test('ca_r7.2.0_indexAll_DD', async () => {
     var selector = Selector('a').withText('[интегрированная]')
     await t.click(selector.nth(0))
 
+    var layer=['Кампании', 'Группы объявлений','Объявления','Ключевые слова','Рекламные площадки','Аудитории ретаргетинга']
 
-    await nestingExpandAll('Применить');
-    await nestingConfigAllUnchecked('Применить'); 
-    await clickConfigNestingButton()
-
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
-    var count = await getUncheckedColumnsCount()
-
-    console.log(count)
-
-    for(var index = 0; index < count; index++)
+    for(var i = 0; i < layer.length; i++)
     {
+        var s = Selector('*[id*="tab"][id*="btnInnerEl"]').withText(layer[i])
+        await  t.click(s.nth(0))
 
-        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
-        var check = await selector.nth(index).getStyleProperty('display');
+        await nestingExpandAll('Применить');
+        await nestingConfigAllUnchecked('Применить'); 
+        await clickConfigNestingButton()
 
-        if(check==="inline-block") 
+        const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+        var count = await getUncheckedColumnsCount()
+
+        console.log(count)
+
+        for(var index = 0; index < count; index++)
         {
-            await t.click(selector.nth(index))
-            await clickSaveNestingButton('Применить')
-            await nestingConfigAllUnchecked('Применить'); 
-            await clickConfigNestingButton()
+
+            var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+            var check = await selector.nth(index).getStyleProperty('display');
+
+            if(check==="inline-block") 
+            {
+                await t.click(selector.nth(index))
+                await clickSaveNestingButton('Применить')
+                await nestingConfigAllUnchecked('Применить'); 
+                await clickConfigNestingButton()
+            }
         }
     }
 }
