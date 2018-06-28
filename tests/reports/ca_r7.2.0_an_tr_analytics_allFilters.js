@@ -297,7 +297,7 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
 
     for(var index = 0; index < count; index++)
     {
-        console.log(i)
+        console.log(index)
         var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
         var check = await selector.nth(index).getStyleProperty('display');
 
