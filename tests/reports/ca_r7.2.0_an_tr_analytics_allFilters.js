@@ -99,9 +99,9 @@ export const clickAllFilters = async (report, filters) => {
     var errors = []
     for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
     {
-     var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
-     if(err.length !== 0) errors.push(err)
- }
+       var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
+       if(err.length !== 0) errors.push(err)
+   }
 return errors
 }
 
@@ -306,15 +306,19 @@ test('ca_r7.2.0_indexAll_allFilters', async () => {
 
             await t.click(selector.nth(index))
             await clickSaveNestingButton()
+
+            let filters = await initFilters();
+            console.log(filters)
+            let errors = await clickAllFilters(report, filters);
+            console.log(errors)
+            if(errors.length !== 0) throw 'TEST FAILED'
+
+
             await nestingConfigAllUnchecked(); 
             await clickConfigNestingButton()
         }
 
-        let filters = await initFilters();
-        console.log(filters)
-        let errors = await clickAllFilters(report, filters);
-        console.log(errors)
-        if(errors.length !== 0) throw 'TEST FAILED'
+
     }
 }
 
