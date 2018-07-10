@@ -391,13 +391,13 @@ export const nestingConfigAll = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]):not([disabled])').length);
     var count                      = await getUncheckedColumnsCount()
 
     var y=0;
 
     for(var i=0; i<count;i++) {
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"])')
+        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]):not([disabled])')
         var check = await selector.nth(y).getStyleProperty('display');
 
         if(check==="inline-block")
@@ -431,60 +431,67 @@ export const tableColumnsSortrers = async() => {
         const headerSelector = ClientFunction(() => document.querySelectorAll('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').length);
         
         var selector = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1)
-        var selector2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')
-
         var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).count
-        var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
 
+        var selector2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')
+        var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
 
         console.log(count)
 
         for(var index=0; index < count-1; index++)
         {                 
-           var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
-           var offset = await scrollOffsetLeft
+         var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+         var offset = await scrollOffsetLeft
 
-           await scroll(offset)
-           await t.wait(1000)
-           await t.click(selector.nth(index))
-           console.log('click to '+index+' ASC')
+         await scroll(offset)
+         await t.wait(1000)
+         await t.click(selector.nth(index))
+         console.log('click to '+index+' ASC')
 
-           await scroll(offset)
-           await t.wait(1000)
-           await t.click(selector.nth(index))
-           console.log('click to '+index+' DESC')
-       }
+         await scroll(offset)
+         await t.wait(1000)
+         await t.click(selector.nth(index))
+         console.log('click to '+index+' DESC')
+     }
 
-       console.log(count2)
+     console.log(count2)
 
-       for(var index = 0; index < count2-1; index++)
-       {                           
+     var selector3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')
+     var count3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').count
 
-        var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')[index].offsetParent.offsetParent.offsetParent.offsetLeft)
+     console.log('count3 = '+ count3)
 
+     for(var index = 0; index < count3; index++)
+     {                           
+
+        var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')[index].offsetLeft)
         var offset = await scrollOffsetLeft(index)
+        console.log('offset = ' + offset)
 
-        console.log(offset)
+        var getCount = ClientFunction((index) => document.querySelectorAll('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')[index].querySelectorAll('div[class*="x-box-inner"] > div > div').length)
+        var count4 = await getCount(index)
+        console.log('count4 = ' + count4)
 
-        await t.wait(2000)
-        await scroll(offset)
-        await t.wait(2000)
-        await t.click(selector2.nth(index))
-        console.log('click to '+index+' ASC')
+        for(var index2 = 0; index2 < count4; index2++) 
+        {
+            await t.wait(2000)
+            await scroll(offset)
 
-        await t.wait(2000)
-        await scroll(offset)
-        await t.wait(2000)
-        await t.click(selector2.nth(index))
-        console.log('click to '+index+' DESC')
+            var  mySelector = (index, index2) => Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').nth(index).find('div[class*="x-box-inner"] > div > div').nth(index2).find('span[class="x-column-header-sorter"]').nth(0)
+            var getSelector = await mySelector(index, index2)
+
+            await t.wait(2000)
+            await t.click(getSelector)
+            console.log('click to '+index+' ASC')
+
+            await t.wait(2000)
+            await scroll(offset)
+            await t.wait(2000)
+            await t.click(getSelector)
+
+            console.log('click to '+index+' DESC')
+        }
     }
-
-
-
-
-
-
-
 
 
 }
@@ -683,7 +690,7 @@ export const goalsOff = async () => {
 
         //console.log(imageUrl);
         
-        if (imageUrl.indexOf('minus.png') > -1) 
+        if (imageUrl.indexOf('plus.png') > -1) 
             await t.click(selector.nth(count-1))
         await t.wait(1000)
         
