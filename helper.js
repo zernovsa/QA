@@ -438,31 +438,31 @@ export const tableColumnsSortrers = async() => {
 
         console.log(count)
 
-        for(var index=0; index < count-1; index++)
+        for(var index=0; index < count; index++)
         {                 
-         var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
-         var offset = await scrollOffsetLeft
+           var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+           var offset = await scrollOffsetLeft
 
-         await scroll(offset)
-         await t.wait(1000)
-         await t.click(selector.nth(index))
-         console.log('click to '+index+' ASC')
+           await scroll(offset)
+           await t.wait(1000)
+           await t.click(selector.nth(index))
+           console.log('click to '+index+' ASC')
 
-         await scroll(offset)
-         await t.wait(1000)
-         await t.click(selector.nth(index))
-         console.log('click to '+index+' DESC')
-     }
+           await scroll(offset)
+           await t.wait(1000)
+           await t.click(selector.nth(index))
+           console.log('click to '+index+' DESC')
+       }
 
-     console.log(count2)
+       console.log(count2)
 
-     var selector3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')
-     var count3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').count
+       var selector3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')
+       var count3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').count
 
-     console.log('count3 = '+ count3)
+       console.log('count3 = '+ count3)
 
-     for(var index = 0; index < count3; index++)
-     {                           
+       for(var index = 0; index < count3; index++)
+       {                           
 
         var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')[index].offsetLeft)
         var offset = await scrollOffsetLeft(index)
@@ -482,14 +482,14 @@ export const tableColumnsSortrers = async() => {
 
             await t.wait(2000)
             await t.click(getSelector)
-            console.log('click to '+index+' ASC')
+            console.log('click to '+index2+' ASC')
 
             await t.wait(2000)
             await scroll(offset)
             await t.wait(2000)
             await t.click(getSelector)
 
-            console.log('click to '+index+' DESC')
+            console.log('click to '+index2+' DESC')
         }
     }
 
@@ -650,9 +650,9 @@ export const errorCheck = async () => {
 
 
 export const clickConfigNestingButton = async (text) => {
- var getColumnsButton
- if(text)
- {
+   var getColumnsButton
+   if(text)
+   {
     getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText(text);
 }
 else 
@@ -707,9 +707,9 @@ export const goalsOff = async () => {
     for (var i=0; i<count2; i++)
     {
 
-     await t.click(selector.nth(i));
-     console.log(i)
- }
+       await t.click(selector.nth(i));
+       console.log(i)
+   }
 
 }
 
@@ -1984,7 +1984,7 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
 // функция которая перебирает все значения первого  измерения
 export const allFirstNesting = async (tree) => {
- for (var index1 = 0; index1 < tree.length; index1++) 
+   for (var index1 = 0; index1 < tree.length; index1++) 
     for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
@@ -2018,7 +2018,7 @@ export const allFirstNesting = async (tree) => {
 
 // функция которая перебирает все значения первого  измерения и фильтрыы
 export const allFirstNestingWithFilters = async (report, tree) => {
- for (var index1 = 0; index1 < tree.length; index1++) 
+   for (var index1 = 0; index1 < tree.length; index1++) 
     for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
