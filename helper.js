@@ -583,7 +583,7 @@ export const addUserFilters = async(report) => {
      await t.click(getParamArrow)
 
     //выбираем нужный параметр
-    await t.click(Selectors_local2.getParamSelector.withText(filters[0].data.name))
+    await t.click(Selectors_local2.getParamSelector.withText(filters[1].data.name))
 
     //кликаем на стрелку условий
     let getСonditionArrow = await Selectors_local2.getСonditionArrow()
@@ -702,14 +702,14 @@ export const goalsOff = async () => {
 
     var count2 = await checkCount()
 
-    console.log(count2)
-
-    for (var i=0; i<count2; i++)
+    while (count2>0)
     {
+        await t.click(selector.nth(count2-1));
+       console.log(count2)
+        count2 = await checkCount()
+    }
 
-       await t.click(selector.nth(i));
-       console.log(i)
-   }
+
 
 }
 
