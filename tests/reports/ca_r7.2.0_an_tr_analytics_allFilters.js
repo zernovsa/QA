@@ -177,6 +177,8 @@ test('ca_r7.2.0_checkAll_allFilters', async () => {
     await enableAllColumns();   
     await nestingConfigAll();
 
+    await goalsOff();
+
     let filters = await initFilters();
     console.log(filters)
     let errors = await clickAllFilters(report, filters);

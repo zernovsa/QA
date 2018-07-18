@@ -440,29 +440,29 @@ export const tableColumnsSortrers = async() => {
 
         for(var index=0; index < count; index++)
         {                 
-           var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
-           var offset = await scrollOffsetLeft
+         var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+         var offset = await scrollOffsetLeft
 
-           await scroll(offset)
-           await t.wait(1000)
-           await t.click(selector.nth(index))
-           console.log('click to '+index+' ASC')
+         await scroll(offset)
+         await t.wait(1000)
+         await t.click(selector.nth(index))
+         console.log('click to '+index+' ASC')
 
-           await scroll(offset)
-           await t.wait(1000)
-           await t.click(selector.nth(index))
-           console.log('click to '+index+' DESC')
-       }
+         await scroll(offset)
+         await t.wait(1000)
+         await t.click(selector.nth(index))
+         console.log('click to '+index+' DESC')
+     }
 
-       console.log(count2)
+     console.log(count2)
 
-       var selector3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')
-       var count3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').count
+     var selector3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')
+     var count3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').count
 
-       console.log('count3 = '+ count3)
+     console.log('count3 = '+ count3)
 
-       for(var index = 0; index < count3; index++)
-       {                           
+     for(var index = 0; index < count3; index++)
+     {                           
 
         var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')[index].offsetLeft)
         var offset = await scrollOffsetLeft(index)
@@ -583,7 +583,7 @@ export const addUserFilters = async(report) => {
      await t.click(getParamArrow)
 
     //выбираем нужный параметр
-    await t.click(Selectors_local2.getParamSelector.withText(filters[1].data.name))
+    await t.click(Selectors_local2.getParamSelector.withText('Рекламная кампания'))
 
     //кликаем на стрелку условий
     let getСonditionArrow = await Selectors_local2.getСonditionArrow()
@@ -591,10 +591,10 @@ export const addUserFilters = async(report) => {
      //кликаем на условие 
      await t.click(Selectors_local2.getСonditionSelector.nth(filters.length + 0));
       //кликаем на поле значение
-      let getValueArrow = await Selectors_local2.getValueArrowDuration()
+      let getValueArrow = await Selectors_local2.getValueArrow()
       await t.click(getValueArrow)
     // выбираем первое значение списка значение 
-    var q =  Selector('*[class*="x-boundlist-item"]').withText("00:00:00")
+    var q =  Selector('*[class*="x-boundlist-item"]').withText("zernov [выключена]")
     await t.click(q.nth(0));
 
     //кликаем применить
@@ -650,9 +650,9 @@ export const errorCheck = async () => {
 
 
 export const clickConfigNestingButton = async (text) => {
-   var getColumnsButton
-   if(text)
-   {
+ var getColumnsButton
+ if(text)
+ {
     getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText(text);
 }
 else 
@@ -705,12 +705,12 @@ export const goalsOff = async () => {
     while (count2>0)
     {
         await t.click(selector.nth(count2-1));
-       console.log(count2)
+        console.log(count2)
         count2 = await checkCount()
     }
 
-
-
+    var selector2 = Selector('[id*="cm-goalsselector"][id*="btnWrap"]')
+    await t.click(selector2);
 }
 
 
@@ -1984,7 +1984,7 @@ export const addSecondNesting = async (tree2, index1, index2, index3) => {
 
 // функция которая перебирает все значения первого  измерения
 export const allFirstNesting = async (tree) => {
-   for (var index1 = 0; index1 < tree.length; index1++) 
+ for (var index1 = 0; index1 < tree.length; index1++) 
     for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности
@@ -2018,7 +2018,7 @@ export const allFirstNesting = async (tree) => {
 
 // функция которая перебирает все значения первого  измерения и фильтрыы
 export const allFirstNestingWithFilters = async (report, tree) => {
-   for (var index1 = 0; index1 < tree.length; index1++) 
+ for (var index1 = 0; index1 < tree.length; index1++) 
     for (var index2 = 0; index2 < tree[index1].childsCount; index2++) 
     {
             if (tree[index1].children[index2].childsCount==0) // если два уровня вложенности

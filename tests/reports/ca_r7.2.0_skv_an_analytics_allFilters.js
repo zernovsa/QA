@@ -18,13 +18,13 @@ export const login = async () => {
 }
 
 // включаем все колонки отчета
-export const nestingExpandAll = async () => {
-	await Helper.nestingExpandAll()
+export const nestingExpandAll = async (text) => {
+    await Helper.nestingExpandAll(text)
 }
 
 // включаем все колонки отчета
-export const nestingCollapseAll = async () => {
-	await Helper.nestingCollapseAll()
+export const nestingCollapseAll = async (text) => {
+    await Helper.nestingCollapseAll(text)
 }
 
 // включаем все колонки отчета
@@ -34,202 +34,294 @@ export const enableAllColumns = async () => {
 
 // включаем все измерения отчета
 export const nestingConfigName = async (name) => {
-	await Helper.nestingConfigName(name)
+    await Helper.nestingConfigName(name)
 }
 
 // включаем все измерения отчета
 export const nestingConfigIndex = async (index) => {
-	await Helper.nestingConfigIndex(index)
+    await Helper.nestingConfigIndex(index)
 }
 
 // включаем все измерения отчета
-export const nestingConfigAllUnchecked = async () => {
-	await Helper.nestingConfigAllUnchecked()
+export const nestingConfigAllUnchecked = async (text) => {
+    await Helper.nestingConfigAllUnchecked(text)
 }
 
 // включаем все измерения отчета
 export const nestingConfigAll = async () => {
-	await Helper.nestingConfigAll()
+    await Helper.nestingConfigAll()
 }
 
 // включаем все измерения отчета
 export const tableColumnsSortrers = async () => {
-	await Helper.tableColumnsSortrers()
+    await Helper.tableColumnsSortrers()
 }
 
 // включаем все измерения отчета
 export const userFilters = async () => {
-	await Helper.userFilters()
+    await Helper.userFilters()
 }
 
 // включаем все измерения отчета
 export const delUserFilters = async () => {
-	await Helper.delUserFilters()
+    await Helper.delUserFilters()
 }
 
 // включаем все измерения отчета
 export const addUserFilters = async (report) => {
-	await Helper.addUserFilters(report)
+    await Helper.addUserFilters(report)
+}
+
+// включаем все измерения отчета
+export const clickConfigNestingButton = async () => {
+    await Helper.clickConfigNestingButton()
+}
+
+// включаем все измерения отчета
+export const clickSaveNestingButton = async (text) => {
+    await Helper.clickSaveNestingButton(text)
 }
 
 // инициализация фильтров
 export const initFilters = async (menu2) => {
-	let filters = await Helper.initFilters(menu2)
-	return filters;
+    let filters = await Helper.initFilters(menu2)
+    return filters;
 }
 
 // выбрать фильтр по индексу или по названию и перебрать все его условия
 export const filtersConditionIndexOrName = async (report, filters, value) => {
 	var errors = await Helper.filtersConditionIndexOrName(report, filters, value)
-	return errors
+    return errors
 }
 
 // перекликать все фильтры отчета (в зависимости от того каких колонки в отчете выбраны)
 export const clickAllFilters = async (report, filters) => {
-	var errors = []
-	for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
-	{
-		var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
-		if(err.length !== 0) errors.push(err)
-	}
+    var errors = []
+    for (let filterIndex = 0; filterIndex < filters.length; filterIndex++) 
+    {
+       var err = await Helper.filtersWhatToDo(report, filters, filterIndex)
+       if(err.length !== 0) errors.push(err)
+   }
 return errors
 }
 
 // выбираем вкладку, в зависимости от отчета
 export const clickToMenu = async (menu1, menu2, tabName) => {
-	let report = await Helper.clickToMenu(menu1, menu2, tabName);
-	return report
+    let report = await Helper.clickToMenu(menu1, menu2, tabName);
+    return report
 }
 
+// включаем все измерения отчета
+export const goToReport = async () => {
+    await login();
+    let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+    return report
+}
+
+// включаем все измерения отчета
+export const goalsOff = async () => {
+    await Helper.goalsOff()
+}
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_addUserFilters', async () => {
-	await login();
-	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 
-	await addUserFilters(report);
+    let report = await goToReport()
 
-	await userFilters();
+    await addUserFilters(report);
+
+    // добавить метод , который включает созданный фильтр
+    
 
 }
 );
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_userFilters', async () => {
-	await login();
-	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 
-	await userFilters();
+    let report = await goToReport()
+
+    await userFilters();
 }
 );
 
 // перебрать все фильтры отчета
-test('ca_r7.2.0__tableColumnsSortrers', async () => {
-	await login();
-	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+test('ca_r7.2.0_goalsOff', async () => {
 
-	await enableAllColumns();   
+    let report = await goToReport()
 
-	await nestingConfigAll();
-
-	await tableColumnsSortrers();
+    await goalsOff();
 }
 );
 
+
 // перебрать все фильтры отчета
-test('ca_r7.2.0__checkAll_allFilters', async () => {
-	await login();
-	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+test('ca_r7.2.0_tableColumnsSortrers', async () => {
 
-	await enableAllColumns();   
+    let report = await goToReport()
 
-	await nestingConfigAll();
+    await enableAllColumns();   
+    await nestingExpandAll();
+    await nestingConfigAll();
+    await goalsOff();
+    await tableColumnsSortrers();
+}
+);
 
-	let filters = await initFilters();
-	console.log(filters)
-	let errors = await clickAllFilters(report, filters);
-	console.log(errors)
-	if(errors.length !== 0) throw 'TEST FAILED'
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0_checkAll_allFilters', async () => {
+
+    let report = await goToReport()
+
+    await enableAllColumns();   
+    await nestingConfigAll();
+    
+    await goalsOff();
+
+    let filters = await initFilters();
+    console.log(filters)
+    let errors = await clickAllFilters(report, filters);
+    console.log(errors)
+    if(errors.length !== 0) throw 'TEST FAILED'
 }
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_nestingName_allFilters', async () => {
-	await login();
-	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 
-	await enableAllColumns();   
+    let report = await goToReport()
 
-	await nestingConfigAllUnchecked();
-	await nestingConfigName('География');
+    await enableAllColumns();   
 
-	let filters = await initFilters();
-	console.log(filters)
-	let errors = await clickAllFilters(report, filters);
-	console.log(errors)
-	if(errors.length !== 0) throw 'TEST FAILED'
+    await nestingConfigAllUnchecked();
+    await nestingConfigName('География');
+
+    let filters = await initFilters();
+    console.log(filters)
+    let errors = await clickAllFilters(report, filters);
+    console.log(errors)
+    if(errors.length !== 0) throw 'TEST FAILED'
+}
+);
+
+// перебрать все фильтры отчета
+test('ca_r7.2.0_indexAll', async () => {
+
+    let report = await goToReport()
+
+    await nestingExpandAll();
+    await nestingConfigAllUnchecked(); 
+    await clickConfigNestingButton()
+
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+    var count = await getUncheckedColumnsCount()
+
+    console.log(count)
+
+    for(var index = 0; index < count; index++)
+    {
+
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+        var check = await selector.nth(index).getStyleProperty('display');
+
+        if(check==="inline-block") 
+        {
+            await t.click(selector.nth(index))
+            await clickSaveNestingButton()
+            await nestingConfigAllUnchecked(); 
+            await clickConfigNestingButton()
+        }
+    }
+}
+);
+
+// перебрать все фильтры отчета ДРИЛДАУН
+test('ca_r7.2.0_indexAll_DD', async () => {
+
+    let report = await goToReport()
+
+    // проавлиться в интегрированную РК
+
+    var selector = Selector('a').withText('[интегрированная]')
+    await t.click(selector.nth(0))
+
+    var layer=['Кампании', 'Группы объявлений','Объявления','Ключевые слова','Рекламные площадки','Аудитории ретаргетинга']
+
+    for(var i = 0; i < layer.length; i++)
+    {
+        var s = Selector('*[id*="tab"][id*="btnInnerEl"]').withText(layer[i])
+        await  t.click(s.nth(0))
+
+        await nestingExpandAll('Применить');
+        await nestingConfigAllUnchecked('Применить'); 
+        await clickConfigNestingButton()
+
+        const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+        var count = await getUncheckedColumnsCount()
+
+        console.log(count)
+
+        for(var index = 0; index < count; index++)
+        {
+
+            var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+            var check = await selector.nth(index).getStyleProperty('display');
+
+            if(check==="inline-block") 
+            {
+                await t.click(selector.nth(index))
+                await clickSaveNestingButton('Применить')
+                await nestingConfigAllUnchecked('Применить'); 
+                await clickConfigNestingButton()
+            }
+        }
+    }
 }
 );
 
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_indexAll_allFilters', async () => {
-	await login();
-	let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
 
-		//await enableAllColumns();   
+    let report = await goToReport()
 
-			// await nestingCollapseAll();
-			//await nestingExpandAll();
+    await nestingExpandAll();
+    await nestingConfigAllUnchecked(); 
+    await clickConfigNestingButton()
 
-			await nestingConfigAllUnchecked(); 
-
-			const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-			await t.click(getColumnsButton);
-
-			const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
-			var count = await getUncheckedColumnsCount()
-
-			console.log(count)
-
-			// for(var index = 0; index < count; index++)
-			// {
-
-			// 	var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
-			// 	var check = await selector.nth(index).getStyleProperty('display');
-
-			// 	if(check==="inline-block") 
-			// 	{
-
-			// 		await t.click(selector.nth(index))
-			// 		console.log(check)
-
-			// 		const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-			// 		await t.click(getSaveButton);
-
-			// 		await nestingConfigAllUnchecked(); 
-
-			// 		const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
-			// 		await t.click(getColumnsButton);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+    var count = await getUncheckedColumnsCount()
 
 
-			// 	}
-			// 	if(check==="none")
-			// 	{
-			// 		console.log(check)
-			// 	}
+    console.log(count)
 
-			// 	const getSaveButton = Selector('*[id*="ul-mainbutton"][id*=btnInnerEl]').withText('Сохранить');
-			// 	await t.click(getSaveButton);
+    for(var index = 0; index < count; index++)
+    {
+        console.log(index)
+        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+        var check = await selector.nth(index).getStyleProperty('display');
 
-			// 	// let filters = await initFilters();
-			// 	// console.log(filters)
-			// 	// let errors = await clickAllFilters(report, filters);
-			// 	// console.log(errors)
-			// 	// if(errors.length !== 0) throw 'TEST FAILED'
+        if(check==="inline-block") 
+        {
 
-			// }
-		}
-		);
+            await t.click(selector.nth(index))
+            await clickSaveNestingButton()
 
+            let filters = await initFilters();
+            console.log(filters)
+            let errors = await clickAllFilters(report, filters);
+            console.log(errors)
+            if(errors.length !== 0) throw 'TEST FAILED'
+
+
+            await nestingConfigAllUnchecked(); 
+            await clickConfigNestingButton()
+        }
+
+
+    }
+}
+
+);
