@@ -456,9 +456,15 @@ export const tableColumnsSortrers = async() => {
         console.log(count)
 
         for(var index=0; index < count; index++)
-        {                 
-         var scrollOffsetLeft = Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+        {    
+                 await t.wait(5000)
+                 console.log(await scrollOffsetLeft)
+
+         var scrollOffsetLeft = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
          var offset = await scrollOffsetLeft
+
+            console.log(await offset)
+            
 
          await scroll(offset)
          await t.wait(1000)
