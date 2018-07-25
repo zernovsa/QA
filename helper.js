@@ -46,9 +46,26 @@ export const login = async () => {
         await t.click(siteArrow)
         let siteClick = Selector('*[class*="x-boundlist-item"]').withText(site)
         await t.click(siteClick)
-        await reloadPage()
 
-    }
+    await reloadPage()
+
+    // выберем период "прошлый месяц"
+
+    let pickercount = await Selector('*[class*="cm-main-container"] *[id*="cm-datecontrol"][id*="trigger-picker"]').count
+    let picker = await Selector('*[class*="cm-main-container"] *[id*="cm-datecontrol"][id*="trigger-picker"]')
+    await t.click(picker.nth(pickercount))
+
+    let datecomboclick = await Selector('*[value*="Выбрать диапазон дат"]')
+    await t.click(datecomboclick)
+
+    let monthcclick = await Selector('*[class*="x-boundlist-item"]').withText('Прошлый месяц')
+    await t.click(monthcclick)    
+
+    let saveclick = await Selector('*[class*="x-btn-inner x-btn-inner-ul-main-small"]')
+    await t.click(saveclick) 
+
+    await reloadPage()
+}
 
 // случайное число
 export function getRandomInt (min, max) {
@@ -277,14 +294,14 @@ export const nestingConfigAllUnchecked = async (text) => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"]`).length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]').length);
     var count                      = await getUncheckedColumnsCount()
     console.log('Columns count: ' + count)
 
     var y=0;
 
     for(var i=0; i<count;i++) {
-        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]:not([id*="checkboxfield"]`)
+        var selector = await Selector('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]')
         var check = await selector.nth(y).getStyleProperty('display');
 
         if(check==="inline-block")
