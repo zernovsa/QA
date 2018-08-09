@@ -114,7 +114,7 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 // включаем все измерения отчета
 export const goToReport = async () => {
     await login();
-    let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+    let report = await clickToMenu('Общие отчёты', 'Содержание', 'Входные страницы');
     return report
 }
 
@@ -176,7 +176,7 @@ test('ca_r7.2.0_checkAll_allFilters', async () => {
 
     await enableAllColumns();   
     await nestingConfigAll();
-    
+
     await goalsOff();
 
     let filters = await initFilters();
@@ -258,7 +258,7 @@ test('ca_r7.2.0_indexAll_DD', async () => {
         await nestingConfigAllUnchecked('Применить'); 
         await clickConfigNestingButton()
 
-        const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]').length);
+        const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
         var count = await getUncheckedColumnsCount()
 
         console.log(count)
@@ -266,7 +266,7 @@ test('ca_r7.2.0_indexAll_DD', async () => {
         for(var index = 0; index < count; index++)
         {
 
-            var selector = await Selector('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]');
+            var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
             var check = await selector.nth(index).getStyleProperty('display');
 
             if(check==="inline-block") 

@@ -164,7 +164,7 @@ test('ca_r7.2.0_tableColumnsSortrers', async () => {
     await nestingExpandAll();
     await nestingConfigAll();
     await goalsOff();
-    await tableColumnsSortrers();
+    await tableColumnsSortrers(true);
 }
 );
 

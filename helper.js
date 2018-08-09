@@ -53,7 +53,7 @@ export const login = async () => {
 
     let pickercount = await Selector('*[class*="cm-main-container"] *[id*="cm-datecontrol"][id*="trigger-picker"]').count
     let picker = await Selector('*[class*="cm-main-container"] *[id*="cm-datecontrol"][id*="trigger-picker"]')
-    await t.click(picker.nth(pickercount))
+    await t.click(picker.nth(await pickercount))
 
     let datecomboclick = await Selector('*[value*="Выбрать диапазон дат"]')
     await t.click(datecomboclick)
@@ -408,13 +408,13 @@ export const nestingConfigAll = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]):not([disabled])').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]').length);
     var count                      = await getUncheckedColumnsCount()
 
     var y=0;
 
     for(var i=0; i<count;i++) {
-        var selector = await Selector('[role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]):not([disabled])')
+        var selector = await Selector('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]')
         var check = await selector.nth(y).getStyleProperty('display');
 
         if(check==="inline-block")
@@ -436,9 +436,10 @@ export const nestingConfigAll = async () => {
     await t.click(getSaveButton);
 }
 
-export const tableColumnsSortrers = async() => {
+export const tableColumnsSortrers = async(flag) => {
 
-        var scroll = ClientFunction((value) => document.querySelector('.x-grid-inner-normal .x-grid-view').scrollLeft = value) // вынести в функцию
+            var scroll = ClientFunction((value) => document.querySelector('.x-grid-inner-normal .x-grid-view').scrollLeft = value) // вынести в функцию
+            var scroll2 = ClientFunction((value) => document.querySelector('.x-grid-view').scrollLeft = value) // вынести в функцию
 
         await reloadPage()
 
@@ -447,31 +448,34 @@ export const tableColumnsSortrers = async() => {
 
         const headerSelector = ClientFunction(() => document.querySelectorAll('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').length);
         
-        var selector = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1)
-        var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).count
+        var selector = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount == 1)
+        var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount == 1).count
 
         var selector2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')
         var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
 
         console.log(count)
 
-        for(var index=0; index < count; index++)
+        for(var index=0; index < count-1; index++)
         {    
                  await t.wait(5000)
-                 console.log(await scrollOffsetLeft)
 
-         var scrollOffsetLeft = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').filter(el => el.childElementCount === 1).nth(index).offsetLeft
+         var scrollOffsetLeft = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount === 1).nth(index).offsetLeft 
+         console.log(await scrollOffsetLeft)
+
          var offset = await scrollOffsetLeft
+         console.log(offset)
 
-            console.log(await offset)
-            
+         if(flag==true) await scroll(offset)
+         if(flag==false) await scroll2(offset)
 
-         await scroll(offset)
          await t.wait(1000)
          await t.click(selector.nth(index))
          console.log('click to '+index+' ASC')
 
-         await scroll(offset)
+         if(flag==true) await scroll(offset)
+         if(flag==false) await scroll2(offset)
+
          await t.wait(1000)
          await t.click(selector.nth(index))
          console.log('click to '+index+' DESC')
@@ -479,28 +483,29 @@ export const tableColumnsSortrers = async() => {
 
      console.log(count2)
 
-     var selector3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')
-     var count3 = await Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').count
+     var selector3 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')
+     var count3 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])').count
 
      console.log('count3 = '+ count3)
 
      for(var index = 0; index < count3; index++)
      {                           
 
-        var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')[index].offsetLeft)
+        var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')[index].offsetLeft)
         var offset = await scrollOffsetLeft(index)
         console.log('offset = ' + offset)
 
-        var getCount = ClientFunction((index) => document.querySelectorAll('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]')[index].querySelectorAll('div[class*="x-box-inner"] > div > div').length)
+        var getCount = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')[index].querySelectorAll('div[class*="x-box-inner"] > div > div').length)
         var count4 = await getCount(index)
         console.log('count4 = ' + count4)
 
         for(var index2 = 0; index2 < count4; index2++) 
         {
             await t.wait(2000)
-            await scroll(offset)
+            if(flag==true) await scroll(offset)
+            if(flag==false) await scroll2(offset)
 
-            var  mySelector = (index, index2) => Selector('*[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"]').nth(index).find('div[class*="x-box-inner"] > div > div').nth(index2).find('span[class="x-column-header-sorter"]').nth(0)
+            var  mySelector = (index, index2) => Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])').nth(index).find('div[class*="x-box-inner"] > div > div').nth(index2).find('span[class="x-column-header-sorter"]').nth(0)
             var getSelector = await mySelector(index, index2)
 
             await t.wait(2000)
@@ -508,7 +513,8 @@ export const tableColumnsSortrers = async() => {
             console.log('click to '+index2+' ASC')
 
             await t.wait(2000)
-            await scroll(offset)
+             if(flag==true) await scroll(offset)
+             if(flag==false) await scroll2(offset)
             await t.wait(2000)
             await t.click(getSelector)
 

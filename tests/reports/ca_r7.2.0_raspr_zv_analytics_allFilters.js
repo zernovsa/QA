@@ -53,8 +53,8 @@ export const nestingConfigAll = async () => {
 }
 
 // включаем все измерения отчета
-export const tableColumnsSortrers = async () => {
-    await Helper.tableColumnsSortrers()
+export const tableColumnsSortrers = async (flag) => {
+    await Helper.tableColumnsSortrers(flag)
 }
 
 // включаем все измерения отчета
@@ -114,13 +114,8 @@ export const clickToMenu = async (menu1, menu2, tabName) => {
 // включаем все измерения отчета
 export const goToReport = async () => {
     await login();
-    let report = await clickToMenu('Общие отчёты', 'Сквозная аналитика', '');
+    let report = await clickToMenu('Общие отчёты', 'Распределение звонков', '');
     return report
-}
-
-// включаем все измерения отчета
-export const goalsOff = async () => {
-    await Helper.goalsOff()
 }
 
 // перебрать все фильтры отчета
@@ -145,26 +140,15 @@ test('ca_r7.2.0_userFilters', async () => {
 }
 );
 
-// перебрать все фильтры отчета
-test('ca_r7.2.0_goalsOff', async () => {
-
-    let report = await goToReport()
-
-    await goalsOff();
-}
-);
-
 
 // перебрать все фильтры отчета
 test('ca_r7.2.0_tableColumnsSortrers', async () => {
 
     let report = await goToReport()
 
-    await enableAllColumns();   
     await nestingExpandAll();
     await nestingConfigAll();
-    await goalsOff();
-    await tableColumnsSortrers(true);
+    await tableColumnsSortrers(false);
 }
 );
 
@@ -174,10 +158,7 @@ test('ca_r7.2.0_checkAll_allFilters', async () => {
 
     let report = await goToReport()
 
-    await enableAllColumns();   
     await nestingConfigAll();
-    
-    await goalsOff();
 
     let filters = await initFilters();
     console.log(filters)
@@ -192,8 +173,6 @@ test('ca_r7.2.0_checkAll_allFilters', async () => {
 test('ca_r7.2.0_nestingName_allFilters', async () => {
 
     let report = await goToReport()
-
-    await enableAllColumns();   
 
     await nestingConfigAllUnchecked();
     await nestingConfigName('География');
@@ -215,7 +194,7 @@ test('ca_r7.2.0_indexAll', async () => {
     await nestingConfigAllUnchecked(); 
     await clickConfigNestingButton()
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll(`tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`).length);
     var count = await getUncheckedColumnsCount()
 
     console.log(count)
@@ -223,7 +202,7 @@ test('ca_r7.2.0_indexAll', async () => {
     for(var index = 0; index < count; index++)
     {
 
-        var selector = await Selector(`tr:not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
+        var selector = await Selector(`tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"]):not([id*="checkboxfield"]`);
         var check = await selector.nth(index).getStyleProperty('display');
 
         if(check==="inline-block") 
