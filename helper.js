@@ -47,7 +47,7 @@ export const login = async () => {
         let siteClick = Selector('*[class*="x-boundlist-item"]').withText(site)
         await t.click(siteClick)
 
-    await reloadPage()
+        await reloadPage()
 
     // выберем период "прошлый месяц"
 
@@ -438,89 +438,144 @@ export const nestingConfigAll = async () => {
 
 export const tableColumnsSortrers = async(flag) => {
 
+ await reloadPage()
+
             var scroll = ClientFunction((value) => document.querySelector('.x-grid-inner-normal .x-grid-view').scrollLeft = value) // вынести в функцию
             var scroll2 = ClientFunction((value) => document.querySelector('.x-grid-view').scrollLeft = value) // вынести в функцию
 
-        await reloadPage()
+            var getScroll = ClientFunction(() => document.querySelector('.x-grid-inner-normal .x-grid-view').scrollLeft) // вынести в функцию
+            var getScroll2 = ClientFunction(() => document.querySelector('.x-grid-view').scrollLeft) // вынести в функцию
 
-        var tmp = await Selector('*[class*=" cm-pageheader-text"]')
-        await t.click(tmp.nth(0))
 
-        const headerSelector = ClientFunction(() => document.querySelectorAll('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').length);
-        
-        var selector = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount == 1)
-        var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount == 1).count
+            var tmp = await Selector('*[class*=" cm-pageheader-text"]')
+            await t.click(tmp.nth(0))
 
-        var selector2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')
-        var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
+            const headerSelector = ClientFunction(() => document.querySelectorAll('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div').length);
 
-        console.log(count)
+            var selector = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount == 1)
+            var count = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount == 1).count
 
-        for(var index=0; index < count-1; index++)
-        {    
-                 await t.wait(5000)
+            var selector2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])')
+            var count2 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-right x-group-sub-header x-box-item x-column-header-ul"], [class*="x-column-header-sort-DESC"],  [class*="x-column-header-sort-ASC"])').count
 
-         var scrollOffsetLeft = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount === 1).nth(index).offsetLeft 
-         console.log(await scrollOffsetLeft)
+            console.log(count)
 
-         var offset = await scrollOffsetLeft
-         console.log(offset)
+            for(var index=0; index < count; index++)
+            {    
+             await t.wait(5000)
 
-         if(flag==true) await scroll(offset)
-         if(flag==false) await scroll2(offset)
+             var scrollOffsetLeft = await Selector('*[class*="x-box-inner"][data-ref*="innerCt"][id*="headercontainer"]:not([style*="height: 0px"])[style] > div > div:not([style="border-width: 0px; display: none;"]) ').filter(el => el.childElementCount === 1).nth(index).offsetLeft 
+
+             var offset = await scrollOffsetLeft
+             console.log('offset = ' + offset)
+
+             if(flag==true) 
+             {
+                await scroll(offset)
+                var x = await getScroll();
+                console.log('x = '+ x)
+
+            }
+            if(flag==false) 
+            {
+             await scroll2(offset)
+             var x = await getScroll2();
+             console.log('x2 = '+ x)
+
+         }
+
 
          await t.wait(1000)
          await t.click(selector.nth(index))
          console.log('click to '+index+' ASC')
 
-         if(flag==true) await scroll(offset)
-         if(flag==false) await scroll2(offset)
+         
+         if(flag==true) 
+         {
+            await scroll(offset)
+            var x = await getScroll();
+            console.log('x = '+ x)
 
-         await t.wait(1000)
-         await t.click(selector.nth(index))
-         console.log('click to '+index+' DESC')
+        }
+        if(flag==false) 
+        {
+         await scroll2(offset)
+         var x = await getScroll2();
+         console.log('x2 = '+ x)
+
      }
 
-     console.log(count2)
 
-     var selector3 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')
-     var count3 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])').count
+     await t.wait(1000)
+     await t.click(selector.nth(index))
+     console.log('click to '+index+' DESC')
+ }
 
-     console.log('count3 = '+ count3)
+ console.log(count2)
 
-     for(var index = 0; index < count3; index++)
-     {                           
+ var selector3 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')
+ var count3 = await Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])').count
 
-        var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')[index].offsetLeft)
-        var offset = await scrollOffsetLeft(index)
-        console.log('offset = ' + offset)
+ console.log('count3 = '+ count3)
 
-        var getCount = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')[index].querySelectorAll('div[class*="x-box-inner"] > div > div').length)
-        var count4 = await getCount(index)
-        console.log('count4 = ' + count4)
+ for(var index = 0; index < count3; index++)
+ {                           
 
-        for(var index2 = 0; index2 < count4; index2++) 
+    var scrollOffsetLeft = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')[index].offsetLeft)
+    var offset = await scrollOffsetLeft(index)
+    console.log('offset = ' + offset)
+
+    var getCount = ClientFunction((index) => document.querySelectorAll(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])')[index].querySelectorAll('div[class*="x-box-inner"] > div > div').length)
+    var count4 = await getCount(index)
+    console.log('count4 = ' + count4)
+
+    for(var index2 = 0; index2 < count4; index2++) 
+    {
+        await t.wait(2000)
+        if(flag==true) 
         {
-            await t.wait(2000)
-            if(flag==true) await scroll(offset)
-            if(flag==false) await scroll2(offset)
+            await scroll(offset)
+            var x = await getScroll();
+            console.log('x = '+ x)
 
-            var  mySelector = (index, index2) => Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])').nth(index).find('div[class*="x-box-inner"] > div > div').nth(index2).find('span[class="x-column-header-sorter"]').nth(0)
-            var getSelector = await mySelector(index, index2)
-
-            await t.wait(2000)
-            await t.click(getSelector)
-            console.log('click to '+index2+' ASC')
-
-            await t.wait(2000)
-             if(flag==true) await scroll(offset)
-             if(flag==false) await scroll2(offset)
-            await t.wait(2000)
-            await t.click(getSelector)
-
-            console.log('click to '+index2+' DESC')
         }
+        if(flag==false) 
+        {
+         await scroll2(offset)
+         var x = await getScroll2();
+         console.log('x2 = '+ x)
+
+     }
+
+     var  mySelector = (index, index2) => Selector(':-webkit-any([class*="x-column-header x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"],[class*="x-column-header ul-percent-column x-column-header-align-center x-box-item x-column-header-ul x-unselectable x-group-header x-box-layout-ct"])').nth(index).find('div[class*="x-box-inner"] > div > div').nth(index2).find('span[class="x-column-header-sorter"]').nth(0)
+     var getSelector = await mySelector(index, index2)
+
+     await t.wait(2000)
+     await t.click(await getSelector)
+     console.log('click to '+index2+' ASC')
+
+     await t.wait(2000)
+     if(flag==true) 
+     {
+        await scroll(offset)
+        var x = await getScroll();
+        console.log('x = '+ x)
+
     }
+    if(flag==false) 
+    {
+     await scroll2(offset)
+     var x = await getScroll2();
+     console.log('x2 = '+ x)
+
+ }
+
+ await t.wait(2000)
+ await t.click(getSelector)
+
+ console.log('click to '+index2+' DESC')
+}
+}
 
 
 }
@@ -559,7 +614,7 @@ export const userFilters = async() => {
             await clickUserFilters() 
         }
         await t.wait(1000)
-        
+
         console.log(index)
         await t.click(filterSelector.nth(index))
         await t.wait(1000)
@@ -587,7 +642,7 @@ export const delUserFilters = async() => {
             await clickUserFilters()
         }
         await t.wait(1000)
-        
+
         console.log(index)
         await t.click(filterSelector.nth(index))
         await t.wait(1000)

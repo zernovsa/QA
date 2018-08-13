@@ -53,8 +53,8 @@ export const nestingConfigAll = async () => {
 }
 
 // включаем все измерения отчета
-export const tableColumnsSortrers = async () => {
-    await Helper.tableColumnsSortrers()
+export const tableColumnsSortrers = async (flag) => {
+    await Helper.tableColumnsSortrers(flag)
 }
 
 // включаем все измерения отчета
