@@ -293,7 +293,6 @@ export const nestingConfigAllUnchecked = async (text) => {
     const getColumnsButton = Selector('*[id*="ul-usualbutton"][id*=btnInnerEl]').withText('Настроить измерения');
     await t.click(getColumnsButton);
 
-
     const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]').length);
     var count                      = await getUncheckedColumnsCount()
     console.log('Columns count: ' + count)
@@ -408,26 +407,14 @@ export const nestingConfigAll = async () => {
     await t.click(getColumnsButton);
 
 
-    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]').length);
+    const getUncheckedColumnsCount = ClientFunction(() => document.querySelectorAll('tr:not([class*="cm-tree-node-without-checkbox"]):not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"])').length);
     var count                      = await getUncheckedColumnsCount()
 
-    var y=0;
+  for(var i=0; i<count-1;i++) {
+            var selector = await Selector('tr:not([class*="cm-tree-node-without-checkbox"]):not([class *= x-grid-row-disabled]) [role*="checkbox"]:not([class*="x-tree-checkbox-checked"])')
 
-    for(var i=0; i<count;i++) {
-        var selector = await Selector('tr:not([class*="x-hidden"]):not([class *= x-grid-row-disabled]) [role*="checkbox"][class*="x-tree-checkbox-checked"]')
-        var check = await selector.nth(y).getStyleProperty('display');
-
-        if(check==="inline-block")
-        {
-            console.log(check)
-            await t.click(selector.nth(y))
+            await t.click(await selector.nth(0))
             await t.wait(1000)
-        }   
-        if(check==="none")
-        {
-            console.log(check)
-            y++
-        }
 
     }
 
